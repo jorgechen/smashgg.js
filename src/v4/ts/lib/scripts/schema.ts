@@ -1,3 +1,86 @@
+export const TournamentLink = `
+discord
+facebook
+`
+
+export const PageInfo = `
+total
+totalPages
+page
+perPage
+sortBy
+filter
+`
+
+export const Image = `
+id
+width
+height
+ratio
+type
+url
+isOriginal
+entity
+entityId
+uploadedBy
+`
+
+export const Videogame = `
+id
+name
+slug
+displayName
+images ${Image}
+`
+
+export const league = `
+id
+name
+slug
+url(relative: false)
+
+addrState
+city
+countryCode
+currency
+details
+emailDirections
+emailInstructions
+emailNote
+endAt
+gettingThere
+hashtag
+hasOnlineEvents
+hideAdmins
+includeQRCheckIn
+includeQRCode
+isOnline
+lat
+links
+lng
+mapsPlaceId
+ownerId
+postalCode
+prizes
+qrCodeRedirect
+qrCodeRedirectType
+region
+registrationClosesAt
+defaultTab
+rules
+shortSlug
+startAt
+state
+submissionState
+timezone
+tournamentType
+venueAddress
+venueName
+showStandings
+finalEventId
+numProgressingToFinalEvent
+`
+
 export const tournament = `
 id
 name
