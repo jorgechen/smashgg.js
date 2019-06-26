@@ -3,7 +3,8 @@
 .idea/
 .vscode/
 node_modules/
-src/v4/js/
+# knav: This needs to be committed, because we're using
+# src/v4/js/
 src/v1/js/
 
 *.tgz
