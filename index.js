@@ -14,7 +14,7 @@ exports.Tournament  = require('./src/v4/js/lib/Tournament').Tournament
 exports.PhaseGroup  = require('./src/v4/js/lib/PhaseGroup').PhaseGroup
 exports.VideoGame	= require('./src/v4/js/lib/VideoGame').VideoGame
 exports.Character 	= require('./src/v4/js/lib/Character').Character
-exports.League	    = require('./src/v4/js/lib/Character').League
+exports.League	    = require('./src/v4/js/lib/League').League
 
 exports.Log         = require('./src/v4/js/lib/util/Logger').default
 exports.setLogLevel = require('./src/v4/js/lib/util/Logger').setLogLevel

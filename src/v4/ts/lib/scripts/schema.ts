@@ -56,7 +56,6 @@ includeQRCheckIn
 includeQRCode
 isOnline
 lat
-links
 lng
 mapsPlaceId
 ownerId
