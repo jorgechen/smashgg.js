@@ -12,10 +12,11 @@ import {Attendee, IAttendee} from './Attendee';
 
 import NI from './util/NetworkInterface'
 import * as queries from './scripts/eventQueries'
+import { IStandings, Standing } from './Standing'
 
 export class Event extends EventEmitter implements IEvent.Event{
 
-	id: number 
+	id: number
 	name: string
 	slug: string
 	state: string | null
@@ -43,11 +44,11 @@ export class Event extends EventEmitter implements IEvent.Event{
 		teamManagementDeadline: number | null
 	){
 		super();
-		
+
 		this.id =  id
 		this.name = name
 		this.slug = slug
-		this.state = state 
+		this.state = state
 		this.startAt =  startAt
 		this.numEntrants =  numEntrants
 		this.checkInBuffer =  checkInBuffer
@@ -61,7 +62,7 @@ export class Event extends EventEmitter implements IEvent.Event{
 	static parse(data: IEvent.EventData) : Event {
 		return new Event(
 			data.id,
-			data.name, 
+			data.name,
 			data.slug,
 			data.state,
 			data.startAt,
@@ -142,6 +143,23 @@ export class Event extends EventEmitter implements IEvent.Event{
 	}
 
 	// aggregation
+	async getStandings() : Promise<Standing[]> {
+		const { id, name } = this
+		log.info('Getting Standings for Event [%s :: %s]', id, name);
+		const options = { page: 1 }
+		let data: IEvent.EventStandingData[] = await NI.paginatedQuery(
+			`Event Entrants [${id} :: ${name}]`,
+			queries.eventStandings,
+			{id},
+			options,
+			{},
+			2
+		)
+		let standingData = _.flatten(data.map(d => d.event.standings.nodes))
+		let standings: Standing[] = standingData.map(item => Standing.parse(item, id))
+		return standings
+	}
+
 	async getPhases() : Promise<Phase[]> {
 		log.info('Getting Phases for Event [%s :: %s]', this.id, this.name);
 		let data: IEvent.EventPhaseData = await NI.query(queries.eventPhases, {id: this.id});
@@ -233,7 +251,7 @@ export class Event extends EventEmitter implements IEvent.Event{
 	// need coverage
 	async getCompleteSets(options: IGGSet.SetOptions = IGGSet.getDefaultSetOptions()) : Promise<GGSet[]> {
 		log.info('Getting Completed Sets for Event [%s :: %s]', this.id, this.name)
-		let sets: GGSet[] = await this.getSets(options)		
+		let sets: GGSet[] = await this.getSets(options)
 		return GGSet.filterForCompleteSets(sets)
 	}
 
@@ -248,7 +266,7 @@ export class Event extends EventEmitter implements IEvent.Event{
 
 export namespace IEvent{
 	export interface Event{
-		id: number 
+		id: number
 		name: string
 		slug: string
 		state: string | null
@@ -260,7 +278,7 @@ export namespace IEvent{
 		isOnline: boolean | null
 		teamNameAllowed: boolean | null
 		teamManagementDeadline: number | null
-	
+
 		getId() : number
 		getName() : string
 		getSlug() : string
@@ -273,6 +291,7 @@ export namespace IEvent{
 		getTeamNameAllowed() : boolean | null
 		getTeamManagementDeadline() : number | null
 
+		getStandings() : Promise<Standing[]>
 		getPhases() : Promise<Phase[]>
 		getPhaseGroups() : Promise<PhaseGroup[]>
 		getEntrants(options: IEntrant.EntrantOptions) : Promise<Entrant[]>
@@ -280,15 +299,15 @@ export namespace IEvent{
 		getSets(options: IGGSet.SetOptions) : Promise<GGSet[]>
 		getIncompleteSets(options: IGGSet.SetOptions) : Promise<GGSet[]>
 		getCompleteSets(options: IGGSet.SetOptions) : Promise<GGSet[]>
-		getSetsXMinutesBack(minutesBack: number, options: IGGSet.SetOptions) : Promise<GGSet[]> 
+		getSetsXMinutesBack(minutesBack: number, options: IGGSet.SetOptions) : Promise<GGSet[]>
 	}
 
 	export interface Data{
 		event: EventData
 	}
-	
+
 	export interface EventData{
-		id: number 
+		id: number
 		name: string
 		slug: string
 		state: string | null
@@ -300,6 +319,14 @@ export namespace IEvent{
 		isOnline: boolean | null
 		teamNameAllowed: boolean | null
 		teamManagementDeadline: number | null
+	}
+
+	export interface EventStandingData{
+		event:{
+			standings: {
+				nodes: IStandings.StandingData[]
+			}
+		}
 	}
 
 	export interface EventPhaseData{

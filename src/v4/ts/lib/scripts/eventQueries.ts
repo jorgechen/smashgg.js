@@ -28,6 +28,21 @@ export const eventPhaseGroups = `query EventPhaseGroups($id: ID!){
     }   
 }`
 
+export const eventStandings = `query EventStandings($id: ID!, $page: Int, $perPage: Int){
+    event(id: $id){
+        standings(query: {
+            page: $page,
+            perPage: $perPage,
+        }){
+            nodes{
+                ${Schema.standings}
+            }
+            {pageInfo}
+        }
+    }
+}
+`
+
 export const eventSets = `query EventSets($id: ID!, $page: Int, $perPage: Int, $hasPermissions: Boolean, $sortType: SetSortType, $filters: SetFilters){
     event(id: $id){
         phaseGroups{

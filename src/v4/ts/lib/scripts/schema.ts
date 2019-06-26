@@ -38,47 +38,46 @@ id
 name
 slug
 url(relative: false)
-
-addrState
-city
-countryCode
-currency
-details
-emailDirections
-emailInstructions
-emailNote
-endAt
-gettingThere
-hashtag
-hasOnlineEvents
-hideAdmins
-includeQRCheckIn
-includeQRCode
-isOnline
-lat
-lng
-mapsPlaceId
-ownerId
-postalCode
-prizes
-qrCodeRedirect
-qrCodeRedirectType
-region
-registrationClosesAt
-defaultTab
-rules
-shortSlug
-startAt
-state
-submissionState
-timezone
-tournamentType
-venueAddress
-venueName
-showStandings
-finalEventId
-numProgressingToFinalEvent
 `
+// addrState
+// city
+// countryCode
+// currency
+// details
+// emailDirections
+// emailInstructions
+// emailNote
+// endAt
+// gettingThere
+// hashtag
+// hasOnlineEvents
+// hideAdmins
+// includeQRCheckIn
+// includeQRCode
+// isOnline
+// lat
+// lng
+// mapsPlaceId
+// ownerId
+// postalCode
+// prizes
+// qrCodeRedirect
+// qrCodeRedirectType
+// region
+// registrationClosesAt
+// defaultTab
+// rules
+// shortSlug
+// startAt
+// state
+// submissionState
+// timezone
+// tournamentType
+// venueAddress
+// venueName
+// showStandings
+// finalEventId
+// numProgressingToFinalEvent
 
 export const tournament = `
 id
@@ -238,22 +237,18 @@ players{
 
 export const standings = `
 id
-entrantId
-placeholderName
-seedNum
 placement
-isBye
-players{
-	id
+entrant{ 
+	${entrant}
 }
-standings{
-	stats{
-		score{
-			label
-			value
-		}
+stats{
+	score{
+		label
+		value
+		displayValue
 	}
-}`
+}
+`
 
 export const venue = `
 venueName

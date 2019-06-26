@@ -69,6 +69,7 @@ var Entrant_1 = require("./Entrant");
 var Attendee_1 = require("./Attendee");
 var NetworkInterface_1 = __importDefault(require("./util/NetworkInterface"));
 var queries = __importStar(require("./scripts/eventQueries"));
+var Standing_1 = require("./Standing");
 var Event = /** @class */ (function (_super) {
     __extends(Event, _super);
     function Event(id, name, slug, state, startAt, numEntrants, checkInBuffer, checkInDuration, checkInEnabled, isOnline, teamNameAllowed, teamManagementDeadline) {
@@ -167,6 +168,25 @@ var Event = /** @class */ (function (_super) {
         return this.teamManagementDeadline;
     };
     // aggregation
+    Event.prototype.getStandings = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, id, name, options, data, standingData, standings;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this, id = _a.id, name = _a.name;
+                        Logger_1.default.info('Getting Standings for Event [%s :: %s]', id, name);
+                        options = { page: 1 };
+                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Entrants [" + id + " :: " + name + "]", queries.eventStandings, { id: id }, options, {}, 2)];
+                    case 1:
+                        data = _b.sent();
+                        standingData = lodash_1.default.flatten(data.map(function (d) { return d.event.standings.nodes; }));
+                        standings = standingData.map(function (item) { return Standing_1.Standing.parse(item, id); });
+                        return [2 /*return*/, standings];
+                }
+            });
+        });
+    };
     Event.prototype.getPhases = function () {
         return __awaiter(this, void 0, void 0, function () {
             var data;
