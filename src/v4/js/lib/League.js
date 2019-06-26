@@ -121,7 +121,7 @@ var League = /** @class */ (function () {
                         return [4 /*yield*/, NetworkInterface_1.default.query(queries.leagueEvents, { id: id })];
                     case 1:
                         data = _b.sent();
-                        events = data.league.events.map(function (event) { return Event_1.Event.parse(event); });
+                        events = data.league.events.nodes.map(function (event) { return Event_1.Event.parse(event); });
                         return [2 /*return*/, events];
                 }
             });

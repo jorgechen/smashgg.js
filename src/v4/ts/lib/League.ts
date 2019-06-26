@@ -74,7 +74,7 @@ export class League implements ILeague.League {
     const { id, name } = this
     log.info('Getting Events for League [%s :: %s]', id, name)
     let data: ILeague.LeagueEventData = await NI.query(queries.leagueEvents, { id })
-    let events = data.league.events.map(event => Event.parse(event))
+    let events = data.league.events.nodes.map(event => Event.parse(event))
     return events
   }
 
@@ -132,12 +132,19 @@ export namespace ILeague {
     name: string
     slug: string
     url: string
+
     getId(): number
+
     getName(): string
+
     getSlug(): string
+
     getUrl(): string
+
     getEvents(): Promise<Event[]>
+
     getPhases(): Promise<Phase[]>
+
     getPhaseGroups(): Promise<PhaseGroup[]>
 
     /*
@@ -163,7 +170,9 @@ export namespace ILeague {
 
   export interface LeagueEventData {
     league: {
-      events: IEvent.EventData[]
+      events: {
+        nodes: IEvent.EventData[]
+      }
     }
   }
 

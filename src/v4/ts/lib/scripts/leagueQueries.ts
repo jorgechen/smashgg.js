@@ -32,7 +32,7 @@ export const leagueEntrants = `query LeagueEntrants($id: ID!, $page: Int, $perPa
 
 export const leagueEvents = `query LeagueEvents($id: ID!){
   league(id: $id){
-    events:{
+    events{
     	nodes {
       	${Schema.event}
       }
