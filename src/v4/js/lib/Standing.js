@@ -10,7 +10,7 @@ var Standing = /** @class */ (function () {
     }
     Standing.parse = function (data, eventId) {
         if (eventId === void 0) { eventId = -1; }
-        return new Standing(data.id, eventId || -1, Entrant_1.Entrant.parse(data.entrant), StandingStats.parse(data.stats));
+        return new Standing(data.id, data.placement, Entrant_1.Entrant.parse(data.entrant), StandingStats.parse(data.stats));
     };
     return Standing;
 }());

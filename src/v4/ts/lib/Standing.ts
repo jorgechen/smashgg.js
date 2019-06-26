@@ -21,7 +21,7 @@ export class Standing implements IStandings.Standing{
   static parse(data: IStandings.StandingData, eventId: number = -1) : Standing {
     return new Standing(
       data.id,
-      eventId || -1,
+      data.placement,
       Entrant.parse(data.entrant),
       StandingStats.parse(data.stats),
     )
