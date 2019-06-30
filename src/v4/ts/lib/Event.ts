@@ -229,14 +229,17 @@ export class Event extends EventEmitter implements IEvent.Event{
 	}
 
 	async getSets2(options: IGGSet.SetOptions = IGGSet.getDefaultSetOptions()) : Promise<GGSet[]> {
-		log.info('Getting Sets for Event [%s :: %s]', this.id, this.name)
+    const { id, name } = this
+		log.info('Getting Sets for Event [%s :: %s]', id, name)
 		let data: IEvent.EventSetData[] = await NI.paginatedQuery(
-			`Event Sets [${this.id} :: ${this.name}]`,
-			queries.eventSets, {id: this.id},
-			options, {}, 3
-		)
-		let phaseGroups = _.flatten(data.map(d => d.event.phaseGroups))
-		let setData = _.flatten(phaseGroups.map(pg => pg.paginatedSets.nodes))
+      `Event Sets [${id} :: ${name}]`,
+      queries.eventSets,
+      { id },
+      options,
+      {},
+      3,
+    )
+		let setData = _.flatten(data.map(d => d.event.sets.nodes))
 		let sets: GGSet[] = setData.map(set => GGSet.parse(set))
 		return sets
 	}
@@ -378,13 +381,11 @@ export namespace IEvent{
 
 	export interface EventSetData{
 		event:{
-			phaseGroups:{
-				paginatedSets:{
-					pageInfo?:{
-						totalPages: number
-					},
-					nodes: IGGSet.SetData[]
-				}
+			sets: {
+				pageInfo?:{
+					totalPages: number
+				},
+				nodes: IGGSet.SetData[]
 			}
 		}
 	}

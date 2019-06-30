@@ -43,21 +43,18 @@ export const eventStandings = `query EventStandings($id: ID!, $page: Int, $perPa
 }
 `
 
-export const eventSets = `query EventSets($id: ID!, $page: Int, $perPage: Int, $hasPermissions: Boolean, $sortType: SetSortType, $filters: SetFilters){
+export const eventSets = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){
     event(id: $id){
-        phaseGroups{
-            paginatedSets(
-                page: $page,
-                perPage: $perPage,
-                sortType: $sortType,
-                hasPermissions: $hasPermissions,
-                filters: $filters
-            ){
-                {pageInfo}
-                nodes{
-                    ${Schema.set}
-                }
-            }
+          sets(
+              page: $page,
+              perPage: $perPage,
+              sortType: $sortType,
+              filters: $filters
+          ){
+              {pageInfo}
+              nodes{
+                  ${Schema.set}
+              }
         }
     }   
 }`

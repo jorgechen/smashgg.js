@@ -14,7 +14,7 @@ import {merge, mergeQuery} from './Common'
 
 const RATE_LIMIT_MS_TIME = process.env.RateLimitMsTime || 1000
 const TOTAL_PAGES_REGEX_JSON = new RegExp(/"pageInfo":[\s]?{[\n\s]*?"totalPages": ([0-9]*)/);
-const TOTAL_PAGES_REGEX_STRING = new RegExp(/"pageInfo":{"totalPages":([0-9]*)}/);
+const TOTAL_PAGES_REGEX_STRING = new RegExp(/"pageInfo":{"totalPages":([0-9]*),"perPage":([0-9]*)}/);
 const MAX_COMPLEXITY = 1000
 
 import Variables = INetworkInterface.Variables
@@ -35,21 +35,21 @@ export default class NetworkInterface{
 			NetworkInterface.initialized = true
 		}
 	}
-	
+
 	/**
 	 * query
-	 * 
+	 *
 	 * takes a graphql query string and corresponding variable object
-	 * if the client has not exceeded the threshold of 80 requests per 60 
-	 * seconds, it is considered Not Delinquent. 
-	 * otherwise, a Delinquent client will be halted from executing their 
+	 * if the client has not exceeded the threshold of 80 requests per 60
+	 * seconds, it is considered Not Delinquent.
+	 * otherwise, a Delinquent client will be halted from executing their
 	 * queries. In this case, the query is wrapped in a function returning
 	 * a promise to be fired after the 60 second time limit is up
-	 * 
+	 *
 	 * Useful for when many queries need to be run consecutively
-	 * 
+	 *
 	 * @param  {string} query
-	 * @param  {object} variables 
+	 * @param  {object} variables
 	 * @returns {promise} resolving the results of the query after being staggered in the request queue
 	 */
 	static query(query: string, variables: Variables) : Promise<any>{
@@ -75,7 +75,7 @@ export default class NetworkInterface{
 	}
 
 	static staggeredQuery(query: string, variables: Variables) : Promise<any>{
-		return new Promise(function(resolve, reject){ 
+		return new Promise(function(resolve, reject){
 			SRQ.getInstance().add(() => {
 				return NetworkInterface.client.request(query, variables)
 					.then(resolve)
@@ -115,7 +115,7 @@ export default class NetworkInterface{
 			page: page,
 			perPage: perPage,
 			filters: filters,
-			pageInfo: 'pageInfo{\ntotalPages\n}'
+			pageInfo: 'pageInfo{\ntotalPages\nperPage\n}'
 		}
 		queryOptions = Object.assign(queryOptions, additionalParams)
 		let preflightQuery = mergeQuery(queryString, queryOptions)
@@ -123,18 +123,17 @@ export default class NetworkInterface{
 		if(preflightData.length <= 0)
 			throw new Error(`${operationName}: No data returned from query for operation`)
 
-		let totalPages = NetworkInterface.parseTotalPages(operationName, preflightData)
+		let totalPages
+		[totalPages, perPage] = NetworkInterface.parseTotalPages(operationName, preflightData)
 		let onePageComplexity = preflightData[0].extensions.queryComplexity - complexitySubtraction
-		log.info('Total Pages using 1 perPage: %s, Object Complexity per Page: %s', totalPages, onePageComplexity)
-		perPage = NetworkInterface.calculateOptimalPerPagecount(onePageComplexity, totalPages)
-
+		log.info('%s total pages, %s perPage, Object Complexity per Page: %s', totalPages, perPage, onePageComplexity)
 
 		// get total page count and verify we are getting things back from the api
 		//let complexity = NetworkInterface.determineComplexity(data[0]) - complexitySubtraction //Object.keys(data[0]).length
 		//log.info('Total Pages using 1 perPage: %s, Object Complexity per Page: %s', totalPages, complexity)
 
 		// check to see if the implementer is forcing perPage
-		// if they are not, calculate the optimal perPage count, 
+		// if they are not, calculate the optimal perPage count,
 		// requery for new pageCount, and continue
 		let query, data;
 		/*
@@ -157,7 +156,7 @@ export default class NetworkInterface{
 		else
 			log.warn('Implementer has chosen to force perPage at %s per page', perPage)
 		*/
-			
+
 		// after, leave off the total page count to minimize complexity
 		for(let i = 1; i<=totalPages; i++){
 			log.info('%s: Collected %s/%s pages', operationName, i, totalPages)
@@ -168,28 +167,33 @@ export default class NetworkInterface{
 				pageInfo: ''
 			}, additionalParams);
 			query = mergeQuery(queryString, queryOptions)
-			results.push(await NetworkInterface.query(query, params))
+			const queryParams = Object.assign(params, {
+				page: i,
+				perPage,
+				filters,
+			})
+			results.push(await NetworkInterface.query(query, queryParams))
 		}
 
 		return results;
 	}
 
-	static parseTotalPages(operationName: string, results: any) : number{
+	static parseTotalPages(operationName: string, results: any) : number[] {
 		let parsed = TOTAL_PAGES_REGEX_STRING.exec(JSON.stringify(results))
-		if(!parsed) 
+		if(!parsed)
 			throw new Error(`${operationName}: Something wrong with paginated query. Did not match regex ${TOTAL_PAGES_REGEX_STRING.toString()}`)
-		return +parsed[1]
+		return [+parsed[1], +parsed[2]]
 	}
 
 	static calculateOptimalPerPagecount(objectComplexity: number, totalPages: number) : number{
 		let totalComplexity = objectComplexity * totalPages
-		
+
 		return MAX_COMPLEXITY / objectComplexity;
 		/*
-		log.verbose('Calculating Optimal Pagecount: Complexity [%s], Total Pages [%s], Total Complexity [%s]', 
+		log.verbose('Calculating Optimal Pagecount: Complexity [%s], Total Pages [%s], Total Complexity [%s]',
 			objectComplexity, totalPages, totalComplexity
 		)
-		
+
 		if(totalComplexity < MAX_COMPLEXITY)
 			return 1
 			//return Math.ceil(MAX_COMPLEXITY / objectComplexity / totalPages)
@@ -248,7 +252,7 @@ namespace IPaginatedQuery{
 	export interface PageInfoData{
 		pageInfo: {
 			totalPages: number
-		} 
+		}
 	}
 
 	export interface Filters{

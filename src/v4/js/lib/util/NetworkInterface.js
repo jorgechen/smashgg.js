@@ -54,7 +54,7 @@ var Common_1 = require("./Common");
 //import {ITournament, IEvent, IPhase, IPhaseGroup, IPlayer, IGGSet} from '../internal'
 var RATE_LIMIT_MS_TIME = process.env.RateLimitMsTime || 1000;
 var TOTAL_PAGES_REGEX_JSON = new RegExp(/"pageInfo":[\s]?{[\n\s]*?"totalPages": ([0-9]*)/);
-var TOTAL_PAGES_REGEX_STRING = new RegExp(/"pageInfo":{"totalPages":([0-9]*)}/);
+var TOTAL_PAGES_REGEX_STRING = new RegExp(/"pageInfo":{"totalPages":([0-9]*),"perPage":([0-9]*)}/);
 var MAX_COMPLEXITY = 1000;
 var NetworkInterface = /** @class */ (function () {
     function NetworkInterface() {
@@ -133,9 +133,10 @@ var NetworkInterface = /** @class */ (function () {
     NetworkInterface.paginatedQuery = function (operationName, queryString, params, options, additionalParams, complexitySubtraction) {
         if (complexitySubtraction === void 0) { complexitySubtraction = 0; }
         return __awaiter(this, void 0, void 0, function () {
-            var results, page, perPage, filters, queryOptions, preflightQuery, preflightData, totalPages, onePageComplexity, query, data, i, _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var results, page, perPage, filters, queryOptions, preflightQuery, preflightData, totalPages, onePageComplexity, query, data, i, queryParams, _a, _b;
+            var _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         Logger_1.default.info('%s: Calling Paginated Querys', operationName);
                         Logger_1.default.queries("Paginated Query: " + JSON.stringify(queryString) + ":\n" + JSON.stringify(params));
@@ -147,21 +148,20 @@ var NetworkInterface = /** @class */ (function () {
                             page: page,
                             perPage: perPage,
                             filters: filters,
-                            pageInfo: 'pageInfo{\ntotalPages\n}'
+                            pageInfo: 'pageInfo{\ntotalPages\nperPage\n}'
                         };
                         queryOptions = Object.assign(queryOptions, additionalParams);
                         preflightQuery = Common_1.mergeQuery(queryString, queryOptions);
                         return [4 /*yield*/, NetworkInterface.rawQuery(preflightQuery, params)];
                     case 1:
-                        preflightData = [_c.sent()];
+                        preflightData = [_d.sent()];
                         if (preflightData.length <= 0)
                             throw new Error(operationName + ": No data returned from query for operation");
-                        totalPages = NetworkInterface.parseTotalPages(operationName, preflightData);
+                        _c = NetworkInterface.parseTotalPages(operationName, preflightData), totalPages = _c[0], perPage = _c[1];
                         onePageComplexity = preflightData[0].extensions.queryComplexity - complexitySubtraction;
-                        Logger_1.default.info('Total Pages using 1 perPage: %s, Object Complexity per Page: %s', totalPages, onePageComplexity);
-                        perPage = NetworkInterface.calculateOptimalPerPagecount(onePageComplexity, totalPages);
+                        Logger_1.default.info('%s total pages, %s perPage, Object Complexity per Page: %s', totalPages, perPage, onePageComplexity);
                         i = 1;
-                        _c.label = 2;
+                        _d.label = 2;
                     case 2:
                         if (!(i <= totalPages)) return [3 /*break*/, 5];
                         Logger_1.default.info('%s: Collected %s/%s pages', operationName, i, totalPages);
@@ -172,11 +172,16 @@ var NetworkInterface = /** @class */ (function () {
                             pageInfo: ''
                         }, additionalParams);
                         query = Common_1.mergeQuery(queryString, queryOptions);
+                        queryParams = Object.assign(params, {
+                            page: i,
+                            perPage: perPage,
+                            filters: filters,
+                        });
                         _b = (_a = results).push;
-                        return [4 /*yield*/, NetworkInterface.query(query, params)];
+                        return [4 /*yield*/, NetworkInterface.query(query, queryParams)];
                     case 3:
-                        _b.apply(_a, [_c.sent()]);
-                        _c.label = 4;
+                        _b.apply(_a, [_d.sent()]);
+                        _d.label = 4;
                     case 4:
                         i++;
                         return [3 /*break*/, 2];
@@ -189,7 +194,7 @@ var NetworkInterface = /** @class */ (function () {
         var parsed = TOTAL_PAGES_REGEX_STRING.exec(JSON.stringify(results));
         if (!parsed)
             throw new Error(operationName + ": Something wrong with paginated query. Did not match regex " + TOTAL_PAGES_REGEX_STRING.toString());
-        return +parsed[1];
+        return [+parsed[1], +parsed[2]];
     };
     NetworkInterface.calculateOptimalPerPagecount = function (objectComplexity, totalPages) {
         var totalComplexity = objectComplexity * totalPages;
@@ -198,7 +203,7 @@ var NetworkInterface = /** @class */ (function () {
         log.verbose('Calculating Optimal Pagecount: Complexity [%s], Total Pages [%s], Total Complexity [%s]',
             objectComplexity, totalPages, totalComplexity
         )
-        
+
         if(totalComplexity < MAX_COMPLEXITY)
             return 1
             //return Math.ceil(MAX_COMPLEXITY / objectComplexity / totalPages)
