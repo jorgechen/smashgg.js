@@ -7,7 +7,7 @@ import moment from 'moment'
 import {EventEmitter} from 'events'
 
 const RETRY_RATE = 3
-const DELINQUENCY_RATE = 79
+const DELINQUENCY_RATE = 78 // 80 officially
 const DELINQUENCY_TIMER = 60000 // 1 min
 const UPDATE_INTERVAL = 250
 
@@ -73,7 +73,7 @@ export default class QueryQueue extends EventEmitter{
 
 	/**
 	 * getInstance
-	 * 
+	 *
 	 * returns the singleton instance of QueryQueue
 	 */
 	static getInstance(){
@@ -104,7 +104,7 @@ export default class QueryQueue extends EventEmitter{
 
 				// pop element if needed and then set the DELINQUENCY_RATE'th element
 				// timestamp to right now
-				if(shouldBePopped) { 
+				if(shouldBePopped) {
 					_this.pop();
 					log.info("Slot opened. Queue size: %s", _this.queue.length)
 					if(_this.queue.length >= DELINQUENCY_RATE)
@@ -190,7 +190,7 @@ export default class QueryQueue extends EventEmitter{
 namespace ISRQ{
 	export interface SRQ{
 		add(element: Function) : void
-		pop() : Function 
+		pop() : Function
 		getLength() : number
 		emitAddEvent(element?: Function) : void
 		emitEmptyEvent() : void
