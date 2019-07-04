@@ -7,7 +7,7 @@ import moment from 'moment'
 import {EventEmitter} from 'events'
 
 const RETRY_RATE = 3
-const DELINQUENCY_RATE = 77 // 80 officially
+const DELINQUENCY_RATE = 70 // 80 officially
 const DELINQUENCY_TIMER = 60000 // 1 min
 const UPDATE_INTERVAL = 250
 

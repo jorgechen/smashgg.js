@@ -20,7 +20,7 @@ const run = async () => {
   console.info(JSON.stringify(standings.slice(0, 3), null, 2))
   for (let i in standings) {
     const { placement, entrant } = standings[i]
-    console.info(placement, "\t", entrant.name)
+    console.info(`${placement} \t${entrant.name}`)
   }
 
   // an event's sets
