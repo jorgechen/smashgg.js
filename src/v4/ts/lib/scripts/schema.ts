@@ -1,3 +1,11 @@
+export const Stats = `
+score{
+	label
+	value
+	displayValue
+}
+`
+
 export const TournamentLink = `
 discord
 facebook
@@ -30,7 +38,9 @@ id
 name
 slug
 displayName
-images ${Image}
+images {
+	${Image}
+}
 `
 
 export const league = `
@@ -113,7 +123,11 @@ checkInDuration
 checkInEnabled
 isOnline
 teamNameAllowed
-teamManagementDeadline`
+teamManagementDeadline
+videogame {
+	${Videogame}
+}
+`
 
 export const phase = `
 id
@@ -144,9 +158,30 @@ nameFirst
 nameLast
 zipcode`
 
+export const player = `
+id
+prefix
+gamerTag
+color
+twitterHandle
+twitchStream
+youtube
+region
+state
+country
+nameDisplay
+gamerTagChangedAt
+images {
+	${Image}
+}
+`
+
 // smash.gg participant
 export const attendee = `
 id
+player {
+	${player}
+}
 gamerTag
 prefix
 createdAt
@@ -188,11 +223,18 @@ gamerTagChangedAt`
 export const setSlots = `
 slots(includeByes:false){
 	id
-	entrant {
+	standing{
+		placement
+		stats{
+			${Stats}
+		}
+	}
+	entrant{
 		id
 		name
-		participants {
+		participants{
 			id
+			playerId
 		}
 	}
 }`
@@ -211,6 +253,7 @@ totalGames
 state
 ${setSlots}
 `
+// NOTE: totalGames is not legit, use slot.standing.stats.score.value
 
 export const game = `
 id
@@ -235,18 +278,14 @@ players{
 	id
 }`
 
-export const standings = `
+export const standing = `
 id
 placement
 entrant{ 
 	${entrant}
 }
 stats{
-	score{
-		label
-		value
-		displayValue
-	}
+	${Stats}
 }
 `
 

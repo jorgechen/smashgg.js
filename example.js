@@ -6,7 +6,7 @@ require('colors')
 // smashgg.setLogLevel('queries')
 const { Event, League } = smashgg
 
-;(async function () {
+const run = async () => {
   const leagueSlug = 'the-2019-mortal-kombat-pro-kompetition'
   const league = await League.get(leagueSlug)
   console.info(league.getName())
@@ -16,6 +16,7 @@ const { Event, League } = smashgg
 
   // an event's standings
   const standings = await event.getStandings()
+  console.info('Sample standings:')
   console.info(JSON.stringify(standings.slice(0, 3), null, 2))
   for (let i in standings) {
     const { placement, entrant } = standings[i]
@@ -25,6 +26,7 @@ const { Event, League } = smashgg
   // an event's sets
   let sets = await event.getSets2()
   console.info('Got %s sets played', sets.length)
+  console.info('Sample sets:')
   console.info(JSON.stringify(sets.slice(sets.length - 4), null, 2))
   console.info('Set Results:')
   for (var i in sets) {
@@ -32,4 +34,6 @@ const { Event, League } = smashgg
   }
 
   return true // exit async
-})()
+}
+
+run()

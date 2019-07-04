@@ -35,7 +35,7 @@ export const eventStandings = `query EventStandings($id: ID!, $page: Int, $perPa
             perPage: $perPage,
         }){
             nodes{
-                ${Schema.standings}
+                ${Schema.standing}
             }
             {pageInfo}
         }
