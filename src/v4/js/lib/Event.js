@@ -168,6 +168,26 @@ var Event = /** @class */ (function (_super) {
         return this.teamManagementDeadline;
     };
     // aggregation
+    Event.prototype.getStandingsRaw = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, id, name, options, data, standingData;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this, id = _a.id, name = _a.name;
+                        Logger_1.default.info('Getting Standings for Event [%s :: %s]', id, name);
+                        options = { page: 1 };
+                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Entrants [" + id + " :: " + name + "]", queries.eventStandings, { id: id }, options, {}, 2)
+                            // return data
+                        ];
+                    case 1:
+                        data = _b.sent();
+                        standingData = lodash_1.default.flatten(data.map(function (d) { return d.event.standings.nodes; }));
+                        return [2 /*return*/, standingData];
+                }
+            });
+        });
+    };
     Event.prototype.getStandings = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _a, id, name, options, data, standingData, standings;

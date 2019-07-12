@@ -15,24 +15,24 @@ const run = async () => {
   console.info(event)
 
   // an event's standings
-  const standings = await event.getStandings()
-  console.info('Sample standings:')
-  console.info(JSON.stringify(standings.slice(0, 3), null, 2))
-  for (let i in standings) {
-    const { placement, entrant } = standings[i]
-    console.info(`${placement} \t${entrant.name}`)
-  }
+  const standings = await event.getStandingsRaw()
+  console.info(`Found ${standings.length} standings:`)
+  console.info(JSON.stringify(standings.slice(0, 2), null, 2))
+  // for (let i in standings) {
+  //   const { placement, entrant } = standings[i]
+  //   console.info(`${placement} \t${entrant.name}`)
+  // }
 
-  // an event's sets
-  let sets = await event.getSets2()
-  console.info('Got %s sets played', sets.length)
-  console.info('Sample sets:')
-  console.info(JSON.stringify(sets.slice(sets.length - 4), null, 2))
-  console.info('Set Results:')
-  for (var i in sets) {
-    console.info(`${String(sets[i].getFullRoundText()).magenta}: ${String(sets[i].getDisplayScore()).green}`)
-  }
-
+  // // an event's sets
+  // let sets = await event.getSets2()
+  // console.info('Got %s sets played', sets.length)
+  // console.info('Sample sets:')
+  // console.info(JSON.stringify(sets.slice(sets.length - 4), null, 2))
+  // console.info('Set Results:')
+  // for (var i in sets) {
+  //   console.info(`${String(sets[i].getFullRoundText()).magenta}: ${String(sets[i].getDisplayScore()).green}`)
+  // }
+  //
   return true // exit async
 }
 
