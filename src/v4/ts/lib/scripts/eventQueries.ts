@@ -42,6 +42,14 @@ export const eventStandings = `query EventStandings($id: ID!, $page: Int, $perPa
     }
 }
 `
+export const eventTournament = `query EventTournament($id: ID!){
+    event(id: $id){
+        tournament {
+            ${Schema.tournament}
+        }
+    }
+}
+`
 
 export const eventSets = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){
     event(id: $id){

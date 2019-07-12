@@ -204,6 +204,21 @@ var Event = /** @class */ (function (_super) {
             });
         });
     };
+    Event.prototype.getTournamentRaw = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var id, data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        id = this.id;
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.eventTournament, { id: id })];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, data.event.tournament];
+                }
+            });
+        });
+    };
     Event.prototype.getPhases = function () {
         return __awaiter(this, void 0, void 0, function () {
             var data;

@@ -96,6 +96,7 @@ export const tournament = `
 id
 name
 slug
+shortSlug
 city
 postalCode
 addrState

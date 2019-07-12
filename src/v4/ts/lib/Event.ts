@@ -162,10 +162,16 @@ export class Event extends EventEmitter implements IEvent.Event{
 
 	async getStandings() : Promise<Standing[]> {
 		const { id } = this
-		let standingData = await this.getStandingsRaw()
-		let standings: Standing[] = standingData.map(item => Standing.parse(item, id))
+		const standingData = await this.getStandingsRaw()
+		const standings: Standing[] = standingData.map(item => Standing.parse(item, id))
 		return standings
 	}
+
+	async getTournamentRaw(): Promise<any> {
+    const { id } = this
+    const data = await NI.query(queries.eventTournament, { id })
+    return data.event.tournament
+  }
 
 	async getPhases() : Promise<Phase[]> {
 		log.info('Getting Phases for Event [%s :: %s]', this.id, this.name);
