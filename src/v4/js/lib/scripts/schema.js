@@ -45,7 +45,7 @@ exports.league = "\nid\nname\nslug\nstartAt\nendAt\nshortSlug\nurl(relative: fal
 // showStandings
 // finalEventId
 // numProgressingToFinalEvent
-exports.tournament = "\nid\nname\nslug\nshortSlug\ncity\npostalCode\naddrState\ncountryCode\nregion\nvenueAddress\nvenueName\ngettingThere\nlat\nlng\ntimezone\nstartAt\nendAt\ncontactEmail\ncontactTwitter\ncontactPhone\nownerId";
+exports.tournament = "\nid\nname\nslug\nshortSlug\nimages{\n\t" + exports.Image + "\n}\ncity\npostalCode\naddrState\ncountryCode\nregion\nvenueAddress\nvenueName\ngettingThere\nlat\nlng\ntimezone\nstartAt\nendAt\ncontactEmail\ncontactTwitter\ncontactPhone\nownerId";
 exports.event = "\nid\nname\nslug\nstate\nstartAt\nnumEntrants\ncheckInBuffer\ncheckInDuration\ncheckInEnabled\nisOnline\nteamNameAllowed\nteamManagementDeadline\nvideogame {\n\t" + exports.Videogame + "\n}\n";
 exports.phase = "\nid\nname\nnumSeeds\ngroupCount";
 exports.phaseGroup = "\nid\ndisplayIdentifier\nfirstRoundTime\nstate\nphaseId\nwaveId\ntiebreakOrder";

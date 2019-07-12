@@ -97,6 +97,9 @@ id
 name
 slug
 shortSlug
+images{
+	${Image}
+}
 city
 postalCode
 addrState
