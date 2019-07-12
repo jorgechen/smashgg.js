@@ -6,7 +6,7 @@ require('colors')
 // smashgg.setLogLevel('queries')
 const { Event, League } = smashgg
 
-const run = async () => {
+;(async () => {
   const leagueSlug = 'the-2019-mortal-kombat-pro-kompetition'
   const league = await League.get(leagueSlug)
   console.info(league.getName())
@@ -14,26 +14,34 @@ const run = async () => {
   const event = events[0]
   console.info(event)
 
-  // an event's standings
   const standings = await event.getStandingsRaw()
-  console.info(`Found ${standings.length} standings:`)
-  console.info(JSON.stringify(standings.slice(0, 2), null, 2))
-  // for (let i in standings) {
-  //   const { placement, entrant } = standings[i]
-  //   console.info(`${placement} \t${entrant.name}`)
-  // }
+  console.info(`Found ${standings.length} standings`)
+  // console.info(JSON.stringify(standings.slice(0, 2), null, 2))
 
-  // // an event's sets
-  // let sets = await event.getSets2()
-  // console.info('Got %s sets played', sets.length)
-  // console.info('Sample sets:')
-  // console.info(JSON.stringify(sets.slice(sets.length - 4), null, 2))
-  // console.info('Set Results:')
-  // for (var i in sets) {
-  //   console.info(`${String(sets[i].getFullRoundText()).magenta}: ${String(sets[i].getDisplayScore()).green}`)
-  // }
-  //
+  // Each standing has a player
+  const newStandings = []
+  const newPlayers = []
+  standings.forEach(standing => {
+    const newStanding = {
+      sggId: standing.id,
+      rank: standing.placement,
+    }
+    const { player } = standing.entrant.participants[0]
+    const newPlayer = {
+      sggId: player.id,
+      team: player.prefix,
+      handle: player.gamerTag,
+      twitter: player.twitterHandle,
+      twitch: player.twitchStream,
+      youtube: player.youtube,
+      country: player.country,
+      state: player.state,
+      portrait: player.images[0].url, // TODO get best one
+    }
+    console.log(newStanding)
+    console.log(newPlayer)
+    newStandings.push(newStanding)
+    newPlayers.push(newPlayer)
+  })
   return true // exit async
-}
-
-run()
+})()
