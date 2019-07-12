@@ -5,7 +5,7 @@ exports.TournamentLink = "\ndiscord\nfacebook\n";
 exports.PageInfo = "\ntotal\ntotalPages\npage\nperPage\nsortBy\nfilter\n";
 exports.Image = "\nid\nwidth\nheight\nratio\ntype\nurl\nisOriginal\nentity\nentityId\nuploadedBy\n";
 exports.Videogame = "\nid\nname\nslug\ndisplayName\nimages {\n\t" + exports.Image + "\n}\n";
-exports.league = "\nid\nname\nslug\nurl(relative: false)\n";
+exports.league = "\nid\nname\nslug\nstartAt\nendAt\nshortSlug\nurl(relative: false)\n";
 // addrState
 // city
 // countryCode

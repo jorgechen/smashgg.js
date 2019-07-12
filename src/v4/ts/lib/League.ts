@@ -16,17 +16,26 @@ export class League implements ILeague.League {
   name: string
   slug: string
   url: string
+  startAt: number
+  endAt: number
+  shortSlug: string
 
   constructor(
     id: number,
     name: string,
     slug: string,
     url: string,
+    startAt: number,
+    endAt: number,
+    shortSlug: string,
   ) {
     this.id = id
     this.name = name
     this.slug = slug
     this.url = url
+    this.startAt = startAt
+    this.endAt = endAt
+    this.shortSlug = shortSlug
   }
 
   static parse(data: ILeague.LeagueData): League {
@@ -35,6 +44,9 @@ export class League implements ILeague.League {
       data.name,
       data.slug,
       data.url,
+      data.startAt,
+      data.endAt,
+      data.shortSlug,
     )
   }
 
@@ -68,6 +80,18 @@ export class League implements ILeague.League {
 
   getUrl(): string {
     return this.url
+  }
+
+  getStartAt(): number {
+    return this.startAt
+  }
+
+  getEndAt(): number {
+    return this.endAt
+  }
+
+  getShortSlug(): string {
+    return this.shortSlug
   }
 
   async getEvents(): Promise<Event[]> {
@@ -141,6 +165,12 @@ export namespace ILeague {
 
     getUrl(): string
 
+    getStartAt(): number
+
+    getEndAt(): number
+
+    getShortSlug(): string
+
     getEvents(): Promise<Event[]>
 
     getPhases(): Promise<Phase[]>
@@ -166,6 +196,9 @@ export namespace ILeague {
     name: string
     slug: string
     url: string
+    startAt: number
+    endAt: number
+    shortSlug: string
   }
 
   export interface LeagueEventData {

@@ -47,6 +47,9 @@ export const league = `
 id
 name
 slug
+startAt
+endAt
+shortSlug
 url(relative: false)
 `
 // addrState

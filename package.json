@@ -5,7 +5,7 @@
     "email": "brandoncookedev@gmail.com",
     "url": "http://linkedin.com/in/BrandonCookeDev"
   },
-  "version": "4.0.19-fgc1",
+  "version": "4.0.19-fgc2",
   "description": "Node.JS wrapper for the Smash.gg public API Edit",
   "main": "index.js",
   "engines": {
@@ -16,7 +16,7 @@
     "url": "https://github.com/BrandonCookeDev/smashgg.js"
   },
   "scripts": {
-    "example": "tsc && node example.js",
+    "knav": "tsc && node knav.js",
     "setupDebug": "node resources/scripts/setupDebug",
     "pretest": "tsc",
     "watch": "gulp watch",

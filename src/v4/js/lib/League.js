@@ -56,14 +56,17 @@ var GGSet_1 = require("./GGSet");
 var NetworkInterface_1 = __importDefault(require("./util/NetworkInterface"));
 var queries = __importStar(require("./scripts/leagueQueries"));
 var League = /** @class */ (function () {
-    function League(id, name, slug, url) {
+    function League(id, name, slug, url, startAt, endAt, shortSlug) {
         this.id = id;
         this.name = name;
         this.slug = slug;
         this.url = url;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.shortSlug = shortSlug;
     }
     League.parse = function (data) {
-        return new League(data.id, data.name, data.slug, data.url);
+        return new League(data.id, data.name, data.slug, data.url, data.startAt, data.endAt, data.shortSlug);
     };
     League.parseFull = function (data) {
         return League.parse(data.league);
@@ -109,6 +112,15 @@ var League = /** @class */ (function () {
     };
     League.prototype.getUrl = function () {
         return this.url;
+    };
+    League.prototype.getStartAt = function () {
+        return this.startAt;
+    };
+    League.prototype.getEndAt = function () {
+        return this.endAt;
+    };
+    League.prototype.getShortSlug = function () {
+        return this.shortSlug;
     };
     League.prototype.getEvents = function () {
         return __awaiter(this, void 0, void 0, function () {
