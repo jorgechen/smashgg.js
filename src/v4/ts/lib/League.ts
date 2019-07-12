@@ -7,6 +7,7 @@ import { PhaseGroup, IPhaseGroup } from './PhaseGroup'
 import { Entrant, IEntrant } from './Entrant'
 import { Attendee, IAttendee } from './Attendee'
 import { GGSet, IGGSet } from './GGSet'
+import { IStandings, Standing } from './Standing'
 
 import NI from './util/NetworkInterface'
 import * as queries from './scripts/leagueQueries'
@@ -93,6 +94,30 @@ export class League implements ILeague.League {
   getShortSlug(): string {
     return this.shortSlug
   }
+
+	async getStandingsRaw() : Promise<any[]> {
+		const { id, name } = this
+		log.info('Getting Standings for Event [%s :: %s]', id, name)
+		const options = { page: 1 }
+		let data: ILeague.LeagueStandingData[] = await NI.paginatedQuery(
+			`Event Entrants [${id} :: ${name}]`,
+			queries.leagueStandings,
+			{id},
+			options,
+			{},
+			2
+		)
+		// return data
+		let standingData = _.flatten(data.map(d => d.league.standings.nodes))
+		return standingData
+	}
+
+	async getStandings() : Promise<Standing[]> {
+		const { id } = this
+		let standingData = await this.getStandingsRaw()
+		let standings: Standing[] = standingData.map(item => Standing.parse(item, id))
+		return standings
+	}
 
   async getEvents(): Promise<Event[]> {
     const { id, name } = this
@@ -199,6 +224,14 @@ export namespace ILeague {
     startAt: number
     endAt: number
     shortSlug: string
+  }
+
+  export interface LeagueStandingData{
+    league:{
+      standings: {
+        nodes: IStandings.StandingData[]
+      }
+    }
   }
 
   export interface LeagueEventData {

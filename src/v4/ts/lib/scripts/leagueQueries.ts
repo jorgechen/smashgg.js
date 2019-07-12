@@ -102,3 +102,18 @@ export const leaguePhaseGroupIds = `query PhaseGroupIdQuery($id: ID!){
     }
   }
 }`
+
+export const leagueStandings = `query LeagueStandings($id: ID!, $page: Int, $perPage: Int){
+    league(id: $id){
+        standings(query: {
+            page: $page,
+            perPage: $perPage,
+        }){
+            nodes{
+                ${Schema.standing}
+            }
+            {pageInfo}
+        }
+    }
+}
+`

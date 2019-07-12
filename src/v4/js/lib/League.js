@@ -53,6 +53,7 @@ var PhaseGroup_1 = require("./PhaseGroup");
 var Entrant_1 = require("./Entrant");
 var Attendee_1 = require("./Attendee");
 var GGSet_1 = require("./GGSet");
+var Standing_1 = require("./Standing");
 var NetworkInterface_1 = __importDefault(require("./util/NetworkInterface"));
 var queries = __importStar(require("./scripts/leagueQueries"));
 var League = /** @class */ (function () {
@@ -121,6 +122,42 @@ var League = /** @class */ (function () {
     };
     League.prototype.getShortSlug = function () {
         return this.shortSlug;
+    };
+    League.prototype.getStandingsRaw = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, id, name, options, data, standingData;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this, id = _a.id, name = _a.name;
+                        Logger_1.default.info('Getting Standings for Event [%s :: %s]', id, name);
+                        options = { page: 1 };
+                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Entrants [" + id + " :: " + name + "]", queries.leagueStandings, { id: id }, options, {}, 2)
+                            // return data
+                        ];
+                    case 1:
+                        data = _b.sent();
+                        standingData = lodash_1.default.flatten(data.map(function (d) { return d.league.standings.nodes; }));
+                        return [2 /*return*/, standingData];
+                }
+            });
+        });
+    };
+    League.prototype.getStandings = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var id, standingData, standings;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        id = this.id;
+                        return [4 /*yield*/, this.getStandingsRaw()];
+                    case 1:
+                        standingData = _a.sent();
+                        standings = standingData.map(function (item) { return Standing_1.Standing.parse(item, id); });
+                        return [2 /*return*/, standings];
+                }
+            });
+        });
     };
     League.prototype.getEvents = function () {
         return __awaiter(this, void 0, void 0, function () {

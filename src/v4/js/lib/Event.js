@@ -190,17 +190,14 @@ var Event = /** @class */ (function (_super) {
     };
     Event.prototype.getStandings = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, id, name, options, data, standingData, standings;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var id, standingData, standings;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        _a = this, id = _a.id, name = _a.name;
-                        Logger_1.default.info('Getting Standings for Event [%s :: %s]', id, name);
-                        options = { page: 1 };
-                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Entrants [" + id + " :: " + name + "]", queries.eventStandings, { id: id }, options, {}, 2)];
+                        id = this.id;
+                        return [4 /*yield*/, this.getStandingsRaw()];
                     case 1:
-                        data = _b.sent();
-                        standingData = lodash_1.default.flatten(data.map(function (d) { return d.event.standings.nodes; }));
+                        standingData = _a.sent();
                         standings = standingData.map(function (item) { return Standing_1.Standing.parse(item, id); });
                         return [2 /*return*/, standings];
                 }
