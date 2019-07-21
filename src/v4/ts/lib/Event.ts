@@ -257,6 +257,21 @@ export class Event extends EventEmitter implements IEvent.Event{
 		return sets
 	}
 
+	async getSetsRaw(options: IGGSet.SetOptions = IGGSet.getDefaultSetOptions()) : Promise<any[]> {
+    const { id, name } = this
+		log.info('Getting Sets for Event [%s :: %s]', id, name)
+		let data: IEvent.EventSetData[] = await NI.paginatedQuery(
+      `Event Sets [${id} :: ${name}]`,
+      queries.eventSetsRaw,
+      { id },
+      options,
+      {},
+      3,
+    )
+		let setData = _.flatten(data.map(d => d.event.sets.nodes))
+		return setData
+	}
+
 	// need coverage
 	async getIncompleteSets(options: IGGSet.SetOptions = IGGSet.getDefaultSetOptions()) : Promise<GGSet[]> {
 		log.info('Getting Incomplete Sets for Event [%s :: %s]', this.id, this.name)

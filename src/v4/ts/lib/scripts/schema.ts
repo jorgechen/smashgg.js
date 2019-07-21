@@ -244,7 +244,8 @@ slots(includeByes:false){
 			playerId
 		}
 	}
-}`
+}
+`
 
 export const set = `
 id

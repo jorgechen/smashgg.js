@@ -67,7 +67,26 @@ export const eventSets = `query EventSets($id: ID!, $page: Int, $perPage: Int, $
     }   
 }`
 
-export const eventEntrants = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
+export const eventSetsRaw = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){
+    event(id: $id){
+          sets(
+              page: $page,
+              perPage: $perPage,
+              sortType: $sortType,
+              filters: $filters
+          ){
+              {pageInfo}
+              nodes{
+                  ${Schema.set}
+                  games {
+                    ${Schema.game}
+                  }
+              }
+        }
+    }   
+}`
+
+export const eventEntrants = `query EventEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
     event(id: $id){
         entrants(query: {
             page: $page,

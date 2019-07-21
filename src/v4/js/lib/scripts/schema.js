@@ -56,7 +56,7 @@ exports.player = "\nid\nprefix\ngamerTag\ncolor\ntwitterHandle\ntwitchStream\nyo
 exports.attendee = "\nid\nplayer {\n\t" + exports.player + "\n}\ngamerTag\nprefix\ncreatedAt\nclaimed\nverified\nplayerId\nphoneNumber\ncontactInfo{\n\t" + exports.attendeeContactInfo + "\n}\nconnectedAccounts\nevents{\n\tid\t\n}";
 exports.entrant = "\nid\nname\neventId\nskill\nparticipants{\n\t" + exports.attendee + "\t\n}";
 exports.user = "\nid\ngamerTag\nprefix\ncolor\ntwitchStream\ntwitterHandle\nyoutube\nregion\nstate\ncountry\ngamerTagChangedAt";
-exports.setSlots = "\nslots(includeByes:false){\n\tid\n\tstanding{\n\t\tplacement\n\t\tstats{\n\t\t\t" + exports.Stats + "\n\t\t}\n\t}\n\tentrant{\n\t\tid\n\t\tname\n\t\tparticipants{\n\t\t\tid\n\t\t\tplayerId\n\t\t}\n\t}\n}";
+exports.setSlots = "\nslots(includeByes:false){\n\tid\n\tstanding{\n\t\tplacement\n\t\tstats{\n\t\t\t" + exports.Stats + "\n\t\t}\n\t}\n\tentrant{\n\t\tid\n\t\tname\n\t\tparticipants{\n\t\t\tid\n\t\t\tplayerId\n\t\t}\n\t}\n}\n";
 exports.set = "\nid\neventId\nphaseGroupId\ndisplayScore  \nfullRoundText\nround\nstartedAt\ncompletedAt\nwinnerId\ntotalGames\nstate\n" + exports.setSlots + "\n";
 // NOTE: totalGames is not legit, use slot.standing.stats.score.value
 exports.game = "\nid\nstate\nwinnerId\norderNum\nselections{\n\tselectionType\n\tselectionValue\n\tentrantId\n\tparticipantId\n}";
