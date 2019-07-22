@@ -3,40 +3,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = require("util");
-var Encoder_1 = __importDefault(require("./Encoder"));
-var lodash_1 = __importDefault(require("lodash"));
-var Logger_1 = __importDefault(require("./Logger"));
-var DEFAULT_CONCURRENCY = 4;
-var TOP_8_LABELS = [
+const util_1 = require("util");
+const Encoder_1 = __importDefault(require("./Encoder"));
+const lodash_1 = __importDefault(require("lodash"));
+const Logger_1 = __importDefault(require("./Logger"));
+const DEFAULT_CONCURRENCY = 4;
+const TOP_8_LABELS = [
     'Losers Quarter-Final', 'Losers Semi-Final',
     'Winners Semi-Final', 'Winners Final',
     'Grand Final', 'Grand Final Reset', 'Losers Final'
 ];
-var TOP_8_LABELS_STANDALONE = [
+const TOP_8_LABELS_STANDALONE = [
     'Losers Quarter-Final', 'Losers Semi-Final',
     'Winners Semi-Final', 'Winners Final',
     'Grand Final', 'Grand Final Reset', 'Losers Final',
     'Losers Round 1'
 ];
-var losersRoundRegex = new RegExp(/Losers Round ([0-9])/);
+const losersRoundRegex = new RegExp(/Losers Round ([0-9])/);
 function merge(target, obj) {
-    var ret = lodash_1.default.clone(target);
-    for (var prop in obj) {
-        var regex = new RegExp("{" + prop + "}", 'g');
+    let ret = lodash_1.default.clone(target);
+    for (let prop in obj) {
+        let regex = new RegExp(`{${prop}}`, 'g');
         ret = ret.replace(regex, obj[prop]);
     }
     return ret;
 }
 exports.merge = merge;
 function mergeQuery(target, obj) {
-    var ret = lodash_1.default.clone(target);
-    for (var prop in obj) {
-        var regex = new RegExp("{" + prop + "}", 'g');
+    let ret = lodash_1.default.clone(target);
+    for (let prop in obj) {
+        let regex = new RegExp(`{${prop}}`, 'g');
         ret = ret.replace(regex, obj[prop]);
     }
-    var orphanedVarsRegex = new RegExp(/\{[\S]*\}/, 'g');
-    var orphanedVars = orphanedVarsRegex.exec(ret);
+    let orphanedVarsRegex = new RegExp(/\{[\S]*\}/, 'g');
+    let orphanedVars = orphanedVarsRegex.exec(ret);
     if (orphanedVars) {
         Logger_1.default.warn('Variables orphaned by this query: [%s]', orphanedVars.join(','));
         Logger_1.default.warn('Replacing orphans with null');
@@ -46,16 +46,12 @@ function mergeQuery(target, obj) {
     return ret;
 }
 exports.mergeQuery = mergeQuery;
-function determineComplexity() {
-    var objects = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        objects[_i] = arguments[_i];
-    }
-    var complexity = 0;
-    var objs = [];
-    for (var i in objects) {
-        var obj = objects[i];
-        for (var key in obj) {
+function determineComplexity(...objects) {
+    let complexity = 0;
+    let objs = [];
+    for (let i in objects) {
+        let obj = objects[i];
+        for (let key in obj) {
             if (typeof obj[key] === 'object') {
                 complexity++;
                 objs.push(obj[key]);
@@ -75,13 +71,13 @@ function sleep(ms) {
 }
 exports.sleep = sleep;
 function orderTop8(sets) {
-    var ordered = [];
-    var fn = function (roundName) {
-        ordered = ordered.concat(lodash_1.default.find(sets, function (set) {
+    let ordered = [];
+    const fn = (roundName) => {
+        ordered = ordered.concat(lodash_1.default.find(sets, set => {
             return set.getFullRoundText() == roundName;
         }));
     };
-    var hasReset = lodash_1.default.find(sets, function (set) {
+    let hasReset = lodash_1.default.find(sets, set => {
         return set.getFullRoundText() === 'Grand Final Reset';
     });
     if (hasReset)
@@ -92,8 +88,8 @@ function orderTop8(sets) {
     fn('Winners Final');
     fn('Losers Quarter-Final');
     fn('Winners Semi-Final');
-    var roundNames = sets.map(function (set) { return set.getFullRoundText(); });
-    var losersRoundName = roundNames.filter(function (name) { return losersRoundRegex.test(name); })[0];
+    let roundNames = sets.map(set => set.getFullRoundText());
+    let losersRoundName = roundNames.filter(name => losersRoundRegex.test(name))[0];
     fn(losersRoundName);
     return ordered;
 }
@@ -108,22 +104,22 @@ function parseOptions(options) {
 exports.parseOptions = parseOptions;
 // todo remove theabove and below non-null expectations
 function getHighestLevelLosersRound(sets) {
-    var loserRounds = sets.filter(function (set) { return losersRoundRegex.test(set.getFullRoundText()); });
-    var loserRoundNumbers = loserRounds.map(function (set) { return losersRoundRegex.exec(set.getFullRoundText())[1]; });
-    var highestLoserRoundNumber = Math.max.apply(null, loserRoundNumbers);
-    return "Losers Round " + highestLoserRoundNumber;
+    let loserRounds = sets.filter(set => losersRoundRegex.test(set.getFullRoundText()));
+    let loserRoundNumbers = loserRounds.map(set => losersRoundRegex.exec(set.getFullRoundText())[1]);
+    let highestLoserRoundNumber = Math.max.apply(null, loserRoundNumbers);
+    return `Losers Round ${highestLoserRoundNumber}`;
 }
 exports.getHighestLevelLosersRound = getHighestLevelLosersRound;
 function filterForTop8Sets(sets) {
-    var highestLoserRound = getHighestLevelLosersRound(sets);
-    var targetLabels = TOP_8_LABELS.concat([highestLoserRound]);
-    var topSets = sets.filter(function (set) { return targetLabels.includes(set.getFullRoundText()); });
+    let highestLoserRound = getHighestLevelLosersRound(sets);
+    let targetLabels = TOP_8_LABELS.concat([highestLoserRound]);
+    let topSets = sets.filter(set => targetLabels.includes(set.getFullRoundText()));
     return orderTop8(topSets);
 }
 exports.filterForTop8Sets = filterForTop8Sets;
 function createExpandsString(expands) {
-    var expandsString = '';
-    for (var property in expands) {
+    let expandsString = '';
+    for (let property in expands) {
         if (expands.hasOwnProperty(property))
             expandsString += util_1.format('expand[]=%s&', property);
     }
@@ -131,7 +127,7 @@ function createExpandsString(expands) {
 }
 exports.createExpandsString = createExpandsString;
 function convertEpochToDate(epoch) {
-    var d = new Date(0);
+    let d = new Date(0);
     d.setUTCSeconds(epoch);
     return d;
 }

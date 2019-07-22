@@ -1,103 +1,86 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /** aka Entrant **/
-var Attendee_1 = require("./Attendee"); // TODO later change this to internal
-var Entrant = /** @class */ (function () {
-    function Entrant(id, name, eventId, skill, attendeeData) {
+const Attendee_1 = require("./Attendee"); // TODO later change this to internal
+class Entrant {
+    constructor(id, name, eventId, skill, attendeeData) {
         this.id = id;
         this.name = name;
         this.eventId = eventId;
         this.skill = skill;
         this.attendeeData = attendeeData;
     }
-    Entrant.parse = function (data) {
-        var attendeeData = data.participants.map(function (attendeeData) { return Attendee_1.Attendee.parse(attendeeData); });
+    static parse(data) {
+        let attendeeData = data.participants.map(attendeeData => Attendee_1.Attendee.parse(attendeeData));
         return new Entrant(data.id, data.name, data.eventId, data.skill, attendeeData);
-    };
-    Entrant.parseFull = function (data) {
+    }
+    static parseFull(data) {
         return Entrant.parse(data.entrant);
-    };
-    Entrant.prototype.getId = function () {
+    }
+    getId() {
         return this.id;
-    };
-    Entrant.prototype.getName = function () {
+    }
+    getName() {
         return this.name;
-    };
-    Entrant.prototype.getEventId = function () {
+    }
+    getEventId() {
         return this.eventId;
-    };
-    Entrant.prototype.getSkill = function () {
+    }
+    getSkill() {
         return this.skill;
-    };
-    Entrant.prototype.getAttendeeData = function () {
+    }
+    getAttendeeData() {
         return this.attendeeData;
-    };
-    Entrant.prototype.getAttendee = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getAttendee(position = 0) {
         return this.attendeeData[position];
-    };
-    Entrant.prototype.getAttendeeId = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getAttendeeId(position = 0) {
         return this.attendeeData[position].getId();
-    };
-    Entrant.prototype.getGamerTag = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getGamerTag(position = 0) {
         return this.attendeeData[position].getGamerTag();
-    };
-    Entrant.prototype.getSponsor = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getSponsor(position = 0) {
         return this.attendeeData[position].getSponsor();
-    };
-    Entrant.prototype.getPhoneNumber = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getPhoneNumber(position = 0) {
         return this.attendeeData[position].getPhoneNumber();
-    };
-    Entrant.prototype.getContactInfo = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getContactInfo(position = 0) {
         return this.attendeeData[position].getContactInfo();
-    };
-    Entrant.prototype.getCity = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getCity(position = 0) {
         return this.attendeeData[position].getCity();
-    };
-    Entrant.prototype.getState = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getState(position = 0) {
         return this.attendeeData[position].getState();
-    };
-    Entrant.prototype.getStateId = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getStateId(position = 0) {
         return this.attendeeData[position].getStateId();
-    };
-    Entrant.prototype.getCountry = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getCountry(position = 0) {
         return this.attendeeData[position].getCountry();
-    };
-    Entrant.prototype.getCountryId = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getCountryId(position = 0) {
         return this.attendeeData[position].getCountryId();
-    };
-    Entrant.prototype.getContactName = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getContactName(position = 0) {
         return this.attendeeData[position].getContactName();
-    };
-    Entrant.prototype.getFirstName = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getFirstName(position = 0) {
         return this.attendeeData[position].getFirstName();
-    };
-    Entrant.prototype.getLastName = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getLastName(position = 0) {
         return this.attendeeData[position].getLastName();
-    };
-    Entrant.prototype.getZipcode = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getZipcode(position = 0) {
         return this.attendeeData[position].getZipcode();
-    };
-    Entrant.prototype.getConnectedAccounts = function (position) {
-        if (position === void 0) { position = 0; }
+    }
+    getConnectedAccounts(position = 0) {
         return this.attendeeData[position].getConnectedAccounts();
-    };
-    return Entrant;
-}());
+    }
+}
 exports.Entrant = Entrant;
 var IEntrant;
 (function (IEntrant) {

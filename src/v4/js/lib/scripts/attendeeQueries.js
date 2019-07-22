@@ -7,6 +7,28 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var schema = __importStar(require("./schema"));
-exports.getAttendeePhases = "query AttendeePhasesQuery($id: ID!){\n    participant(id: $id){\n        entrants {\n            seeds {\n                id\n                phase {\n                    " + schema.phase + "\n                }\n            }\n        }\n    }\n}";
-exports.getAttendeePhaseGroups = "query AttendeePhaseGroupsQuery($id: ID!){\n    participant(id: $id){\n        entrants {\n            seeds {\n                id\n                phaseGroup {\n                    " + schema.phaseGroup + "\n                }\n            }\n        }\n    }\n}";
+const schema = __importStar(require("./schema"));
+exports.getAttendeePhases = `query AttendeePhasesQuery($id: ID!){
+    participant(id: $id){
+        entrants {
+            seeds {
+                id
+                phase {
+                    ${schema.phase}
+                }
+            }
+        }
+    }
+}`;
+exports.getAttendeePhaseGroups = `query AttendeePhaseGroupsQuery($id: ID!){
+    participant(id: $id){
+        entrants {
+            seeds {
+                id
+                phaseGroup {
+                    ${schema.phaseGroup}
+                }
+            }
+        }
+    }
+}`;

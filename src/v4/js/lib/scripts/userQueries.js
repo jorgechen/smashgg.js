@@ -7,7 +7,27 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Schema = __importStar(require("./schema"));
-exports.user = "query UserQuery($id: ID!) {\n\tplayer(id:$id){\n\t\t" + Schema.user + "\n\t}\n}";
-exports.userRankings = "query UserRankings($id: ID!) {\n\tplayer(id:$id){\n\t\tid\n\t\trankings{\n\t\t\tid\n\t\t\ttitle\n\t\t\trank\n\t\t}\n\t}\n}";
-exports.userRecentGGSets = "query UserRecentSets($id: ID!) {\n\tplayer(id:$id){\n\t\tid\n\t\trecentSets{\n      \t\t" + Schema.set + "     \n\t\t}\n\t}\n}";
+const Schema = __importStar(require("./schema"));
+exports.user = `query UserQuery($id: ID!) {
+	player(id:$id){
+		${Schema.user}
+	}
+}`;
+exports.userRankings = `query UserRankings($id: ID!) {
+	player(id:$id){
+		id
+		rankings{
+			id
+			title
+			rank
+		}
+	}
+}`;
+exports.userRecentGGSets = `query UserRecentSets($id: ID!) {
+	player(id:$id){
+		id
+		recentSets{
+      		${Schema.set}     
+		}
+	}
+}`;

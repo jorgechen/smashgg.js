@@ -1,6 +1,67 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.phaseGroupSets = "query PhaseGroupSetsById($id: ID!){\n    phaseGroup(id: $id){\n        sets{\n            id\n            fullRoundText\n            displayScore\n            startedAt\n            completedAt\n        }\n    }\n}";
-exports.phaseGroupSets2 = "query PhaseGroupSetsById($id: ID!){\n    phaseGroup(id: $id){\n        sets{\n            id\n            round\n            fullRoundText\n            startedAt\n            completedAt\n            winnerId\n            totalGames\n            state\n        }\n    }\n}";
-exports.phaseGroupSetsWithoutEntrants = "query PhaseGroupSetsById($id: ID!){\n    phaseGroup(id: $id){\n        sets{\n            id\n            round\n            displayScore\n            fullRoundText\n            startedAt\n            completedAt\n            winnerId\n            totalGames\n            state\n        }\n    }\n}";
-exports.phaseGroupSetsWithEntrants = "query PhaseGroupSetsById($id: ID!){\n    phaseGroup(id: $id){\n        sets{\n            id\n            round\n            displayScore\n            fullRoundText\n            startedAt\n            completedAt\n            winnerId\n            totalGames\n            state\n            slots{\n                id\n                entrant {\n                    id\n                    name\n                    participants {\n                        id\n                    }\n                }\n            }\n        }\n    }\n}";
+exports.phaseGroupSets = `query PhaseGroupSetsById($id: ID!){
+    phaseGroup(id: $id){
+        sets{
+            id
+            fullRoundText
+            displayScore
+            startedAt
+            completedAt
+        }
+    }
+}`;
+exports.phaseGroupSets2 = `query PhaseGroupSetsById($id: ID!){
+    phaseGroup(id: $id){
+        sets{
+            id
+            round
+            fullRoundText
+            startedAt
+            completedAt
+            winnerId
+            totalGames
+            state
+        }
+    }
+}`;
+exports.phaseGroupSetsWithoutEntrants = `query PhaseGroupSetsById($id: ID!){
+    phaseGroup(id: $id){
+        sets{
+            id
+            round
+            displayScore
+            fullRoundText
+            startedAt
+            completedAt
+            winnerId
+            totalGames
+            state
+        }
+    }
+}`;
+exports.phaseGroupSetsWithEntrants = `query PhaseGroupSetsById($id: ID!){
+    phaseGroup(id: $id){
+        sets{
+            id
+            round
+            displayScore
+            fullRoundText
+            startedAt
+            completedAt
+            winnerId
+            totalGames
+            state
+            slots{
+                id
+                entrant {
+                    id
+                    name
+                    participants {
+                        id
+                    }
+                }
+            }
+        }
+    }
+}`;

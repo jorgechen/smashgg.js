@@ -1,18 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var tokenRegex = new RegExp(/[a-f0-9]{32}/);
-var TokenHandler = /** @class */ (function () {
-    function TokenHandler() {
-    }
-    TokenHandler.setToken = function (token) {
+const tokenRegex = new RegExp(/[a-f0-9]{32}/);
+class TokenHandler {
+    static setToken(token) {
         if (!tokenRegex.test(token))
-            throw new Error("Invalid token '" + token + "'. Must be 32 lowercase, hexidecimal characters.");
+            throw new Error(`Invalid token '${token}'. Must be 32 lowercase, hexidecimal characters.`);
         TokenHandler.token = token;
-    };
-    TokenHandler.getToken = function () {
+    }
+    static getToken() {
         return TokenHandler.token;
-    };
-    return TokenHandler;
-}());
+    }
+}
 exports.default = TokenHandler;
 module.exports = TokenHandler;

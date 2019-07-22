@@ -1,11 +1,54 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Stats = "\nscore{\n\tlabel\n\tvalue\n\tdisplayValue\n}\n";
-exports.TournamentLink = "\ndiscord\nfacebook\n";
-exports.PageInfo = "\ntotal\ntotalPages\npage\nperPage\nsortBy\nfilter\n";
-exports.Image = "\nid\nwidth\nheight\nratio\ntype\nurl\nisOriginal\nentity\nentityId\nuploadedBy\n";
-exports.Videogame = "\nid\nname\nslug\ndisplayName\nimages {\n\t" + exports.Image + "\n}\n";
-exports.league = "\nid\nname\nslug\nstartAt\nendAt\nshortSlug\nurl(relative: false)\n";
+exports.Stats = `
+score{
+	label
+	value
+	displayValue
+}
+`;
+exports.TournamentLink = `
+discord
+facebook
+`;
+exports.PageInfo = `
+total
+totalPages
+page
+perPage
+sortBy
+filter
+`;
+exports.Image = `
+id
+width
+height
+ratio
+type
+url
+isOriginal
+entity
+entityId
+uploadedBy
+`;
+exports.Videogame = `
+id
+name
+slug
+displayName
+images {
+	${exports.Image}
+}
+`;
+exports.league = `
+id
+name
+slug
+startAt
+endAt
+shortSlug
+url(relative: false)
+`;
 // addrState
 // city
 // countryCode
@@ -45,23 +88,220 @@ exports.league = "\nid\nname\nslug\nstartAt\nendAt\nshortSlug\nurl(relative: fal
 // showStandings
 // finalEventId
 // numProgressingToFinalEvent
-exports.tournament = "\nid\nname\nslug\nshortSlug\nimages{\n\t" + exports.Image + "\n}\ncity\npostalCode\naddrState\ncountryCode\nregion\nvenueAddress\nvenueName\ngettingThere\nlat\nlng\ntimezone\nstartAt\nendAt\ncontactEmail\ncontactTwitter\ncontactPhone\nownerId";
-exports.event = "\nid\nname\nslug\nstate\nstartAt\nnumEntrants\ncheckInBuffer\ncheckInDuration\ncheckInEnabled\nisOnline\nteamNameAllowed\nteamManagementDeadline\nvideogame {\n\t" + exports.Videogame + "\n}\n";
-exports.phase = "\nid\nname\nnumSeeds\ngroupCount";
-exports.phaseGroup = "\nid\ndisplayIdentifier\nfirstRoundTime\nstate\nphaseId\nwaveId\ntiebreakOrder";
+exports.tournament = `
+id
+name
+slug
+shortSlug
+images{
+	${exports.Image}
+}
+city
+postalCode
+addrState
+countryCode
+region
+venueAddress
+venueName
+gettingThere
+lat
+lng
+timezone
+startAt
+endAt
+contactEmail
+contactTwitter
+contactPhone
+ownerId`;
+exports.event = `
+id
+name
+slug
+state
+startAt
+numEntrants
+checkInBuffer
+checkInDuration
+checkInEnabled
+isOnline
+teamNameAllowed
+teamManagementDeadline
+videogame {
+	${exports.Videogame}
+}
+`;
+exports.phase = `
+id
+name
+numSeeds
+groupCount`;
+exports.phaseGroup = `
+id
+displayIdentifier
+firstRoundTime
+state
+phaseId
+waveId
+tiebreakOrder`;
 // smash.gg participant
-exports.attendeeContactInfo = "\nid\ncity\nstate\nstateId\ncountry\ncountryId\nname\nnameFirst\nnameLast\nzipcode";
-exports.player = "\nid\nprefix\ngamerTag\ncolor\ntwitterHandle\ntwitchStream\nyoutube\nregion\nstate\ncountry\nnameDisplay\ngamerTagChangedAt\nimages {\n\t" + exports.Image + "\n}\n";
+exports.attendeeContactInfo = `
+id
+city
+state
+stateId
+country
+countryId
+name
+nameFirst
+nameLast
+zipcode`;
+exports.player = `
+id
+prefix
+gamerTag
+color
+twitterHandle
+twitchStream
+youtube
+region
+state
+country
+nameDisplay
+gamerTagChangedAt
+images {
+	${exports.Image}
+}
+`;
 // smash.gg participant
-exports.attendee = "\nid\nplayer {\n\t" + exports.player + "\n}\ngamerTag\nprefix\ncreatedAt\nclaimed\nverified\nplayerId\nphoneNumber\ncontactInfo{\n\t" + exports.attendeeContactInfo + "\n}\nconnectedAccounts\nevents{\n\tid\t\n}";
-exports.entrant = "\nid\nname\neventId\nskill\nparticipants{\n\t" + exports.attendee + "\t\n}";
-exports.user = "\nid\ngamerTag\nprefix\ncolor\ntwitchStream\ntwitterHandle\nyoutube\nregion\nstate\ncountry\ngamerTagChangedAt";
-exports.setSlots = "\nslots(includeByes:false){\n\tid\n\tstanding{\n\t\tplacement\n\t\tstats{\n\t\t\t" + exports.Stats + "\n\t\t}\n\t}\n\tentrant{\n\t\tid\n\t\tname\n\t\tparticipants{\n\t\t\tid\n\t\t\tplayerId\n\t\t}\n\t}\n}\n";
-exports.set = "\nid\neventId\nphaseGroupId\ndisplayScore  \nfullRoundText\nround\nstartedAt\ncompletedAt\nwinnerId\ntotalGames\nstate\n" + exports.setSlots + "\n";
+exports.attendee = `
+id
+player {
+	${exports.player}
+}
+gamerTag
+prefix
+createdAt
+claimed
+verified
+playerId
+phoneNumber
+contactInfo{
+	${exports.attendeeContactInfo}
+}
+connectedAccounts
+events{
+	id	
+}`;
+exports.entrant = `
+id
+name
+eventId
+skill
+participants{
+	${exports.attendee}	
+}`;
+exports.user = `
+id
+gamerTag
+prefix
+color
+twitchStream
+twitterHandle
+youtube
+region
+state
+country
+gamerTagChangedAt`;
+exports.setSlots = `
+slots(includeByes:false){
+	id
+	standing{
+		placement
+		stats{
+			${exports.Stats}
+		}
+	}
+	entrant{
+		id
+		name
+		participants{
+			id
+			playerId
+		}
+	}
+}
+`;
+exports.set = `
+id
+eventId
+phaseGroupId
+displayScore  
+fullRoundText
+round
+startedAt
+completedAt
+winnerId
+totalGames
+state
+${exports.setSlots}
+`;
 // NOTE: totalGames is not legit, use slot.standing.stats.score.value
-exports.game = "\nid\nstate\nwinnerId\norderNum\nselections{\n\tselectionType\n\tselectionValue\n\tentrantId\n\tparticipantId\n}";
-exports.seeds = "\nid\nentrantId\nplaceholderName\nseedNum\nplacement\nisBye\nplayers{\n\tid\n}";
-exports.standing = "\nid\nplacement\nentrant{ \n\t" + exports.entrant + "\n}\nstats{\n\t" + exports.Stats + "\n}\n";
-exports.venue = "\nvenueName\nvenueAddress\ncity\naddrState\ncountryCode";
-exports.organizer = "\nownerId\ncontactEmail\ncontactTwitter\ncontactPhone\ncontactInfo";
-exports.stream = "\nid\neventId\ntournamentId\nstreamName\nnumSetups\nstreamSource\nstreamType\nstreamTypeId\nisOnline\nenabled\nfollowerCount\nremovesTasks\nstreamStatus\nstreamGame\nstreamLogo";
+exports.game = `
+id
+state
+winnerId
+orderNum
+selections{
+	selectionType
+	selectionValue
+	entrantId
+	participantId
+}`;
+exports.seeds = `
+id
+entrantId
+placeholderName
+seedNum
+placement
+isBye
+players{
+	id
+}`;
+exports.standing = `
+id
+placement
+entrant{ 
+	${exports.entrant}
+}
+stats{
+	${exports.Stats}
+}
+`;
+exports.venue = `
+venueName
+venueAddress
+city
+addrState
+countryCode`;
+exports.organizer = `
+ownerId
+contactEmail
+contactTwitter
+contactPhone
+contactInfo`;
+exports.stream = `
+id
+eventId
+tournamentId
+streamName
+numSetups
+streamSource
+streamType
+streamTypeId
+isOnline
+enabled
+followerCount
+removesTasks
+streamStatus
+streamGame
+streamLogo`;

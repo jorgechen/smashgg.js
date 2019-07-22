@@ -1,23 +1,18 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
-var LEGAL_ENCODINGS = ['json', 'utf8', 'base64'];
-var DEFAULT_ENCODING = process.env.DefaultEncoding || 'json';
-var Encoder = /** @class */ (function () {
-    function Encoder() {
-    }
-    Encoder.determineEncoding = function (encoding) {
+const LEGAL_ENCODINGS = ['json', 'utf8', 'base64'];
+const DEFAULT_ENCODING = process.env.DefaultEncoding || 'json';
+class Encoder {
+    static determineEncoding(encoding) {
         return encoding != undefined && LEGAL_ENCODINGS.includes(encoding) ? encoding : DEFAULT_ENCODING;
-    };
-    Encoder.encode = function (data, encoding) {
-        if (encoding === void 0) { encoding = DEFAULT_ENCODING; }
-        var encoded = encoding == 'json' ? data : new Buffer(JSON.stringify(data)).toString(encoding);
+    }
+    static encode(data, encoding = DEFAULT_ENCODING) {
+        let encoded = encoding == 'json' ? data : new Buffer(JSON.stringify(data)).toString(encoding);
         return encoded;
-    };
-    Encoder.decode = function (data, encoding) {
-        if (encoding === void 0) { encoding = DEFAULT_ENCODING; }
-        var decoded = encoding == 'json' ? data : JSON.parse(new Buffer(data.toString(), encoding).toString('utf8'));
+    }
+    static decode(data, encoding = DEFAULT_ENCODING) {
+        let decoded = encoding == 'json' ? data : JSON.parse(new Buffer(data.toString(), encoding).toString('utf8'));
         return decoded;
-    };
-    return Encoder;
-}());
+    }
+}
 exports.default = Encoder;

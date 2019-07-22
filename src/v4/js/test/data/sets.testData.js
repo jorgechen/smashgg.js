@@ -7,9 +7,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var GGSet_1 = require("../../lib/GGSet");
+const GGSet_1 = require("../../lib/GGSet");
 var PlayerLite = GGSet_1.IGGSet.PlayerLite;
-var gameData = __importStar(require("./games.testData"));
+const gameData = __importStar(require("./games.testData"));
 //11186682
 exports.set1 = {
     "id": "11186682",

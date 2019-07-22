@@ -4,11 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("colors");
-var Cache_1 = __importDefault(require("./Cache"));
-var TokenHandler_1 = __importDefault(require("./TokenHandler"));
-var NetworkInterface_1 = __importDefault(require("./NetworkInterface"));
-var QueryQueue_1 = __importDefault(require("./QueryQueue"));
-var winston_1 = __importDefault(require("winston"));
+const Cache_1 = __importDefault(require("./Cache"));
+const TokenHandler_1 = __importDefault(require("./TokenHandler"));
+const NetworkInterface_1 = __importDefault(require("./NetworkInterface"));
+const QueryQueue_1 = __importDefault(require("./QueryQueue"));
+const winston_1 = __importDefault(require("winston"));
 function handleErrors(e) {
     console.error(e.message.red);
     console.error('NOTE: Check your debug log for stack trace'.grey);

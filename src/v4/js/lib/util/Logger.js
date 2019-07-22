@@ -3,8 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var winston_1 = __importDefault(require("winston"));
-var smashggJsLevels = {
+const winston_1 = __importDefault(require("winston"));
+const smashggJsLevels = {
     levels: {
         error: 0,
         warn: 1,
@@ -22,7 +22,7 @@ var smashggJsLevels = {
         queries: 'cyan'
     }
 };
-var tempLogger = winston_1.default.createLogger({
+let tempLogger = winston_1.default.createLogger({
     level: 'info',
     levels: smashggJsLevels.levels,
     format: winston_1.default.format.combine(winston_1.default.format.splat(), winston_1.default.format.simple(), winston_1.default.format.colorize()),
@@ -30,10 +30,10 @@ var tempLogger = winston_1.default.createLogger({
         new winston_1.default.transports.Console()
     ]
 });
-var queries = function (msg) {
+const queries = function (msg) {
     tempLogger.log('queries', msg);
 };
-var logger = Object.assign(tempLogger, { queries: queries });
+const logger = Object.assign(tempLogger, { queries: queries });
 exports.default = logger;
 winston_1.default.addColors(smashggJsLevels.colors);
 function setLogLevel(level) {
@@ -49,18 +49,18 @@ function addLog(type, options) {
             logger.add(new winston_1.default.transports.File(options));
             break;
         default:
-            throw new Error(type + " is not valid for addLog. Valid values: [console, file]");
+            throw new Error(`${type} is not valid for addLog. Valid values: [console, file]`);
     }
 }
 exports.addLog = addLog;
 function disableLog() {
-    logger.transports.forEach(function (transport) {
+    logger.transports.forEach(transport => {
         transport.silent = true;
     });
 }
 exports.disableLog = disableLog;
 function enableLog() {
-    logger.transports.forEach(function (transport) {
+    logger.transports.forEach(transport => {
         transport.silent = false;
     });
 }

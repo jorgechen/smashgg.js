@@ -1,39 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -45,55 +10,41 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var path_1 = __importDefault(require("path"));
-var ROOT = path_1.default.join(__dirname, '..', '..', '..', '..', '.env');
-var dotenv_1 = require("dotenv");
+const path_1 = __importDefault(require("path"));
+const ROOT = path_1.default.join(__dirname, '..', '..', '..', '..', '.env');
+const dotenv_1 = require("dotenv");
 dotenv_1.config({ path: ROOT });
 require("../lib/util/ErrorHandler");
-var lodash_1 = __importDefault(require("lodash"));
-var moment_1 = __importDefault(require("moment"));
-var chai_1 = __importDefault(require("chai"));
-var chai_as_promised_1 = __importDefault(require("chai-as-promised"));
+const lodash_1 = __importDefault(require("lodash"));
+const moment_1 = __importDefault(require("moment"));
+const chai_1 = __importDefault(require("chai"));
+const chai_as_promised_1 = __importDefault(require("chai-as-promised"));
 chai_1.default.use(chai_as_promised_1.default);
-var expect = chai_1.default.expect;
-var GGSet_1 = require("../lib/GGSet");
-var Game_1 = require("../lib/Game");
-var Entrant_1 = require("../lib/Entrant");
-var Attendee_1 = require("../lib/Attendee");
-var testData = __importStar(require("./data/sets.testData"));
-var gameData = __importStar(require("./data/games.testData"));
-var Initializer_1 = __importDefault(require("../lib/util/Initializer"));
-var set1, set2, set3;
-var SET_ID_1 = +'11186682';
-var SET_ID_2 = +'11186683';
-var SET_ID_3 = +'8798920';
+const { expect } = chai_1.default;
+const GGSet_1 = require("../lib/GGSet");
+const Game_1 = require("../lib/Game");
+const Entrant_1 = require("../lib/Entrant");
+const Attendee_1 = require("../lib/Attendee");
+const testData = __importStar(require("./data/sets.testData"));
+const gameData = __importStar(require("./data/games.testData"));
+const Initializer_1 = __importDefault(require("../lib/util/Initializer"));
+let set1, set2, set3;
+const SET_ID_1 = +'11186682';
+const SET_ID_2 = +'11186683';
+const SET_ID_3 = +'8798920';
 describe('Smash GG Set', function () {
     this.timeout(10000);
-    before(function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
-                    case 1:
-                        _a.sent();
-                        console.log('Testing displayScore parsing first...');
-                        expect(GGSet_1.GGSet.parseDisplayScore(testData.set1.displayScore)).to.deep.equal(testData.parsedDisplayScore1);
-                        expect(GGSet_1.GGSet.parseDisplayScore(testData.set2.displayScore)).to.deep.equal(testData.parsedDisplayScore2);
-                        expect(GGSet_1.GGSet.parseDisplayScore(testData.set3.displayScore)).to.deep.equal(testData.parsedDisplayScore3);
-                        console.log('Success!');
-                        return [4 /*yield*/, GGSet_1.GGSet.get(SET_ID_1)];
-                    case 2:
-                        set1 = _a.sent();
-                        return [4 /*yield*/, GGSet_1.GGSet.get(SET_ID_2)];
-                    case 3:
-                        set2 = _a.sent();
-                        return [4 /*yield*/, GGSet_1.GGSet.get(SET_ID_3)];
-                    case 4:
-                        set3 = _a.sent();
-                        return [2 /*return*/, true];
-                }
-            });
-        });
+    before(async function () {
+        await Initializer_1.default(process.env.API_TOKEN);
+        console.log('Testing displayScore parsing first...');
+        expect(GGSet_1.GGSet.parseDisplayScore(testData.set1.displayScore)).to.deep.equal(testData.parsedDisplayScore1);
+        expect(GGSet_1.GGSet.parseDisplayScore(testData.set2.displayScore)).to.deep.equal(testData.parsedDisplayScore2);
+        expect(GGSet_1.GGSet.parseDisplayScore(testData.set3.displayScore)).to.deep.equal(testData.parsedDisplayScore3);
+        console.log('Success!');
+        set1 = await GGSet_1.GGSet.get(SET_ID_1);
+        set2 = await GGSet_1.GGSet.get(SET_ID_2);
+        set3 = await GGSet_1.GGSet.get(SET_ID_3);
+        return true;
     });
     // event id
     it('should return the correct event id 1', function () {
@@ -137,15 +88,15 @@ describe('Smash GG Set', function () {
     });
     // completed at time date
     it('should return the correct completed Datetime 1', function () {
-        var expected = moment_1.default.unix(set1.completedAt).toDate();
+        let expected = moment_1.default.unix(set1.completedAt).toDate();
         expect(moment_1.default(set1.getCompletedAt()).isSame(expected)).to.to.true;
     });
     it('should return the correct completed Datetime 2', function () {
-        var expected = moment_1.default.unix(set2.completedAt).toDate();
+        let expected = moment_1.default.unix(set2.completedAt).toDate();
         expect(moment_1.default(set2.getCompletedAt()).isSame(expected)).to.to.true;
     });
     it('should return the correct completed Datetime 3', function () {
-        var expected = moment_1.default.unix(set3.completedAt).toDate();
+        let expected = moment_1.default.unix(set3.completedAt).toDate();
         expect(moment_1.default(set3.getCompletedAt()).isSame(expected)).to.to.true;
     });
     // display score
@@ -319,181 +270,94 @@ describe('Smash GG Set', function () {
         expect(set3.getLoserScore()).to.be.equal(1);
     });
     // games
-    it('should get the list of games played in the set 1', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var expected, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        expected = gameData.games1.map(function (gameData) { return Game_1.Game.parse(gameData); });
-                        _a = expect;
-                        return [4 /*yield*/, set1.getGames()];
-                    case 1:
-                        _a.apply(void 0, [_b.sent()]).to.have.deep.members(expected);
-                        return [2 /*return*/, true];
-                }
-            });
-        });
+    it('should get the list of games played in the set 1', async function () {
+        let expected = gameData.games1.map(gameData => Game_1.Game.parse(gameData));
+        expect(await set1.getGames()).to.have.deep.members(expected);
+        return true;
     });
-    it('should get the list of games played in the set 2', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var expected, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        expected = gameData.games2.map(function (gameData) { return Game_1.Game.parse(gameData); });
-                        _a = expect;
-                        return [4 /*yield*/, set2.getGames()];
-                    case 1:
-                        _a.apply(void 0, [_b.sent()]).to.have.deep.members(expected);
-                        return [2 /*return*/, true];
-                }
-            });
-        });
+    it('should get the list of games played in the set 2', async function () {
+        let expected = gameData.games2.map(gameData => Game_1.Game.parse(gameData));
+        expect(await set2.getGames()).to.have.deep.members(expected);
+        return true;
     });
-    it('should get the list of games played in the set 3', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var expected, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        expected = gameData.games3.map(function (gameData) { return Game_1.Game.parse(gameData); });
-                        _a = expect;
-                        return [4 /*yield*/, set3.getGames()];
-                    case 1:
-                        _a.apply(void 0, [_b.sent()]).to.have.deep.members(expected);
-                        return [2 /*return*/, true];
-                }
-            });
-        });
+    it('should get the list of games played in the set 3', async function () {
+        let expected = gameData.games3.map(gameData => Game_1.Game.parse(gameData));
+        expect(await set3.getGames()).to.have.deep.members(expected);
+        return true;
     });
     // entrants
-    it('should get the correct entrants who played in the set 1', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var entrants, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, set1.getEntrants()];
-                    case 1:
-                        entrants = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(entrants)).to.be.false;
-                        entrants.forEach(function (entrant) {
-                            expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
-                        });
-                        expect(entrants.length).to.be.equal(2);
-                        return [2 /*return*/, true];
-                }
-            });
+    it('should get the correct entrants who played in the set 1', async function () {
+        let entrants = await set1.getEntrants();
+        var hasDuplicates = function (a) {
+            return lodash_1.default.uniq(a).length !== a.length;
+        };
+        expect(hasDuplicates(entrants)).to.be.false;
+        entrants.forEach(entrant => {
+            expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
         });
+        expect(entrants.length).to.be.equal(2);
+        return true;
     });
-    it('should get the correct entrants who played in the set 2', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var entrants, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, set2.getEntrants()];
-                    case 1:
-                        entrants = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(entrants)).to.be.false;
-                        entrants.forEach(function (entrant) {
-                            expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
-                        });
-                        expect(entrants.length).to.be.equal(2);
-                        return [2 /*return*/, true];
-                }
-            });
+    it('should get the correct entrants who played in the set 2', async function () {
+        let entrants = await set2.getEntrants();
+        var hasDuplicates = function (a) {
+            return lodash_1.default.uniq(a).length !== a.length;
+        };
+        expect(hasDuplicates(entrants)).to.be.false;
+        entrants.forEach(entrant => {
+            expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
         });
+        expect(entrants.length).to.be.equal(2);
+        return true;
     });
-    it('should get the correct entrants who played in the set 3', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var entrants, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, set3.getEntrants()];
-                    case 1:
-                        entrants = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(entrants)).to.be.false;
-                        entrants.forEach(function (entrant) {
-                            expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
-                        });
-                        expect(entrants.length).to.be.equal(2);
-                        return [2 /*return*/, true];
-                }
-            });
+    it('should get the correct entrants who played in the set 3', async function () {
+        let entrants = await set3.getEntrants();
+        var hasDuplicates = function (a) {
+            return lodash_1.default.uniq(a).length !== a.length;
+        };
+        expect(hasDuplicates(entrants)).to.be.false;
+        entrants.forEach(entrant => {
+            expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
         });
+        expect(entrants.length).to.be.equal(2);
+        return true;
     });
     // participants
-    it('should get the correct attendees who played in the set 1', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var attendees, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, set1.getAttendees()];
-                    case 1:
-                        attendees = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(attendees)).to.be.false;
-                        attendees.forEach(function (attendee) {
-                            expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
-                        });
-                        expect(attendees.length).to.be.equal(2);
-                        return [2 /*return*/, true];
-                }
-            });
+    it('should get the correct attendees who played in the set 1', async function () {
+        let attendees = await set1.getAttendees();
+        var hasDuplicates = function (a) {
+            return lodash_1.default.uniq(a).length !== a.length;
+        };
+        expect(hasDuplicates(attendees)).to.be.false;
+        attendees.forEach(attendee => {
+            expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
         });
+        expect(attendees.length).to.be.equal(2);
+        return true;
     });
-    it('should get the correct attendees who played in the set 2', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var attendees, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, set2.getAttendees()];
-                    case 1:
-                        attendees = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(attendees)).to.be.false;
-                        attendees.forEach(function (attendee) {
-                            expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
-                        });
-                        expect(attendees.length).to.be.equal(2);
-                        return [2 /*return*/, true];
-                }
-            });
+    it('should get the correct attendees who played in the set 2', async function () {
+        let attendees = await set2.getAttendees();
+        var hasDuplicates = function (a) {
+            return lodash_1.default.uniq(a).length !== a.length;
+        };
+        expect(hasDuplicates(attendees)).to.be.false;
+        attendees.forEach(attendee => {
+            expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
         });
+        expect(attendees.length).to.be.equal(2);
+        return true;
     });
-    it('should get the correct participants who played in the set 3', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var attendees, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, set3.getAttendees()];
-                    case 1:
-                        attendees = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(attendees)).to.be.false;
-                        attendees.forEach(function (attendee) {
-                            expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
-                        });
-                        expect(attendees.length).to.be.equal(2);
-                        return [2 /*return*/, true];
-                }
-            });
+    it('should get the correct participants who played in the set 3', async function () {
+        let attendees = await set3.getAttendees();
+        var hasDuplicates = function (a) {
+            return lodash_1.default.uniq(a).length !== a.length;
+        };
+        expect(hasDuplicates(attendees)).to.be.false;
+        attendees.forEach(attendee => {
+            expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
         });
+        expect(attendees.length).to.be.equal(2);
+        return true;
     });
     xit('should give the correct Bracket ID', function (done) {
         //expect(set1.getBracketId()).to.be.equal('58df119c60fbb')
