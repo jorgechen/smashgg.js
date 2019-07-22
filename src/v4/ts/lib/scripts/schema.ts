@@ -259,6 +259,8 @@ completedAt
 winnerId
 totalGames
 state
+lPlacement
+wPlacement
 ${setSlots}
 `
 // NOTE: totalGames is not legit, use slot.standing.stats.score.value

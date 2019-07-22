@@ -243,6 +243,8 @@ completedAt
 winnerId
 totalGames
 state
+lPlacement
+wPlacement
 ${exports.setSlots}
 `;
 // NOTE: totalGames is not legit, use slot.standing.stats.score.value
