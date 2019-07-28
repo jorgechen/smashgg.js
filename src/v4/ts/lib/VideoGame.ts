@@ -14,6 +14,9 @@ import Data = IVideoGame.Data
 import Entity = IVideoGame.Entity
 import Options = ICommon.Options
 import parseOptions = ICommon.parseOptions
+import _ from 'lodash'
+import NI from './util/NetworkInterface'
+import * as queries from './scripts/tournamentQueries'
 
 const API_URL = 'https://api.smash.gg/public/videogames';
 //const LEGAL_ENCODINGS = ['json', 'utf8', 'base64'];
@@ -29,13 +32,13 @@ export class VideoGame implements IVideoGame.VideoGame{
 	minPerEntry: number
 	maxPerEntry: number
 	approved: boolean
-	slug: string 
+	slug: string
 	isCardGame: boolean
 	rawEncoding: string = 'json'
 
-	constructor(id: number, name: string, abbrev: string, displayName: string, minPerEntry: number, 
+	constructor(id: number, name: string, abbrev: string, displayName: string, minPerEntry: number,
 		maxPerEntry: number, approved: boolean, slug: string, isCardGame: boolean){
-		
+
 		this.id = id;
 		this.name = name;
 		this.abbrev = abbrev;
@@ -121,7 +124,7 @@ export class VideoGame implements IVideoGame.VideoGame{
 				let cached: VideoGame[] = await Cache.getInstance().get(cacheKey) as VideoGame[];
 				if(cached) return cached;
 			}
-			
+
 			let data: Data = JSON.parse(await request(API_URL));
 			let videoGames = data.entities.videogame.map(vg => VideoGame.resolve(vg));
 
@@ -172,7 +175,7 @@ export class VideoGame implements IVideoGame.VideoGame{
 
 			let data = await VideoGame.getAll();
 			let videoGames = data.filter(vg => {
-				return vg.name === name || 
+				return vg.name === name ||
 					vg.abbrev === name ||
 					vg.slug === name ||
 					vg.displayName === name;
@@ -187,6 +190,19 @@ export class VideoGame implements IVideoGame.VideoGame{
 			throw e;
 		}
 	}
+
+  static async getTournamentsRaw(filter: object, options: IVideoGame.TournamentOptions = IVideoGame.getDefaultTournamentOptions()): Promise<any[]> {
+    const data: IVideoGame.TournamentData[] = await NI.paginatedQuery(
+      `Finding tournaments with filter:${JSON.stringify(filter)}`,
+      queries.tournaments,
+      { filter },
+      options,
+      {},
+      3,
+    )
+    const setData = _.flatten(data.map(d => d.tournaments.nodes))
+    return setData
+  }
 }
 
 
@@ -201,7 +217,7 @@ export namespace IVideoGame{
 		minPerEntry: number
 		maxPerEntry: number
 		approved: boolean
-		slug: string 
+		slug: string
 		isCardGame: boolean
 		rawEncoding: string
 
@@ -237,4 +253,35 @@ export namespace IVideoGame{
 		[x: string]: any
 	}
 
+	export interface TournamentData{
+		tournaments:{
+      nodes: any[]
+		}
+	}
+
+	export interface TournamentOptions{
+		filterDQs?: boolean,
+		filterByes?: boolean,
+		filterResets?: boolean,
+		page?: number | null,
+		perPage?: number | null,
+		sortBy?: null | 'NONE' | 'STANDARD' | 'RACE_SPECTATOR' | 'ADMIN',
+		filters?: null | {
+			entrantIds?: number[],
+			state?: number[],
+			stationIds?: number[],
+			phaseIds?: number[],
+			phaseGroupIds?: number[],
+			roundNumber?: number
+		}
+	}
+
+	export function getDefaultTournamentOptions() : TournamentOptions{
+		return {
+			page: 1,
+			perPage: null,
+			sortBy: null,
+			filters: null
+		}
+	}
 }

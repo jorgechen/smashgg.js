@@ -106,6 +106,19 @@ exports.tournamentEvents = `query TournamentEvents($id: ID!){
         }
     }
 }`;
+exports.tournaments = `query Tournaments($page: Int, $perPage: Int, $sortBy: String, $filter: TournamentPageFilter){
+  tournaments(query: {
+    page: $page,
+    perPage: $perPage,
+    sortBy: $sortBy,
+    filter: $filter
+  }){
+    {pageInfo}
+    nodes{
+      ${Schema.tournament}
+    }
+  }
+}`;
 exports.tournamentPhases = `query TournamentPhases($id: ID!){
     tournament(id: $id){
         events{
