@@ -116,6 +116,12 @@ exports.tournaments = `query Tournaments($page: Int, $perPage: Int, $sortBy: Str
     {pageInfo}
     nodes{
       ${Schema.tournament}
+      events {
+        id
+        name
+        slug
+        videogameId
+      }
     }
   }
 }`;

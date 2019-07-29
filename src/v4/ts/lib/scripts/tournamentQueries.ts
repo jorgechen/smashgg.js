@@ -115,6 +115,12 @@ export const tournaments = `query Tournaments($page: Int, $perPage: Int, $sortBy
     {pageInfo}
     nodes{
       ${Schema.tournament}
+      events {
+        id
+        name
+        slug
+        videogameId
+      }
     }
   }
 }`
