@@ -125,6 +125,7 @@ exports.tournaments = `query Tournaments($page: Int, $perPage: Int, $sortBy: Str
         name
         slug
         videogameId
+        numEntrants
       }
     }
   }
