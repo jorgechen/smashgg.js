@@ -1,4 +1,52 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -10,191 +58,387 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_1 = __importDefault(require("lodash"));
-const util_1 = require("util");
-const events_1 = require("events");
-const Logger_1 = __importDefault(require("./util/Logger"));
-const Phase_1 = require("./Phase");
-const PhaseGroup_1 = require("./PhaseGroup");
-const GGSet_1 = require("./GGSet");
-const Entrant_1 = require("./Entrant");
-const Attendee_1 = require("./Attendee");
-const NetworkInterface_1 = __importDefault(require("./util/NetworkInterface"));
-const queries = __importStar(require("./scripts/eventQueries"));
-const Standing_1 = require("./Standing");
-class Event extends events_1.EventEmitter {
-    constructor(id, name, slug, state, startAt, numEntrants, checkInBuffer, checkInDuration, checkInEnabled, isOnline, teamNameAllowed, teamManagementDeadline) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.slug = slug;
-        this.state = state;
-        this.startAt = startAt;
-        this.numEntrants = numEntrants;
-        this.checkInBuffer = checkInBuffer;
-        this.checkInDuration = checkInDuration;
-        this.checkInEnabled = checkInEnabled;
-        this.isOnline = isOnline;
-        this.teamNameAllowed = teamNameAllowed;
-        this.teamManagementDeadline = teamManagementDeadline;
+var lodash_1 = __importDefault(require("lodash"));
+var util_1 = require("util");
+var events_1 = require("events");
+var Logger_1 = __importDefault(require("./util/Logger"));
+var Phase_1 = require("./Phase");
+var PhaseGroup_1 = require("./PhaseGroup");
+var GGSet_1 = require("./GGSet");
+var Entrant_1 = require("./Entrant");
+var Attendee_1 = require("./Attendee");
+var NetworkInterface_1 = __importDefault(require("./util/NetworkInterface"));
+var queries = __importStar(require("./scripts/eventQueries"));
+var Standing_1 = require("./Standing");
+var Event = /** @class */ (function (_super) {
+    __extends(Event, _super);
+    function Event(id, name, slug, state, startAt, numEntrants, checkInBuffer, checkInDuration, checkInEnabled, isOnline, teamNameAllowed, teamManagementDeadline) {
+        var _this = _super.call(this) || this;
+        _this.id = id;
+        _this.name = name;
+        _this.slug = slug;
+        _this.state = state;
+        _this.startAt = startAt;
+        _this.numEntrants = numEntrants;
+        _this.checkInBuffer = checkInBuffer;
+        _this.checkInDuration = checkInDuration;
+        _this.checkInEnabled = checkInEnabled;
+        _this.isOnline = isOnline;
+        _this.teamNameAllowed = teamNameAllowed;
+        _this.teamManagementDeadline = teamManagementDeadline;
+        return _this;
     }
-    static parse(data) {
+    Event.parse = function (data) {
         return new Event(data.id, data.name, data.slug, data.state, data.startAt, data.numEntrants, data.checkInBuffer, data.checkInDuration, data.checkInEnabled, data.isOnline, data.teamNameAllowed, data.teamManagementDeadline);
-    }
-    static parseFull(data) {
+    };
+    Event.parseFull = function (data) {
         return Event.parse(data.event);
-    }
-    static async get(tournamentSlug, eventSlug) {
-        Logger_1.default.info('Getting Event with tournament slug %s and event slug %s', tournamentSlug, eventSlug);
-        let slug = util_1.format('tournament/%s/event/%s', tournamentSlug, eventSlug);
-        return Event.getBySlug(slug);
-    }
-    static async getById(id) {
-        Logger_1.default.info('Getting Event with id %s', id);
-        let data = await NetworkInterface_1.default.query(queries.event, { id: id });
-        return Event.parseFull(data);
-    }
-    static async getBySlug(slug) {
-        Logger_1.default.info('Getting Event with slug "%s"', slug);
-        let data = await NetworkInterface_1.default.query(queries.eventSlug, { slug: slug });
-        return Event.parseFull(data);
-    }
-    getId() {
+    };
+    Event.get = function (tournamentSlug, eventSlug) {
+        return __awaiter(this, void 0, void 0, function () {
+            var slug;
+            return __generator(this, function (_a) {
+                Logger_1.default.info('Getting Event with tournament slug %s and event slug %s', tournamentSlug, eventSlug);
+                slug = util_1.format('tournament/%s/event/%s', tournamentSlug, eventSlug);
+                return [2 /*return*/, Event.getBySlug(slug)];
+            });
+        });
+    };
+    Event.getById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Event with id %s', id);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.event, { id: id })];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, Event.parseFull(data)];
+                }
+            });
+        });
+    };
+    Event.getBySlug = function (slug) {
+        return __awaiter(this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Event with slug "%s"', slug);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.eventSlug, { slug: slug })];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, Event.parseFull(data)];
+                }
+            });
+        });
+    };
+    Event.prototype.getId = function () {
         return this.id;
-    }
-    getName() {
+    };
+    Event.prototype.getName = function () {
         return this.name;
-    }
-    getSlug() {
+    };
+    Event.prototype.getSlug = function () {
         return this.slug;
-    }
-    getState() {
+    };
+    Event.prototype.getState = function () {
         return this.state;
-    }
-    getNumEntrants() {
+    };
+    Event.prototype.getNumEntrants = function () {
         return this.numEntrants;
-    }
-    getCheckInBuffer() {
+    };
+    Event.prototype.getCheckInBuffer = function () {
         return this.checkInBuffer;
-    }
-    getCheckInDuration() {
+    };
+    Event.prototype.getCheckInDuration = function () {
         return this.checkInDuration;
-    }
-    getCheckInEnabled() {
+    };
+    Event.prototype.getCheckInEnabled = function () {
         return this.checkInEnabled;
-    }
-    getIsOnline() {
+    };
+    Event.prototype.getIsOnline = function () {
         return this.isOnline;
-    }
-    getTeamNameAllowed() {
+    };
+    Event.prototype.getTeamNameAllowed = function () {
         return this.teamNameAllowed;
-    }
-    getTeamManagementDeadline() {
+    };
+    Event.prototype.getTeamManagementDeadline = function () {
         return this.teamManagementDeadline;
-    }
+    };
     // aggregation
-    async getStandingsRaw() {
-        const { id, name } = this;
-        Logger_1.default.info('Getting Standings for Event [%s :: %s]', id, name);
-        const options = { page: 1 };
-        let data = await NetworkInterface_1.default.paginatedQuery(`Event Entrants [${id} :: ${name}]`, queries.eventStandings, { id }, options, {}, 2);
-        // return data
-        let standingData = lodash_1.default.flatten(data.map(d => d.event.standings.nodes));
-        return standingData;
-    }
-    async getStandings() {
-        const { id } = this;
-        const standingData = await this.getStandingsRaw();
-        const standings = standingData.map(item => Standing_1.Standing.parse(item, id));
-        return standings;
-    }
-    async getTournamentRaw() {
-        const { id } = this;
-        const data = await NetworkInterface_1.default.query(queries.eventTournament, { id });
-        return data.event.tournament;
-    }
-    async getPhases() {
-        Logger_1.default.info('Getting Phases for Event [%s :: %s]', this.id, this.name);
-        let data = await NetworkInterface_1.default.query(queries.eventPhases, { id: this.id });
-        return data.event.phases.map(phaseData => Phase_1.Phase.parse(phaseData, this.id));
-    }
-    async getPhaseGroups() {
-        Logger_1.default.info('Getting Phase Groups for Event [%s :: %s]', this.id, this.name);
-        let data = await NetworkInterface_1.default.query(queries.eventPhaseGroups, { id: this.id });
-        return data.event.phaseGroups.map(phaseGroupData => PhaseGroup_1.PhaseGroup.parse(phaseGroupData));
-    }
-    async getEntrants(options = Entrant_1.IEntrant.getDefaultEntrantOptions()) {
-        Logger_1.default.info('Getting Entrants for Event [%s :: %s]', this.id, this.name);
-        if (!options.areSeedsPublished)
-            return this.getEntrants2(options);
-        let pgs = await this.getPhaseGroups();
-        let entrants = await NetworkInterface_1.default.clusterQuery(pgs, 'getEntrants', options);
-        return lodash_1.default.flatten(entrants);
-    }
-    async getAttendees(options = Attendee_1.IAttendee.getDefaultAttendeeOptions()) {
-        Logger_1.default.info('Getting Attendees for Event [%s :: %s]', this.id, this.name);
-        if (!options.areSeedsPublished)
-            return this.getAttendees2(options);
-        let pgs = await this.getPhaseGroups();
-        let attendees = await NetworkInterface_1.default.clusterQuery(pgs, "getAttendees", options);
-        if (options.isVerified)
-            attendees = attendees.filter(attendee => attendee.getVerified());
-        return lodash_1.default.flatten(attendees);
-    }
-    async getSets(options = GGSet_1.IGGSet.getDefaultSetOptions()) {
-        Logger_1.default.info('Getting Sets for Event [%s :: %s]', this.id, this.name);
-        let pgs = await this.getPhaseGroups();
-        let sets = await NetworkInterface_1.default.clusterQuery(pgs, 'getSets', options);
-        return lodash_1.default.flatten(sets);
-    }
-    async getEntrants2(options = Entrant_1.IEntrant.getDefaultEntrantOptions()) {
-        Logger_1.default.info('Getting Entrants for Event [%s :: %s]', this.id, this.name);
-        let data = await NetworkInterface_1.default.paginatedQuery(`Event Entrants [${this.id} :: ${this.name}]`, queries.eventEntrants, { id: this.id }, options, {}, 2);
-        let entrantData = lodash_1.default.flatten(data.map(d => d.event.entrants.nodes));
-        let entrants = entrantData.map(entrant => Entrant_1.Entrant.parse(entrant));
-        return entrants;
-    }
-    async getAttendees2(options = Attendee_1.IAttendee.getDefaultAttendeeOptions()) {
-        Logger_1.default.info('Getting Attendees for Event [%s :: %s]', this.id, this.name);
-        let data = await NetworkInterface_1.default.paginatedQuery(`Event Attendees [${this.id} :: ${this.name}]`, queries.eventAttendees, { id: this.id }, options, {}, 3);
-        let attendeeData = lodash_1.default.flatten(data.map(d => d.event.tournament.participants.nodes));
-        let attendees = attendeeData.map(attendee => Attendee_1.Attendee.parse(attendee));
-        if (options.isVerified)
-            attendees = attendees.filter(attendee => attendee.getVerified());
-        return attendees;
-    }
-    async getSets2(options = GGSet_1.IGGSet.getDefaultSetOptions()) {
-        const { id, name } = this;
-        Logger_1.default.info('Getting Sets for Event [%s :: %s]', id, name);
-        let data = await NetworkInterface_1.default.paginatedQuery(`Event Sets [${id} :: ${name}]`, queries.eventSets, { id }, options, {}, 3);
-        let setData = lodash_1.default.flatten(data.map(d => d.event.sets.nodes));
-        let sets = setData.map(set => GGSet_1.GGSet.parse(set));
-        return sets;
-    }
-    async getSetsRaw(options = GGSet_1.IGGSet.getDefaultSetOptions()) {
-        const { id, name } = this;
-        Logger_1.default.info('Getting Sets for Event [%s :: %s]', id, name);
-        let data = await NetworkInterface_1.default.paginatedQuery(`Event Sets [${id} :: ${name}]`, queries.eventSetsRaw, { id }, options, {}, 3);
-        let setData = lodash_1.default.flatten(data.map(d => d.event.sets.nodes));
-        return setData;
-    }
+    Event.prototype.getStandingsRaw = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, id, name, options, data, standingData;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this, id = _a.id, name = _a.name;
+                        Logger_1.default.info('Getting Standings for Event [%s :: %s]', id, name);
+                        options = { page: 1 };
+                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Entrants [" + id + " :: " + name + "]", queries.eventStandings, { id: id }, options, {}, 2)
+                            // return data
+                        ];
+                    case 1:
+                        data = _b.sent();
+                        standingData = lodash_1.default.flatten(data.map(function (d) { return d.event.standings.nodes; }));
+                        return [2 /*return*/, standingData];
+                }
+            });
+        });
+    };
+    Event.prototype.getStandings = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var id, standingData, standings;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        id = this.id;
+                        return [4 /*yield*/, this.getStandingsRaw()];
+                    case 1:
+                        standingData = _a.sent();
+                        standings = standingData.map(function (item) { return Standing_1.Standing.parse(item, id); });
+                        return [2 /*return*/, standings];
+                }
+            });
+        });
+    };
+    Event.prototype.getTournamentRaw = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var id, data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        id = this.id;
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.eventTournament, { id: id })];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, data.event.tournament];
+                }
+            });
+        });
+    };
+    Event.prototype.getPhases = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var data;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Phases for Event [%s :: %s]', this.id, this.name);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.eventPhases, { id: this.id })];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, data.event.phases.map(function (phaseData) { return Phase_1.Phase.parse(phaseData, _this.id); })];
+                }
+            });
+        });
+    };
+    Event.prototype.getPhaseGroups = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Phase Groups for Event [%s :: %s]', this.id, this.name);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.eventPhaseGroups, { id: this.id })];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, data.event.phaseGroups.map(function (phaseGroupData) { return PhaseGroup_1.PhaseGroup.parse(phaseGroupData); })];
+                }
+            });
+        });
+    };
+    Event.prototype.getEntrants = function (options) {
+        if (options === void 0) { options = Entrant_1.IEntrant.getDefaultEntrantOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var pgs, entrants;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Entrants for Event [%s :: %s]', this.id, this.name);
+                        if (!options.areSeedsPublished)
+                            return [2 /*return*/, this.getEntrants2(options)];
+                        return [4 /*yield*/, this.getPhaseGroups()];
+                    case 1:
+                        pgs = _a.sent();
+                        return [4 /*yield*/, NetworkInterface_1.default.clusterQuery(pgs, 'getEntrants', options)];
+                    case 2:
+                        entrants = _a.sent();
+                        return [2 /*return*/, lodash_1.default.flatten(entrants)];
+                }
+            });
+        });
+    };
+    Event.prototype.getAttendees = function (options) {
+        if (options === void 0) { options = Attendee_1.IAttendee.getDefaultAttendeeOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var pgs, attendees;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Attendees for Event [%s :: %s]', this.id, this.name);
+                        if (!options.areSeedsPublished)
+                            return [2 /*return*/, this.getAttendees2(options)];
+                        return [4 /*yield*/, this.getPhaseGroups()];
+                    case 1:
+                        pgs = _a.sent();
+                        return [4 /*yield*/, NetworkInterface_1.default.clusterQuery(pgs, "getAttendees", options)];
+                    case 2:
+                        attendees = _a.sent();
+                        if (options.isVerified)
+                            attendees = attendees.filter(function (attendee) { return attendee.getVerified(); });
+                        return [2 /*return*/, lodash_1.default.flatten(attendees)];
+                }
+            });
+        });
+    };
+    Event.prototype.getSets = function (options) {
+        if (options === void 0) { options = GGSet_1.IGGSet.getDefaultSetOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var pgs, sets;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Sets for Event [%s :: %s]', this.id, this.name);
+                        return [4 /*yield*/, this.getPhaseGroups()];
+                    case 1:
+                        pgs = _a.sent();
+                        return [4 /*yield*/, NetworkInterface_1.default.clusterQuery(pgs, 'getSets', options)];
+                    case 2:
+                        sets = _a.sent();
+                        return [2 /*return*/, lodash_1.default.flatten(sets)];
+                }
+            });
+        });
+    };
+    Event.prototype.getEntrants2 = function (options) {
+        if (options === void 0) { options = Entrant_1.IEntrant.getDefaultEntrantOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var data, entrantData, entrants;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Entrants for Event [%s :: %s]', this.id, this.name);
+                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Entrants [" + this.id + " :: " + this.name + "]", queries.eventEntrants, { id: this.id }, options, {}, 2)];
+                    case 1:
+                        data = _a.sent();
+                        entrantData = lodash_1.default.flatten(data.map(function (d) { return d.event.entrants.nodes; }));
+                        entrants = entrantData.map(function (entrant) { return Entrant_1.Entrant.parse(entrant); });
+                        return [2 /*return*/, entrants];
+                }
+            });
+        });
+    };
+    Event.prototype.getAttendees2 = function (options) {
+        if (options === void 0) { options = Attendee_1.IAttendee.getDefaultAttendeeOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var data, attendeeData, attendees;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Attendees for Event [%s :: %s]', this.id, this.name);
+                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Attendees [" + this.id + " :: " + this.name + "]", queries.eventAttendees, { id: this.id }, options, {}, 3)];
+                    case 1:
+                        data = _a.sent();
+                        attendeeData = lodash_1.default.flatten(data.map(function (d) { return d.event.tournament.participants.nodes; }));
+                        attendees = attendeeData.map(function (attendee) { return Attendee_1.Attendee.parse(attendee); });
+                        if (options.isVerified)
+                            attendees = attendees.filter(function (attendee) { return attendee.getVerified(); });
+                        return [2 /*return*/, attendees];
+                }
+            });
+        });
+    };
+    Event.prototype.getSets2 = function (options) {
+        if (options === void 0) { options = GGSet_1.IGGSet.getDefaultSetOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, id, name, data, setData, sets;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this, id = _a.id, name = _a.name;
+                        Logger_1.default.info('Getting Sets for Event [%s :: %s]', id, name);
+                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Sets [" + id + " :: " + name + "]", queries.eventSets, { id: id }, options, {}, 3)];
+                    case 1:
+                        data = _b.sent();
+                        setData = lodash_1.default.flatten(data.map(function (d) { return d.event.sets.nodes; }));
+                        sets = setData.map(function (set) { return GGSet_1.GGSet.parse(set); });
+                        return [2 /*return*/, sets];
+                }
+            });
+        });
+    };
+    Event.prototype.getSetsRaw = function (options) {
+        if (options === void 0) { options = GGSet_1.IGGSet.getDefaultSetOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, id, name, data, setData;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this, id = _a.id, name = _a.name;
+                        Logger_1.default.info('Getting Sets for Event [%s :: %s]', id, name);
+                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Sets [" + id + " :: " + name + "]", queries.eventSetsRaw, { id: id }, options, {}, 3)];
+                    case 1:
+                        data = _b.sent();
+                        setData = lodash_1.default.flatten(data.map(function (d) { return d.event.sets.nodes; }));
+                        return [2 /*return*/, setData];
+                }
+            });
+        });
+    };
     // need coverage
-    async getIncompleteSets(options = GGSet_1.IGGSet.getDefaultSetOptions()) {
-        Logger_1.default.info('Getting Incomplete Sets for Event [%s :: %s]', this.id, this.name);
-        let sets = await this.getSets(options);
-        return GGSet_1.GGSet.filterForIncompleteSets(sets);
-    }
+    Event.prototype.getIncompleteSets = function (options) {
+        if (options === void 0) { options = GGSet_1.IGGSet.getDefaultSetOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var sets;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Incomplete Sets for Event [%s :: %s]', this.id, this.name);
+                        return [4 /*yield*/, this.getSets(options)];
+                    case 1:
+                        sets = _a.sent();
+                        return [2 /*return*/, GGSet_1.GGSet.filterForIncompleteSets(sets)];
+                }
+            });
+        });
+    };
     // need coverage
-    async getCompleteSets(options = GGSet_1.IGGSet.getDefaultSetOptions()) {
-        Logger_1.default.info('Getting Completed Sets for Event [%s :: %s]', this.id, this.name);
-        let sets = await this.getSets(options);
-        return GGSet_1.GGSet.filterForCompleteSets(sets);
-    }
+    Event.prototype.getCompleteSets = function (options) {
+        if (options === void 0) { options = GGSet_1.IGGSet.getDefaultSetOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var sets;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Completed Sets for Event [%s :: %s]', this.id, this.name);
+                        return [4 /*yield*/, this.getSets(options)];
+                    case 1:
+                        sets = _a.sent();
+                        return [2 /*return*/, GGSet_1.GGSet.filterForCompleteSets(sets)];
+                }
+            });
+        });
+    };
     // need coverage
-    async getSetsXMinutesBack(minutes, options = GGSet_1.IGGSet.getDefaultSetOptions()) {
-        Logger_1.default.info('Getting sets completed %s minutes ago for Event [%s :: %s]', minutes, this.id, this.name);
-        let sets = await this.getSets(options);
-        return GGSet_1.GGSet.filterForXMinutesBack(sets, minutes);
-    }
-}
+    Event.prototype.getSetsXMinutesBack = function (minutes, options) {
+        if (options === void 0) { options = GGSet_1.IGGSet.getDefaultSetOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var sets;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting sets completed %s minutes ago for Event [%s :: %s]', minutes, this.id, this.name);
+                        return [4 /*yield*/, this.getSets(options)];
+                    case 1:
+                        sets = _a.sent();
+                        return [2 /*return*/, GGSet_1.GGSet.filterForXMinutesBack(sets, minutes)];
+                }
+            });
+        });
+    };
+    return Event;
+}(events_1.EventEmitter));
 exports.Event = Event;

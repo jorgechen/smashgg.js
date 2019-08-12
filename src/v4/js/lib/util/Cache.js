@@ -3,13 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Logger_1 = __importDefault(require("./Logger"));
-const node_cache_1 = __importDefault(require("node-cache"));
-const bluebird_1 = require("bluebird");
-const TTL = process.env.CacheTTL || 600;
-const CHECK_PERIOD = process.env.CacheCheckPeriod || 60;
-class Cache {
-    static init() {
+var Logger_1 = __importDefault(require("./Logger"));
+var node_cache_1 = __importDefault(require("node-cache"));
+var bluebird_1 = require("bluebird");
+var TTL = process.env.CacheTTL || 600;
+var CHECK_PERIOD = process.env.CacheCheckPeriod || 60;
+var Cache = /** @class */ (function () {
+    function Cache() {
+    }
+    Cache.init = function () {
         if (!Cache.initialized) {
             Cache.instance = bluebird_1.promisifyAll(new node_cache_1.default({
                 stdTTL: +TTL,
@@ -17,8 +19,8 @@ class Cache {
             }));
             Cache.initialized = true;
         }
-    }
-    static getInstance() {
+    };
+    Cache.getInstance = function () {
         if (!Cache.instance) {
             Cache.instance = new node_cache_1.default({
                 stdTTL: 600,
@@ -26,8 +28,8 @@ class Cache {
             });
         }
         return Cache.instance;
-    }
-    static get(key) {
+    };
+    Cache.get = function (key) {
         return new Promise(function (resolve, reject) {
             Logger_1.default.debug('Fetching (%s) from cache', key);
             Cache.getInstance().get(key, function (err, value) {
@@ -37,8 +39,8 @@ class Cache {
                     return resolve(value);
             });
         });
-    }
-    static set(key, val) {
+    };
+    Cache.set = function (key, val) {
         return new Promise(function (resolve, reject) {
             Logger_1.default.debug('Setting (%s) to value [%s]', key, val);
             Cache.getInstance().set(key, val, function (err, success) {
@@ -48,8 +50,8 @@ class Cache {
                     return reject(new Error('Error setting cache value'));
             });
         });
-    }
-    static keys() {
+    };
+    Cache.keys = function () {
         return new Promise(function (resolve, reject) {
             Logger_1.default.debug('returning keys');
             Cache.getInstance().keys(function (err, keys) {
@@ -61,11 +63,12 @@ class Cache {
                     resolve(keys);
             });
         });
-    }
-    static flush() {
+    };
+    Cache.flush = function () {
         Logger_1.default.debug('flushing cache');
         Cache.getInstance().flushAll();
-    }
-}
-Cache.initialized = false;
+    };
+    Cache.initialized = false;
+    return Cache;
+}());
 exports.default = Cache;

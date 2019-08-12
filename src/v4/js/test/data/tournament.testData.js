@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Venue_1 = require("../../lib/Venue");
-const Oraganizer_1 = require("../../lib/Oraganizer");
+var Venue_1 = require("../../lib/Venue");
+var Oraganizer_1 = require("../../lib/Oraganizer");
 exports.tournament1 = {
     "id": 6620,
     "name": "Tipped Off 12 , Presented by The Lab Gaming Center!",

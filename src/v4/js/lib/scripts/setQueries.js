@@ -7,36 +7,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Schema = __importStar(require("./schema"));
-exports.set = `query SetQuery($id: String!){
-	set(id:$id){
-		${Schema.set}
-	}
-}`;
-exports.games = `query SetQuery($id: String!){
-	set(id:$id){
-		games{
-			${Schema.game}
-		}
-	}
-}`;
-exports.entrants = `query SetEntrants($id: String!){
-	set(id: $id){
-		slots{
-			entrant{
-				${Schema.entrant}
-			}
-		}
-	}
-}`;
-exports.attendees = `query SetParticipants($id: String!){
-	set(id: $id){
-		slots{
-			entrant{
-				participants{
-					${Schema.attendee}
-				}
-			}
-		}
-	}
-}`;
+var Schema = __importStar(require("./schema"));
+exports.set = "query SetQuery($id: String!){\n\tset(id:$id){\n\t\t" + Schema.set + "\n\t}\n}";
+exports.games = "query SetQuery($id: String!){\n\tset(id:$id){\n\t\tgames{\n\t\t\t" + Schema.game + "\n\t\t}\n\t}\n}";
+exports.entrants = "query SetEntrants($id: String!){\n\tset(id: $id){\n\t\tslots{\n\t\t\tentrant{\n\t\t\t\t" + Schema.entrant + "\n\t\t\t}\n\t\t}\n\t}\n}";
+exports.attendees = "query SetParticipants($id: String!){\n\tset(id: $id){\n\t\tslots{\n\t\t\tentrant{\n\t\t\t\tparticipants{\n\t\t\t\t\t" + Schema.attendee + "\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}";

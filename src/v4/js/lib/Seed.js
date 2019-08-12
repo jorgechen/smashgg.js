@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Seed {
-    constructor(id, entrantId, placeholderName, seedNumber, placement, isBye) {
+var Seed = /** @class */ (function () {
+    function Seed(id, entrantId, placeholderName, seedNumber, placement, isBye) {
         this.id = id;
         this.entrantId = entrantId;
         this.placeholderName = placeholderName;
@@ -9,13 +9,14 @@ class Seed {
         this.placement = placement;
         this.isBye = isBye;
     }
-    static parse(data) {
+    Seed.parse = function (data) {
         return new Seed(data.id, data.entrantId, data.placeholderName, data.seedNumber, data.placement, data.isBye);
-    }
-    static parseFull(data) {
-        return data.seed.map(seedData => Seed.parse(seedData));
-    }
-}
+    };
+    Seed.parseFull = function (data) {
+        return data.seed.map(function (seedData) { return Seed.parse(seedData); });
+    };
+    return Seed;
+}());
 exports.Seed = Seed;
 var ISeed;
 (function (ISeed) {

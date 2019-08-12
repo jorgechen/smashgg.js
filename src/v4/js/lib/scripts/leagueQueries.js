@@ -7,113 +7,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Schema = __importStar(require("./schema"));
-exports.league = `query LeagueQuery($id: ID!){
-  league(id: $id){
-    ${Schema.league}
-  }
-}`;
-exports.leagueBySlug = `query LeagueQuery($slug: String) {
-  league(slug: $slug){
-    ${Schema.league}
-  }
-}`;
-exports.leagueEntrants = `query LeagueEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
-  league(id: $id){
-    events{
-      entrants(query: {
-        page: $page,
-        perPage: $perPage,
-        sortBy: $sortBy,
-        filter: $filter
-      }){
-        {pageInfo}
-        nodes{
-          ${Schema.entrant}
-        }
-      }
-    }
-  }
-}`;
-exports.leagueEvents = `query LeagueEvents($id: ID!){
-  league(id: $id){
-    events{
-    	nodes {
-      	${Schema.event}
-      }
-      pageInfo {
-      	${Schema.PageInfo}
-      }
-    }
-  }
-}`;
-exports.leaguePhases = `query LeaguePhases($id: ID!){
-  league(id: $id){
-    events{
-    	nodes{
-				id
-				phases{
-					${Schema.phase}
-				}
-			}
-			pageInfo{
-				${Schema.PageInfo}
-			}
-    }
-  }   
-}`;
-exports.leaguePhaseGroups = `query LeaguePhaseGroups($id: ID!){
-  league(id: $id){
-    events{
-    	nodes{
-				phaseGroups{
-					${Schema.phaseGroup}
-      	}
-      }
-			pageInfo{
-				${Schema.PageInfo}
-			}
-    }
-  }   
-}`;
+var Schema = __importStar(require("./schema"));
+exports.league = "query LeagueQuery($id: ID!){\n  league(id: $id){\n    " + Schema.league + "\n  }\n}";
+exports.leagueBySlug = "query LeagueQuery($slug: String) {\n  league(slug: $slug){\n    " + Schema.league + "\n  }\n}";
+exports.leagueEntrants = "query LeagueEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){\n  league(id: $id){\n    events{\n      entrants(query: {\n        page: $page,\n        perPage: $perPage,\n        sortBy: $sortBy,\n        filter: $filter\n      }){\n        {pageInfo}\n        nodes{\n          " + Schema.entrant + "\n        }\n      }\n    }\n  }\n}";
+exports.leagueEvents = "query LeagueEvents($id: ID!){\n  league(id: $id){\n    events{\n    \tnodes {\n      \t" + Schema.event + "\n      }\n      pageInfo {\n      \t" + Schema.PageInfo + "\n      }\n    }\n  }\n}";
+exports.leaguePhases = "query LeaguePhases($id: ID!){\n  league(id: $id){\n    events{\n    \tnodes{\n\t\t\t\tid\n\t\t\t\tphases{\n\t\t\t\t\t" + Schema.phase + "\n\t\t\t\t}\n\t\t\t}\n\t\t\tpageInfo{\n\t\t\t\t" + Schema.PageInfo + "\n\t\t\t}\n    }\n  }   \n}";
+exports.leaguePhaseGroups = "query LeaguePhaseGroups($id: ID!){\n  league(id: $id){\n    events{\n    \tnodes{\n\t\t\t\tphaseGroups{\n\t\t\t\t\t" + Schema.phaseGroup + "\n      \t}\n      }\n\t\t\tpageInfo{\n\t\t\t\t" + Schema.PageInfo + "\n\t\t\t}\n    }\n  }   \n}";
 /** WARNING THIS DOES NOT WORK CURRENTLY DUE TO RECURSIVE LIMITATIONS, Use leaguePhaseGroupIds instead **/
-exports.leagueSets = `query LeagueSets($id: ID!){
-  league(id: $id){
-    events{
-			nodes {
-				phaseGroups{
-					sets{
-						${Schema.set}
-					}
-				}
-      }
-			pageInfo{
-				${Schema.PageInfo}
-			}
-    }
-  }   
-}`;
-exports.leaguePhaseGroupIds = `query PhaseGroupIdQuery($id: ID!){
-  league(id: $id){
-    events{
-      id
-      phaseGroups{
-        id
-      }
-    }
-  }
-}`;
-exports.leagueStandings = `query LeagueStandings($id: ID!, $page: Int, $perPage: Int){
-    league(id: $id){
-        standings(query: {
-            page: $page,
-            perPage: $perPage,
-        }){
-            nodes{
-                ${Schema.standing}
-            }
-            {pageInfo}
-        }
-    }
-}
-`;
+exports.leagueSets = "query LeagueSets($id: ID!){\n  league(id: $id){\n    events{\n\t\t\tnodes {\n\t\t\t\tphaseGroups{\n\t\t\t\t\tsets{\n\t\t\t\t\t\t" + Schema.set + "\n\t\t\t\t\t}\n\t\t\t\t}\n      }\n\t\t\tpageInfo{\n\t\t\t\t" + Schema.PageInfo + "\n\t\t\t}\n    }\n  }   \n}";
+exports.leaguePhaseGroupIds = "query PhaseGroupIdQuery($id: ID!){\n  league(id: $id){\n    events{\n      id\n      phaseGroups{\n        id\n      }\n    }\n  }\n}";
+exports.leagueStandings = "query LeagueStandings($id: ID!, $page: Int, $perPage: Int){\n    league(id: $id){\n        standings(query: {\n            page: $page,\n            perPage: $perPage,\n        }){\n            nodes{\n                " + Schema.standing + "\n            }\n            {pageInfo}\n        }\n    }\n}\n";

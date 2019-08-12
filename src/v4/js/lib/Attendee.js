@@ -1,4 +1,39 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -11,15 +46,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /** aka Participant **/
-const lodash_1 = __importDefault(require("lodash"));
-const Logger_1 = __importDefault(require("./util/Logger"));
-const User_1 = require("./User"); // TODO change to internal later
-const Phase_1 = require("./Phase");
-const PhaseGroup_1 = require("./PhaseGroup");
-const queries = __importStar(require("./scripts/attendeeQueries"));
-const NetworkInterface_1 = __importDefault(require("./util/NetworkInterface"));
-class Attendee {
-    constructor(id, gamerTag, prefix, createdAt, claimed, verified, playerId, phoneNumber, connectedAccounts, contactInfo, eventIds) {
+var lodash_1 = __importDefault(require("lodash"));
+var Logger_1 = __importDefault(require("./util/Logger"));
+var User_1 = require("./User"); // TODO change to internal later
+var Phase_1 = require("./Phase");
+var PhaseGroup_1 = require("./PhaseGroup");
+var queries = __importStar(require("./scripts/attendeeQueries"));
+var NetworkInterface_1 = __importDefault(require("./util/NetworkInterface"));
+var Attendee = /** @class */ (function () {
+    function Attendee(id, gamerTag, prefix, createdAt, claimed, verified, playerId, phoneNumber, connectedAccounts, contactInfo, eventIds) {
         this.id = id;
         this.gamerTag = gamerTag;
         this.prefix = prefix;
@@ -32,129 +67,158 @@ class Attendee {
         this.connectedAccounts = connectedAccounts;
         this.eventIds = eventIds;
     }
-    static parse(data) {
-        let eventIds = data.events.map(event => event.id);
+    Attendee.parse = function (data) {
+        var eventIds = data.events.map(function (event) { return event.id; });
         return new Attendee(data.id, data.gamerTag, data.prefix, data.createdAt, data.claimed, data.verified, data.playerId, data.phoneNumber, data.connectedAccounts, data.contactInfo, eventIds);
-    }
-    static parseFull(data) {
+    };
+    Attendee.parseFull = function (data) {
         return this.parse(data.participant);
-    }
-    static eq(a1, a2) {
+    };
+    Attendee.eq = function (a1, a2) {
         return a1.gamerTag == a2.gamerTag &&
             a1.prefix == a2.prefix &&
             a1.playerId == a2.playerId;
-    }
-    getId() {
+    };
+    Attendee.prototype.getId = function () {
         return this.id;
-    }
-    getGamerTag() {
+    };
+    Attendee.prototype.getGamerTag = function () {
         return this.gamerTag;
-    }
-    getSponsor() {
+    };
+    Attendee.prototype.getSponsor = function () {
         return this.prefix;
-    }
-    getCreatedAt() {
+    };
+    Attendee.prototype.getCreatedAt = function () {
         return this.createdAt;
-    }
-    getClaimed() {
+    };
+    Attendee.prototype.getClaimed = function () {
         return this.claimed;
-    }
-    getVerified() {
+    };
+    Attendee.prototype.getVerified = function () {
         return this.verified;
-    }
-    getPlayerId() {
+    };
+    Attendee.prototype.getPlayerId = function () {
         return this.playerId;
-    }
-    getPhoneNumber() {
+    };
+    Attendee.prototype.getPhoneNumber = function () {
         return this.phoneNumber;
-    }
-    getContactInfo() {
+    };
+    Attendee.prototype.getContactInfo = function () {
         return this.contactInfo;
-    }
-    getCity() {
+    };
+    Attendee.prototype.getCity = function () {
         if (this.contactInfo)
             return this.contactInfo.city;
         else
             return null;
-    }
-    getState() {
+    };
+    Attendee.prototype.getState = function () {
         if (this.contactInfo)
             return this.contactInfo.state;
         else
             return null;
-    }
-    getStateId() {
+    };
+    Attendee.prototype.getStateId = function () {
         if (this.contactInfo)
             return this.contactInfo.stateId;
         else
             return null;
-    }
-    getCountry() {
+    };
+    Attendee.prototype.getCountry = function () {
         if (this.contactInfo)
             return this.contactInfo.country;
         else
             return null;
-    }
-    getCountryId() {
+    };
+    Attendee.prototype.getCountryId = function () {
         if (this.contactInfo)
             return this.contactInfo.countryId;
         else
             return null;
-    }
-    getContactName() {
+    };
+    Attendee.prototype.getContactName = function () {
         if (this.contactInfo)
             return this.contactInfo.name;
         else
             return null;
-    }
-    getFirstName() {
+    };
+    Attendee.prototype.getFirstName = function () {
         if (this.contactInfo)
             return this.contactInfo.nameFirst;
         else
             return null;
-    }
-    getLastName() {
+    };
+    Attendee.prototype.getLastName = function () {
         if (this.contactInfo)
             return this.contactInfo.nameLast;
         else
             return null;
-    }
-    getZipcode() {
+    };
+    Attendee.prototype.getZipcode = function () {
         if (this.contactInfo)
             return this.contactInfo.zipcode;
         else
             return null;
-    }
-    getConnectedAccounts() {
+    };
+    Attendee.prototype.getConnectedAccounts = function () {
         return this.connectedAccounts;
-    }
+    };
     /* TODO implement
     async getEvents() : Promise<Event[]> {
         Log.info('Getting Events that Attendee %s (Participant %s) entered', this.gamerTag, this.id);
         return Event.getByIds();
     }
     */
-    async getUserAccount() {
-        Logger_1.default.info('Getting User account that Attendee %s (Participant %s) entered', this.gamerTag, this.id);
-        return await User_1.User.getById(this.playerId);
-    }
-    async getEnteredPhases() {
-        Logger_1.default.info('Getting Phases that Attendee %s (Participant %s) entered', this.gamerTag, this.id);
-        const data = await NetworkInterface_1.default.query(queries.getAttendeePhases, { id: this.id });
-        const seedData = lodash_1.default.flatten(data.participant.entrants.map(entrant => entrant.seeds));
-        const phaseData = lodash_1.default.flatten(seedData.map(seed => seed.phase));
-        const phases = phaseData.map(data => Phase_1.Phase.parse(data));
-        return phases;
-    }
-    async getEnteredPhaseGroups() {
-        Logger_1.default.info('Getting Phase Groups that Attendee %s (Participant %s) entered', this.gamerTag, this.id);
-        const data = await NetworkInterface_1.default.query(queries.getAttendeePhaseGroups, { id: this.id });
-        const seedData = lodash_1.default.flatten(data.participant.entrants.map(entrant => entrant.seeds));
-        const groupData = lodash_1.default.flatten(seedData.map(seed => seed.phaseGroup));
-        const groups = groupData.map(data => PhaseGroup_1.PhaseGroup.parse(data));
-        return groups;
-    }
-}
+    Attendee.prototype.getUserAccount = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting User account that Attendee %s (Participant %s) entered', this.gamerTag, this.id);
+                        return [4 /*yield*/, User_1.User.getById(this.playerId)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    Attendee.prototype.getEnteredPhases = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var data, seedData, phaseData, phases;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Phases that Attendee %s (Participant %s) entered', this.gamerTag, this.id);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.getAttendeePhases, { id: this.id })];
+                    case 1:
+                        data = _a.sent();
+                        seedData = lodash_1.default.flatten(data.participant.entrants.map(function (entrant) { return entrant.seeds; }));
+                        phaseData = lodash_1.default.flatten(seedData.map(function (seed) { return seed.phase; }));
+                        phases = phaseData.map(function (data) { return Phase_1.Phase.parse(data); });
+                        return [2 /*return*/, phases];
+                }
+            });
+        });
+    };
+    Attendee.prototype.getEnteredPhaseGroups = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var data, seedData, groupData, groups;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Phase Groups that Attendee %s (Participant %s) entered', this.gamerTag, this.id);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.getAttendeePhaseGroups, { id: this.id })];
+                    case 1:
+                        data = _a.sent();
+                        seedData = lodash_1.default.flatten(data.participant.entrants.map(function (entrant) { return entrant.seeds; }));
+                        groupData = lodash_1.default.flatten(seedData.map(function (seed) { return seed.phaseGroup; }));
+                        groups = groupData.map(function (data) { return PhaseGroup_1.PhaseGroup.parse(data); });
+                        return [2 /*return*/, groups];
+                }
+            });
+        });
+    };
+    return Attendee;
+}());
 exports.Attendee = Attendee;
 var IAttendee;
 (function (IAttendee) {

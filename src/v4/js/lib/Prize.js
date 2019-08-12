@@ -1,14 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Prize {
-    constructor(markdown, payoutType, payoutTotal, prizing) {
+var Prize = /** @class */ (function () {
+    function Prize(markdown, payoutType, payoutTotal, prizing) {
         this.markdown = markdown;
         this.payoutType = payoutType;
         this.payoutTotal = payoutTotal;
         this.prizing = prizing;
     }
-    static parse(data) {
+    Prize.parse = function (data) {
         return null;
-    }
-}
+    };
+    return Prize;
+}());
 exports.Prize = Prize;

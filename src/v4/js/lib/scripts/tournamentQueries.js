@@ -7,167 +7,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Schema = __importStar(require("./schema"));
-exports.tournament = `query TournamentQuery($id: ID!){
-    tournament(id: $id){
-        ${Schema.tournament}
-    }
-}`;
-exports.tournamentBySlug = `query TournamentQuery($slug: String) {
-    tournament(slug: $slug){
-        ${Schema.tournament}
-    }
-}`;
-exports.tournamentOrganizer = `query tournamentOrganizer($id: ID!){
-    tournament(id: $id){
-        ${Schema.organizer}
-    }   
-}`;
-exports.tournamentVenue = `query tournamentVenue($id: ID!){
-    tournament(id: $id){
-		${Schema.venue}
-	}	
-}`;
-exports.tournamentEntrants = `query TournamentEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
-    tournament(id: $id){
-        events{
-            entrants(query: {
-                page: $page,
-                perPage: $perPage,
-                sortBy: $sortBy,
-                filter: $filter
-            }){
-                {pageInfo}
-                nodes{
-                    ${Schema.entrant}
-                }
-            }
-        }
-    }
-}`;
-exports.tournamentAttendees = `query TournamentAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: ParticipantPageFilter){
-    tournament(id: $id){
-        participants(query: {
-            page: $page,
-            perPage: $perPage,
-            sortBy: $sortBy,
-            filter: $filter
-        },
-        isAdmin: false){
-            {pageInfo}
-            nodes{
-                ${Schema.attendee}
-            }
-        }
-    }  
-}`;
-exports.tournamentAttendeeSearch = `query SearchTournamentAttendeesQuery($id:ID!, $smashtag:String){
-    tournament(id:$id){
-      participants(query:{
-        page: 1,
-        perPage: 50,
-        sortBy: "asc",
-        filter:{
-          search:{
-            fieldsToSearch:["gamerTag"],
-            searchString: $smashtag
-          }
-        }
-      }, isAdmin:false){
-        nodes{
-          ${Schema.attendee}
-        }
-      }
-    }
-  }`;
-exports.tournamentAttendeeSearchByPrefix = `query SearchTournamentAttendeesBySponsorQuery($id:ID!, $sponsor:String){
-    tournament(id:$id){
-      participants(query:{
-        page: 1,
-        perPage: 50,
-        sortBy: "asc",
-        filter:{
-          search:{
-            fieldsToSearch:["prefix"],
-            searchString: $sponsor
-          }
-        }
-      }, isAdmin:false){
-        nodes{
-          ${Schema.attendee}
-        }
-      }
-    }
-  }`;
-exports.tournamentEvents = `query TournamentEvents($id: ID!){
-    tournament(id: $id){
-        events:{
-            ${Schema.event}
-        }
-    }
-}`;
-exports.tournaments = `query Tournaments($page: Int, $perPage: Int, $sortBy: String, $filter: TournamentPageFilter){
-  tournaments(query: {
-    page: $page,
-    perPage: $perPage,
-    sortBy: $sortBy,
-    filter: $filter
-  }){
-    {pageInfo}
-    nodes{
-      id
-      name
-      slug
-      startAt
-      endAt
-      events {
-        id
-        name
-        slug
-        videogameId
-        numEntrants
-      }
-    }
-  }
-}`;
-exports.tournamentPhases = `query TournamentPhases($id: ID!){
-    tournament(id: $id){
-        events{
-            id
-            phases{
-                ${Schema.phase}
-            }
-        }
-    }   
-}`;
-exports.tournamentPhaseGroups = `query TournamentPhaseGroups($id: ID!){
-    tournament(id: $id){
-        events{
-            phaseGroups{
-                ${Schema.phaseGroup}
-            }
-        }
-    }   
-}`;
+var Schema = __importStar(require("./schema"));
+exports.tournament = "query TournamentQuery($id: ID!){\n    tournament(id: $id){\n        " + Schema.tournament + "\n    }\n}";
+exports.tournamentBySlug = "query TournamentQuery($slug: String) {\n    tournament(slug: $slug){\n        " + Schema.tournament + "\n    }\n}";
+exports.tournamentOrganizer = "query tournamentOrganizer($id: ID!){\n    tournament(id: $id){\n        " + Schema.organizer + "\n    }   \n}";
+exports.tournamentVenue = "query tournamentVenue($id: ID!){\n    tournament(id: $id){\n\t\t" + Schema.venue + "\n\t}\t\n}";
+exports.tournamentEntrants = "query TournamentEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){\n    tournament(id: $id){\n        events{\n            entrants(query: {\n                page: $page,\n                perPage: $perPage,\n                sortBy: $sortBy,\n                filter: $filter\n            }){\n                {pageInfo}\n                nodes{\n                    " + Schema.entrant + "\n                }\n            }\n        }\n    }\n}";
+exports.tournamentAttendees = "query TournamentAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: ParticipantPageFilter){\n    tournament(id: $id){\n        participants(query: {\n            page: $page,\n            perPage: $perPage,\n            sortBy: $sortBy,\n            filter: $filter\n        },\n        isAdmin: false){\n            {pageInfo}\n            nodes{\n                " + Schema.attendee + "\n            }\n        }\n    }  \n}";
+exports.tournamentAttendeeSearch = "query SearchTournamentAttendeesQuery($id:ID!, $smashtag:String){\n    tournament(id:$id){\n      participants(query:{\n        page: 1,\n        perPage: 50,\n        sortBy: \"asc\",\n        filter:{\n          search:{\n            fieldsToSearch:[\"gamerTag\"],\n            searchString: $smashtag\n          }\n        }\n      }, isAdmin:false){\n        nodes{\n          " + Schema.attendee + "\n        }\n      }\n    }\n  }";
+exports.tournamentAttendeeSearchByPrefix = "query SearchTournamentAttendeesBySponsorQuery($id:ID!, $sponsor:String){\n    tournament(id:$id){\n      participants(query:{\n        page: 1,\n        perPage: 50,\n        sortBy: \"asc\",\n        filter:{\n          search:{\n            fieldsToSearch:[\"prefix\"],\n            searchString: $sponsor\n          }\n        }\n      }, isAdmin:false){\n        nodes{\n          " + Schema.attendee + "\n        }\n      }\n    }\n  }";
+exports.tournamentEvents = "query TournamentEvents($id: ID!){\n    tournament(id: $id){\n        events:{\n            " + Schema.event + "\n        }\n    }\n}";
+exports.tournaments = "query Tournaments($page: Int, $perPage: Int, $sortBy: String, $filter: TournamentPageFilter){\n  tournaments(query: {\n    page: $page,\n    perPage: $perPage,\n    sortBy: $sortBy,\n    filter: $filter\n  }){\n    {pageInfo}\n    nodes{\n      id\n      name\n      slug\n      startAt\n      endAt\n      events {\n        id\n        name\n        slug\n        videogameId\n        numEntrants\n      }\n    }\n  }\n}";
+exports.tournamentPhases = "query TournamentPhases($id: ID!){\n    tournament(id: $id){\n        events{\n            id\n            phases{\n                " + Schema.phase + "\n            }\n        }\n    }   \n}";
+exports.tournamentPhaseGroups = "query TournamentPhaseGroups($id: ID!){\n    tournament(id: $id){\n        events{\n            phaseGroups{\n                " + Schema.phaseGroup + "\n            }\n        }\n    }   \n}";
 /** WARNING THIS DOES NOT WORK CURRENTLY DUE TO RECURSIVE LIMITATIONS, Use tournamentPhaseGroupIds instead **/
-exports.tournamentSets = `query TournamentSets($id: ID!){
-    tournament(id: $id){
-        events{
-            phaseGroups{
-                sets{
-                    ${Schema.set}
-                }
-            }
-        }
-    }   
-}`;
-exports.tournamentPhaseGroupIds = `query PhaseGroupIdQuery($id: ID!){
-    tournament(id: $id){
-        events{
-            id
-            phaseGroups{
-                id
-            }
-        }
-    }
-}`;
+exports.tournamentSets = "query TournamentSets($id: ID!){\n    tournament(id: $id){\n        events{\n            phaseGroups{\n                sets{\n                    " + Schema.set + "\n                }\n            }\n        }\n    }   \n}";
+exports.tournamentPhaseGroupIds = "query PhaseGroupIdQuery($id: ID!){\n    tournament(id: $id){\n        events{\n            id\n            phaseGroups{\n                id\n            }\n        }\n    }\n}";

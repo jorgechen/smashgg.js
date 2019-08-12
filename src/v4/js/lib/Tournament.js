@@ -1,4 +1,39 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -10,21 +45,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_1 = __importDefault(require("lodash"));
-const moment_1 = __importDefault(require("moment"));
-const Logger_1 = __importDefault(require("./util/Logger"));
-const Venue_1 = require("./Venue");
-const Oraganizer_1 = require("./Oraganizer");
-const Event_1 = require("./Event");
-const Phase_1 = require("./Phase");
-const PhaseGroup_1 = require("./PhaseGroup");
-const Entrant_1 = require("./Entrant");
-const Attendee_1 = require("./Attendee");
-const GGSet_1 = require("./GGSet");
-const NetworkInterface_1 = __importDefault(require("./util/NetworkInterface"));
-const queries = __importStar(require("./scripts/tournamentQueries"));
-class Tournament {
-    constructor(id, name, slug, startTime, endTime, timezone, venue, organizer) {
+var lodash_1 = __importDefault(require("lodash"));
+var moment_1 = __importDefault(require("moment"));
+var Logger_1 = __importDefault(require("./util/Logger"));
+var Venue_1 = require("./Venue");
+var Oraganizer_1 = require("./Oraganizer");
+var Event_1 = require("./Event");
+var Phase_1 = require("./Phase");
+var PhaseGroup_1 = require("./PhaseGroup");
+var Entrant_1 = require("./Entrant");
+var Attendee_1 = require("./Attendee");
+var GGSet_1 = require("./GGSet");
+var NetworkInterface_1 = __importDefault(require("./util/NetworkInterface"));
+var queries = __importStar(require("./scripts/tournamentQueries"));
+var Tournament = /** @class */ (function () {
+    function Tournament(id, name, slug, startTime, endTime, timezone, venue, organizer) {
         this.id = id;
         this.name = name;
         this.slug = slug;
@@ -34,153 +69,265 @@ class Tournament {
         this.venue = venue;
         this.organizer = organizer;
     }
-    static parse(data) {
-        let startTimeDate = data.startAt ? moment_1.default.unix(data.startAt).toDate() : null;
-        let endTimeDate = data.endAt ? moment_1.default.unix(data.endAt).toDate() : null;
-        let venue = new Venue_1.Venue(data.venueName, data.venueAddress, data.city, data.addrState, data.countryCode, data.region, data.postalCode, data.lat, data.lng);
-        let organizer = new Oraganizer_1.Organizer(data.ownerId, data.contactEmail, data.contactPhone, data.contactTwitter, data.contactInfo);
+    Tournament.parse = function (data) {
+        var startTimeDate = data.startAt ? moment_1.default.unix(data.startAt).toDate() : null;
+        var endTimeDate = data.endAt ? moment_1.default.unix(data.endAt).toDate() : null;
+        var venue = new Venue_1.Venue(data.venueName, data.venueAddress, data.city, data.addrState, data.countryCode, data.region, data.postalCode, data.lat, data.lng);
+        var organizer = new Oraganizer_1.Organizer(data.ownerId, data.contactEmail, data.contactPhone, data.contactTwitter, data.contactInfo);
         return new Tournament(data.id, data.name, data.slug, startTimeDate, endTimeDate, data.timezone, venue, organizer);
-    }
-    static parseFull(data) {
+    };
+    Tournament.parseFull = function (data) {
         return Tournament.parse(data.tournament);
-    }
-    static async getById(id) {
-        Logger_1.default.info('Getting Tournament with id %s', id);
-        let data = await NetworkInterface_1.default.query(queries.tournament, { id: id });
-        return Tournament.parseFull(data);
-    }
-    static async get(slug) {
-        Logger_1.default.info('Getting Tournament with slug "%s"', slug);
-        let data = await NetworkInterface_1.default.query(queries.tournamentBySlug, { slug: slug });
-        return Tournament.parseFull(data);
-    }
-    getId() {
+    };
+    Tournament.getById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Tournament with id %s', id);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.tournament, { id: id })];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, Tournament.parseFull(data)];
+                }
+            });
+        });
+    };
+    Tournament.get = function (slug) {
+        return __awaiter(this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Tournament with slug "%s"', slug);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.tournamentBySlug, { slug: slug })];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, Tournament.parseFull(data)];
+                }
+            });
+        });
+    };
+    Tournament.prototype.getId = function () {
         return this.id;
-    }
-    getName() {
+    };
+    Tournament.prototype.getName = function () {
         return this.name;
-    }
-    getSlug() {
+    };
+    Tournament.prototype.getSlug = function () {
         return this.slug;
-    }
-    getTimezone() {
+    };
+    Tournament.prototype.getTimezone = function () {
         return this.timezone;
-    }
-    getStartTime() {
+    };
+    Tournament.prototype.getStartTime = function () {
         return this.startTime;
-    }
-    getStartTimeString() {
+    };
+    Tournament.prototype.getStartTimeString = function () {
         return String(this.startTime);
-    }
-    getEndTime() {
+    };
+    Tournament.prototype.getEndTime = function () {
         return this.endTime;
-    }
-    getEndTimeString() {
+    };
+    Tournament.prototype.getEndTimeString = function () {
         return String(this.endTime);
-    }
-    getVenue() {
+    };
+    Tournament.prototype.getVenue = function () {
         return this.venue;
-    }
-    getVenueName() {
+    };
+    Tournament.prototype.getVenueName = function () {
         return this.venue.getName();
-    }
-    getCity() {
+    };
+    Tournament.prototype.getCity = function () {
         return this.venue.getCity();
-    }
-    getState() {
+    };
+    Tournament.prototype.getState = function () {
         return this.venue.getState();
-    }
-    getAddress() {
+    };
+    Tournament.prototype.getAddress = function () {
         return this.venue.getAddress();
-    }
-    getZipCode() {
+    };
+    Tournament.prototype.getZipCode = function () {
         return this.venue.getPostalCode();
-    }
-    getOrganizer() {
+    };
+    Tournament.prototype.getOrganizer = function () {
         return this.organizer;
-    }
-    getContactInfo() {
+    };
+    Tournament.prototype.getContactInfo = function () {
         return this.organizer.getInfo();
-    }
-    getContactEmail() {
+    };
+    Tournament.prototype.getContactEmail = function () {
         return this.organizer.getEmail();
-    }
-    getContactTwitter() {
+    };
+    Tournament.prototype.getContactTwitter = function () {
         return this.organizer.getTwitter();
-    }
-    getOwnerId() {
+    };
+    Tournament.prototype.getOwnerId = function () {
         return this.organizer.getId();
-    }
-    async getEvents() {
-        Logger_1.default.info('Getting Events for Tournament [%s :: %s]', this.id, this.name);
-        let data = await NetworkInterface_1.default.query(queries.tournamentEvents, { id: this.id });
-        let events = data.tournament.events.map(event => Event_1.Event.parse(event));
-        return events;
-    }
-    async getPhases() {
-        Logger_1.default.info('Getting Phases for Tournament [%s :: %s]', this.id, this.name);
-        let data = await NetworkInterface_1.default.query(queries.tournamentPhases, { id: this.id });
-        let events = data.tournament.events;
-        let phases = lodash_1.default.flatten(events.map(event => event.phases.map(phase => Phase_1.Phase.parse(phase, event.id))));
-        return phases;
-    }
-    async getPhaseGroups() {
-        Logger_1.default.info('Getting Phase Groups for Tournament [%s :: %s]', this.id, this.name);
-        let data = await NetworkInterface_1.default.query(queries.tournamentPhaseGroups, { id: this.id });
-        let events = data.tournament.events;
-        let phaseGroups = lodash_1.default.flatten(events.map(event => event.phaseGroups.map(group => PhaseGroup_1.PhaseGroup.parse(group))));
-        return phaseGroups;
-    }
-    async getSets(options = GGSet_1.IGGSet.getDefaultSetOptions()) {
-        Logger_1.default.info('Getting Sets for Tournament [%s :: %s]', this.id, this.name);
-        Logger_1.default.warn('Puilling Sets for large or massive Tournaments may lead to long execution times and lowered usability. It is recommended to pull from Event if you are targetting a single event\'s Sets');
-        let pgs = await this.getPhaseGroups();
-        let sets = await NetworkInterface_1.default.clusterQuery(pgs, 'getSets', options);
-        return lodash_1.default.flatten(sets);
-    }
-    async getEntrants(options = Entrant_1.IEntrant.getDefaultEntrantOptions()) {
-        Logger_1.default.info('Getting Entrants for Tournament [%s :: %s]', this.id, this.name);
-        Logger_1.default.warn('Puilling Entrants for large or massive Tournaments may lead to long execution times and lowered usability. It is recommended to pull from Event if you are targetting a single event\'s Entrants');
-        let pgs = await this.getPhaseGroups();
-        let entrants = await NetworkInterface_1.default.clusterQuery(pgs, 'getEntrants', options);
-        entrants = lodash_1.default.uniq(entrants);
-        return lodash_1.default.flatten(entrants);
-    }
-    async getAttendees(options = Attendee_1.IAttendee.getDefaultAttendeeOptions()) {
-        Logger_1.default.info('Getting Attendees for Tournament [%s :: %s]', this.id, this.name);
-        Logger_1.default.warn('Puilling Attendees for large or massive Tournaments may lead to long execution times and lowered usability. It is recommended to pull from Event if you are targetting a single event\'s Attendees');
-        let pgs = await this.getPhaseGroups();
-        let attendees = await NetworkInterface_1.default.clusterQuery(pgs, 'getAttendees', options);
-        attendees = lodash_1.default.uniqWith(attendees, (a1, a2) => Attendee_1.Attendee.eq(a1, a2));
-        return lodash_1.default.flatten(attendees);
-    }
-    async searchAttendees(smashtag) {
-        Logger_1.default.info('Searching Tournament [%s :: %s] with smashtag: %s', this.id, this.name, smashtag);
-        const results = await NetworkInterface_1.default.query(queries.tournamentAttendeeSearch, { id: this.id, smashtag: smashtag });
-        try {
-            const nodes = results.tournament.participants.nodes;
-            if (nodes.length == 0)
-                return null;
-            const matchingAttendees = nodes.map((element) => Attendee_1.Attendee.parse(element));
-            return matchingAttendees;
-        }
-        catch {
-            return null; // bad parse, no attendee
-        }
-    }
-    async searchAttendeesBySponsorTag(sponsorTag) {
-        Logger_1.default.info('Searching Tournament [%s :: %s] with smashtag: %s', this.id, this.name, sponsorTag);
-        const results = await NetworkInterface_1.default.query(queries.tournamentAttendeeSearchByPrefix, { id: this.id, sponsor: sponsorTag.toLowerCase() });
-        try {
-            const nodes = results.tournament.participants.nodes;
-            if (nodes.length == 0)
-                return null;
-            const matchingAttendees = nodes.map((element) => Attendee_1.Attendee.parse(element));
-            return matchingAttendees;
-        }
-        catch {
-            return null; // bad parse, no attendee
-        }
-    }
-}
+    };
+    Tournament.prototype.getEvents = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var data, events;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Events for Tournament [%s :: %s]', this.id, this.name);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.tournamentEvents, { id: this.id })];
+                    case 1:
+                        data = _a.sent();
+                        events = data.tournament.events.map(function (event) { return Event_1.Event.parse(event); });
+                        return [2 /*return*/, events];
+                }
+            });
+        });
+    };
+    Tournament.prototype.getPhases = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var data, events, phases;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Phases for Tournament [%s :: %s]', this.id, this.name);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.tournamentPhases, { id: this.id })];
+                    case 1:
+                        data = _a.sent();
+                        events = data.tournament.events;
+                        phases = lodash_1.default.flatten(events.map(function (event) { return event.phases.map(function (phase) { return Phase_1.Phase.parse(phase, event.id); }); }));
+                        return [2 /*return*/, phases];
+                }
+            });
+        });
+    };
+    Tournament.prototype.getPhaseGroups = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var data, events, phaseGroups;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Phase Groups for Tournament [%s :: %s]', this.id, this.name);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.tournamentPhaseGroups, { id: this.id })];
+                    case 1:
+                        data = _a.sent();
+                        events = data.tournament.events;
+                        phaseGroups = lodash_1.default.flatten(events.map(function (event) { return event.phaseGroups.map(function (group) { return PhaseGroup_1.PhaseGroup.parse(group); }); }));
+                        return [2 /*return*/, phaseGroups];
+                }
+            });
+        });
+    };
+    Tournament.prototype.getSets = function (options) {
+        if (options === void 0) { options = GGSet_1.IGGSet.getDefaultSetOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var pgs, sets;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Sets for Tournament [%s :: %s]', this.id, this.name);
+                        Logger_1.default.warn('Puilling Sets for large or massive Tournaments may lead to long execution times and lowered usability. It is recommended to pull from Event if you are targetting a single event\'s Sets');
+                        return [4 /*yield*/, this.getPhaseGroups()];
+                    case 1:
+                        pgs = _a.sent();
+                        return [4 /*yield*/, NetworkInterface_1.default.clusterQuery(pgs, 'getSets', options)];
+                    case 2:
+                        sets = _a.sent();
+                        return [2 /*return*/, lodash_1.default.flatten(sets)];
+                }
+            });
+        });
+    };
+    Tournament.prototype.getEntrants = function (options) {
+        if (options === void 0) { options = Entrant_1.IEntrant.getDefaultEntrantOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var pgs, entrants;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Entrants for Tournament [%s :: %s]', this.id, this.name);
+                        Logger_1.default.warn('Puilling Entrants for large or massive Tournaments may lead to long execution times and lowered usability. It is recommended to pull from Event if you are targetting a single event\'s Entrants');
+                        return [4 /*yield*/, this.getPhaseGroups()];
+                    case 1:
+                        pgs = _a.sent();
+                        return [4 /*yield*/, NetworkInterface_1.default.clusterQuery(pgs, 'getEntrants', options)];
+                    case 2:
+                        entrants = _a.sent();
+                        entrants = lodash_1.default.uniq(entrants);
+                        return [2 /*return*/, lodash_1.default.flatten(entrants)];
+                }
+            });
+        });
+    };
+    Tournament.prototype.getAttendees = function (options) {
+        if (options === void 0) { options = Attendee_1.IAttendee.getDefaultAttendeeOptions(); }
+        return __awaiter(this, void 0, void 0, function () {
+            var pgs, attendees;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Attendees for Tournament [%s :: %s]', this.id, this.name);
+                        Logger_1.default.warn('Puilling Attendees for large or massive Tournaments may lead to long execution times and lowered usability. It is recommended to pull from Event if you are targetting a single event\'s Attendees');
+                        return [4 /*yield*/, this.getPhaseGroups()];
+                    case 1:
+                        pgs = _a.sent();
+                        return [4 /*yield*/, NetworkInterface_1.default.clusterQuery(pgs, 'getAttendees', options)];
+                    case 2:
+                        attendees = _a.sent();
+                        attendees = lodash_1.default.uniqWith(attendees, function (a1, a2) { return Attendee_1.Attendee.eq(a1, a2); });
+                        return [2 /*return*/, lodash_1.default.flatten(attendees)];
+                }
+            });
+        });
+    };
+    Tournament.prototype.searchAttendees = function (smashtag) {
+        return __awaiter(this, void 0, void 0, function () {
+            var results, nodes, matchingAttendees;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Searching Tournament [%s :: %s] with smashtag: %s', this.id, this.name, smashtag);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.tournamentAttendeeSearch, { id: this.id, smashtag: smashtag })];
+                    case 1:
+                        results = _a.sent();
+                        try {
+                            nodes = results.tournament.participants.nodes;
+                            if (nodes.length == 0)
+                                return [2 /*return*/, null];
+                            matchingAttendees = nodes.map(function (element) { return Attendee_1.Attendee.parse(element); });
+                            return [2 /*return*/, matchingAttendees];
+                        }
+                        catch (_b) {
+                            return [2 /*return*/, null]; // bad parse, no attendee
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Tournament.prototype.searchAttendeesBySponsorTag = function (sponsorTag) {
+        return __awaiter(this, void 0, void 0, function () {
+            var results, nodes, matchingAttendees;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Searching Tournament [%s :: %s] with smashtag: %s', this.id, this.name, sponsorTag);
+                        return [4 /*yield*/, NetworkInterface_1.default.query(queries.tournamentAttendeeSearchByPrefix, { id: this.id, sponsor: sponsorTag.toLowerCase() })];
+                    case 1:
+                        results = _a.sent();
+                        try {
+                            nodes = results.tournament.participants.nodes;
+                            if (nodes.length == 0)
+                                return [2 /*return*/, null];
+                            matchingAttendees = nodes.map(function (element) { return Attendee_1.Attendee.parse(element); });
+                            return [2 /*return*/, matchingAttendees];
+                        }
+                        catch (_b) {
+                            return [2 /*return*/, null]; // bad parse, no attendee
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return Tournament;
+}());
 exports.Tournament = Tournament;

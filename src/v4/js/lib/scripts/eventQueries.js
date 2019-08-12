@@ -7,132 +7,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Schema = __importStar(require("./schema"));
-exports.event = `query EventQuery($id: ID!){
-    event(id:$id){   
-        ${Schema.event}
-    }
-}`;
-exports.eventSlug = `query EventQuery($slug:String){
-    event(slug:$slug){
-        ${Schema.event}
-  	}
-}`;
-exports.eventPhases = `query EventPhases($id: ID!){
-    event(id: $id){
-        phases{
-            ${Schema.phase}
-        }   
-    }
-}`;
-exports.eventPhaseGroups = `query EventPhaseGroups($id: ID!){
-    event(id: $id){
-        phaseGroups{
-            ${Schema.phaseGroup}
-        }
-    }   
-}`;
-exports.eventStandings = `query EventStandings($id: ID!, $page: Int, $perPage: Int){
-    event(id: $id){
-        standings(query: {
-            page: $page,
-            perPage: $perPage,
-        }){
-            nodes{
-                ${Schema.standing}
-            }
-            {pageInfo}
-        }
-    }
-}
-`;
-exports.eventTournament = `query EventTournament($id: ID!){
-    event(id: $id){
-        tournament {
-            ${Schema.tournament}
-        }
-    }
-}
-`;
-exports.eventSets = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){
-    event(id: $id){
-          sets(
-              page: $page,
-              perPage: $perPage,
-              sortType: $sortType,
-              filters: $filters
-          ){
-              {pageInfo}
-              nodes{
-                  ${Schema.set}
-              }
-        }
-    }   
-}`;
-exports.eventSetsRaw = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){
-    event(id: $id){
-          sets(
-              page: $page,
-              perPage: $perPage,
-              sortType: $sortType,
-              filters: $filters
-          ){
-              {pageInfo}
-              nodes{
-                  ${Schema.set}
-                  games {
-                    ${Schema.game}
-                  }
-              }
-        }
-    }   
-}`;
-exports.eventEntrants = `query EventEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
-    event(id: $id){
-        entrants(query: {
-            page: $page,
-            perPage: $perPage,
-            sortBy: $sortBy,
-            filter: $filter
-        }){
-            {pageInfo}
-            nodes{
-                ${Schema.entrant}
-            }
-        }
-    }
-}`;
-exports.eventAttendees = `query EventAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $isAdmin: Boolean, $filter: ParticipantPageFilter){
-    event(id: $id){
-        tournament{
-            participants(query: {
-                page: $page,
-                perPage: $perPage,
-                sortBy: $sortBy,
-                filter: $filter
-            }, isAdmin: $isAdmin){
-                {pageInfo}
-                nodes{
-                    ${Schema.attendee}
-                }
-            }
-        }
-    }
-}`;
-exports.eventAttendees2 = `query EventAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
-    event(id: $id){
-        entrants(query: {
-            page: $page,
-            perPage: $perPage,
-            sortBy: $sortBy,
-            filter: $filter
-        }){
-            {pageInfo}
-            nodes{
-                participants{
-                    ${Schema.attendee}
-                }
-            }
-        }
-    }
-}`;
+var Schema = __importStar(require("./schema"));
+exports.event = "query EventQuery($id: ID!){\n    event(id:$id){   \n        " + Schema.event + "\n    }\n}";
+exports.eventSlug = "query EventQuery($slug:String){\n    event(slug:$slug){\n        " + Schema.event + "\n  \t}\n}";
+exports.eventPhases = "query EventPhases($id: ID!){\n    event(id: $id){\n        phases{\n            " + Schema.phase + "\n        }   \n    }\n}";
+exports.eventPhaseGroups = "query EventPhaseGroups($id: ID!){\n    event(id: $id){\n        phaseGroups{\n            " + Schema.phaseGroup + "\n        }\n    }   \n}";
+exports.eventStandings = "query EventStandings($id: ID!, $page: Int, $perPage: Int){\n    event(id: $id){\n        standings(query: {\n            page: $page,\n            perPage: $perPage,\n        }){\n            nodes{\n                " + Schema.standing + "\n            }\n            {pageInfo}\n        }\n    }\n}\n";
+exports.eventTournament = "query EventTournament($id: ID!){\n    event(id: $id){\n        tournament {\n            " + Schema.tournament + "\n        }\n    }\n}\n";
+exports.eventSets = "query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){\n    event(id: $id){\n          sets(\n              page: $page,\n              perPage: $perPage,\n              sortType: $sortType,\n              filters: $filters\n          ){\n              {pageInfo}\n              nodes{\n                  " + Schema.set + "\n              }\n        }\n    }   \n}";
+exports.eventSetsRaw = "query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){\n    event(id: $id){\n          sets(\n              page: $page,\n              perPage: $perPage,\n              sortType: $sortType,\n              filters: $filters\n          ){\n              {pageInfo}\n              nodes{\n                  " + Schema.set + "\n                  games {\n                    " + Schema.game + "\n                  }\n              }\n        }\n    }   \n}";
+exports.eventEntrants = "query EventEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){\n    event(id: $id){\n        entrants(query: {\n            page: $page,\n            perPage: $perPage,\n            sortBy: $sortBy,\n            filter: $filter\n        }){\n            {pageInfo}\n            nodes{\n                " + Schema.entrant + "\n            }\n        }\n    }\n}";
+exports.eventAttendees = "query EventAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $isAdmin: Boolean, $filter: ParticipantPageFilter){\n    event(id: $id){\n        tournament{\n            participants(query: {\n                page: $page,\n                perPage: $perPage,\n                sortBy: $sortBy,\n                filter: $filter\n            }, isAdmin: $isAdmin){\n                {pageInfo}\n                nodes{\n                    " + Schema.attendee + "\n                }\n            }\n        }\n    }\n}";
+exports.eventAttendees2 = "query EventAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){\n    event(id: $id){\n        entrants(query: {\n            page: $page,\n            perPage: $perPage,\n            sortBy: $sortBy,\n            filter: $filter\n        }){\n            {pageInfo}\n            nodes{\n                participants{\n                    " + Schema.attendee + "\n                }\n            }\n        }\n    }\n}";

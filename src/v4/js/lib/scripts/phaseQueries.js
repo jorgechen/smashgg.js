@@ -7,92 +7,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Schema = __importStar(require("./schema"));
-exports.phase = `
-query PhaseQuery($id: ID!){
-	phase(id: $id){
-		${Schema.phase}
-	}
-}
-`;
-exports.phaseSeeds = `
-query PhaseSeedQuery($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: SeedPageFilter){
-	phase(id: $id){
-		paginatedSeeds(query: {
-			page: $page,
-			perPage: $perPage,
-			sortBy: $sortBy,
-			filter: $filter
-		}){
-			{pageInfo}
-			nodes{
-				${Schema.seeds}
-			}
-		}
-	}	
-}`;
-exports.phasePhaseGroups = `
-query PhaseGroupsQuery($eventId: Int){
-	event(id: $eventId){
-		phaseGroups{
-			${Schema.phaseGroup}
-		}
-	}
-}`;
-exports.phaseSets = `
-query PhaseSets($eventId:Int, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters, $hasPermissions: Boolean){
-	event(id: $eventId){
-	  phaseGroups{
-			paginatedSets(
-				page: $page,
-				perPage: $perPage,
-				sortType: $sortType,
-				hasPermissions: $hasPermissions,
-				filters: $filters
-			){
-				{pageInfo}
-				nodes{
-					${Schema.set}
-				}
-			}
-	  }
-	}
-}`;
-exports.phaseEntrants = `
-query PhaseEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: SeedPageFilter){
-	phase(id: $id){
-		paginatedSeeds(query: {
-		  page: $page,
-		  perPage: $perPage,
-		  sortBy: $sortBy,
-		  filter: $filter
-		}){
-		  {pageInfo},
-		  nodes{
-			  entrant{
-				  ${Schema.entrant}
-			  }
-		  }
-		}
-	}	
-}`;
-exports.phaseAttendees = `
-query PhaseAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: SeedPageFilter){
-	phase(id: $id){
-		paginatedSeeds(query:{
-		  page: $page,
-		  perPage: $perPage,
-		  sortBy: $sortBy,
-		  filter: $filter
-		}){
-		  {pageInfo},
-		  nodes{
-			  entrant{
-				  participants{
-						${Schema.attendee}
-					}
-			  }
-		  }
-		}
-	}	
-}`;
+var Schema = __importStar(require("./schema"));
+exports.phase = "\nquery PhaseQuery($id: ID!){\n\tphase(id: $id){\n\t\t" + Schema.phase + "\n\t}\n}\n";
+exports.phaseSeeds = "\nquery PhaseSeedQuery($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: SeedPageFilter){\n\tphase(id: $id){\n\t\tpaginatedSeeds(query: {\n\t\t\tpage: $page,\n\t\t\tperPage: $perPage,\n\t\t\tsortBy: $sortBy,\n\t\t\tfilter: $filter\n\t\t}){\n\t\t\t{pageInfo}\n\t\t\tnodes{\n\t\t\t\t" + Schema.seeds + "\n\t\t\t}\n\t\t}\n\t}\t\n}";
+exports.phasePhaseGroups = "\nquery PhaseGroupsQuery($eventId: Int){\n\tevent(id: $eventId){\n\t\tphaseGroups{\n\t\t\t" + Schema.phaseGroup + "\n\t\t}\n\t}\n}";
+exports.phaseSets = "\nquery PhaseSets($eventId:Int, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters, $hasPermissions: Boolean){\n\tevent(id: $eventId){\n\t  phaseGroups{\n\t\t\tpaginatedSets(\n\t\t\t\tpage: $page,\n\t\t\t\tperPage: $perPage,\n\t\t\t\tsortType: $sortType,\n\t\t\t\thasPermissions: $hasPermissions,\n\t\t\t\tfilters: $filters\n\t\t\t){\n\t\t\t\t{pageInfo}\n\t\t\t\tnodes{\n\t\t\t\t\t" + Schema.set + "\n\t\t\t\t}\n\t\t\t}\n\t  }\n\t}\n}";
+exports.phaseEntrants = "\nquery PhaseEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: SeedPageFilter){\n\tphase(id: $id){\n\t\tpaginatedSeeds(query: {\n\t\t  page: $page,\n\t\t  perPage: $perPage,\n\t\t  sortBy: $sortBy,\n\t\t  filter: $filter\n\t\t}){\n\t\t  {pageInfo},\n\t\t  nodes{\n\t\t\t  entrant{\n\t\t\t\t  " + Schema.entrant + "\n\t\t\t  }\n\t\t  }\n\t\t}\n\t}\t\n}";
+exports.phaseAttendees = "\nquery PhaseAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: SeedPageFilter){\n\tphase(id: $id){\n\t\tpaginatedSeeds(query:{\n\t\t  page: $page,\n\t\t  perPage: $perPage,\n\t\t  sortBy: $sortBy,\n\t\t  filter: $filter\n\t\t}){\n\t\t  {pageInfo},\n\t\t  nodes{\n\t\t\t  entrant{\n\t\t\t\t  participants{\n\t\t\t\t\t\t" + Schema.attendee + "\n\t\t\t\t\t}\n\t\t\t  }\n\t\t  }\n\t\t}\n\t}\t\n}";

@@ -3,68 +3,70 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_1 = __importDefault(require("lodash"));
-class Game {
-    constructor(id, state, winnerId, orderNumber, selections) {
+var lodash_1 = __importDefault(require("lodash"));
+var Game = /** @class */ (function () {
+    function Game(id, state, winnerId, orderNumber, selections) {
         this.id = id;
         this.state = state;
         this.winnerId = winnerId;
         this.orderNumber = orderNumber;
         this.selections = selections;
     }
-    static parse(data) {
+    Game.parse = function (data) {
         return new Game(+data.id, data.state, data.winnerId, data.orderNum, Selections.parseArray(data.selections));
-    }
-    static parseFull(data) {
-        return data.set.games.map(gameData => Game.parse(gameData));
-    }
-    getId() {
+    };
+    Game.parseFull = function (data) {
+        return data.set.games.map(function (gameData) { return Game.parse(gameData); });
+    };
+    Game.prototype.getId = function () {
         return this.id;
-    }
-    getState() {
+    };
+    Game.prototype.getState = function () {
         return this.state;
-    }
-    getWinnerId() {
+    };
+    Game.prototype.getWinnerId = function () {
         return this.winnerId;
-    }
-    getOrderNumber() {
+    };
+    Game.prototype.getOrderNumber = function () {
         return this.orderNumber;
-    }
-    getSelections() {
+    };
+    Game.prototype.getSelections = function () {
         return this.selections;
-    }
-    getSelectionsForEntrantId(entrantId) {
+    };
+    Game.prototype.getSelectionsForEntrantId = function (entrantId) {
         return lodash_1.default.find(this.selections, { entrantId: entrantId });
-    }
-}
+    };
+    return Game;
+}());
 exports.Game = Game;
-class Selections {
-    constructor(selectionType, selectionValue, entrantId, participantId) {
+var Selections = /** @class */ (function () {
+    function Selections(selectionType, selectionValue, entrantId, participantId) {
         this.selectionType = selectionType;
         this.selectionValue = selectionValue;
         this.entrantId = entrantId;
         this.attendeeId = participantId;
     }
-    static parse(data) {
+    Selections.parse = function (data) {
         return new Selections(data.selectionType, data.selectionValue, data.entrantId, data.participantId);
-    }
-    static parseArray(data) {
-        return data.map(e => Selections.parse(e));
-    }
-    static parseFull(data) {
-        return data.selections.map(selectionsData => Selections.parse(selectionsData));
-    }
-    getSelectionType() {
+    };
+    Selections.parseArray = function (data) {
+        return data.map(function (e) { return Selections.parse(e); });
+    };
+    Selections.parseFull = function (data) {
+        return data.selections.map(function (selectionsData) { return Selections.parse(selectionsData); });
+    };
+    Selections.prototype.getSelectionType = function () {
         return this.selectionType;
-    }
-    getSelectionValue() {
+    };
+    Selections.prototype.getSelectionValue = function () {
         return this.selectionValue;
-    }
-    getEntrantId() {
+    };
+    Selections.prototype.getEntrantId = function () {
         return this.entrantId;
-    }
-    getAttendeeId() {
+    };
+    Selections.prototype.getAttendeeId = function () {
         return this.attendeeId;
-    }
-}
+    };
+    return Selections;
+}());
 exports.Selections = Selections;

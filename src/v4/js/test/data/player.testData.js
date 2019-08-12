@@ -7,7 +7,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const AttendeeData = __importStar(require("./attendee.testData"));
+var AttendeeData = __importStar(require("./attendee.testData"));
 exports.player1Data = {
     "id": 1106474,
     "name": "MVG FOX | Mew2King",
