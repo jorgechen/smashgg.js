@@ -28,29 +28,6 @@ export const eventPhaseGroups = `query EventPhaseGroups($id: ID!){
     }   
 }`
 
-export const eventStandings = `query EventStandings($id: ID!, $page: Int, $perPage: Int){
-    event(id: $id){
-        standings(query: {
-            page: $page,
-            perPage: $perPage,
-        }){
-            nodes{
-                ${Schema.standing}
-            }
-            {pageInfo}
-        }
-    }
-}
-`
-export const eventTournament = `query EventTournament($id: ID!){
-    event(id: $id){
-        tournament {
-            ${Schema.tournament}
-        }
-    }
-}
-`
-
 export const eventSets = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){
     event(id: $id){
           sets(
@@ -66,6 +43,29 @@ export const eventSets = `query EventSets($id: ID!, $page: Int, $perPage: Int, $
         }
     }   
 }`
+
+export const eventStandings = `query EventStandings($id: ID!, $page: Int, $perPage: Int){
+    event(id: $id){
+        standings(query: {
+            page: $page,
+            perPage: $perPage,
+        }){
+            nodes{
+                ${Schema.standings}
+            }
+            {pageInfo}
+        }
+    }
+}
+`
+export const eventTournament = `query EventTournament($id: ID!){
+    event(id: $id){
+        tournament {
+            ${Schema.tournament}
+        }
+    }
+}
+`
 
 export const eventSetsRaw = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){
     event(id: $id){
@@ -86,7 +86,7 @@ export const eventSetsRaw = `query EventSets($id: ID!, $page: Int, $perPage: Int
     }   
 }`
 
-export const eventEntrants = `query EventEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
+export const eventEntrants = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
     event(id: $id){
         entrants(query: {
             page: $page,

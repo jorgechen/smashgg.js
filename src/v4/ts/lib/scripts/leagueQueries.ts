@@ -110,7 +110,7 @@ export const leagueStandings = `query LeagueStandings($id: ID!, $page: Int, $per
             perPage: $perPage,
         }){
             nodes{
-                ${Schema.standing}
+                ${Schema.standings}
             }
             {pageInfo}
         }

@@ -14,7 +14,7 @@ export const games = `query SetQuery($id: String!){
 	}
 }`
 
-export const entrants = `query SetEntrants($id: String!){
+export const entrants = `query SetParticipants($id: String!){
 	set(id: $id){
 		slots{
 			entrant{

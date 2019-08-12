@@ -32,7 +32,7 @@ export const phaseGroupSeedStandings = `query PhaseGroupSeedsQuery($id: ID!, $pa
 			{pageInfo}
 			nodes{
 				standings{
-					${Schema.standing}
+					${Schema.standings}
 				}
 			}
 		}

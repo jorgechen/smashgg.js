@@ -1,4 +1,30 @@
 import * as Schema from './schema'
+
+export const tournaments = `query Tournaments($page: Int, $perPage: Int, $sortBy: String, $filter: TournamentPageFilter){
+  tournaments(query: {
+    page: $page,
+    perPage: $perPage,
+    sortBy: $sortBy,
+    filter: $filter
+  }){
+    {pageInfo}
+    nodes{
+      id
+      name
+      slug
+      startAt
+      endAt
+      events {
+        id
+        name
+        slug
+        videogameId
+        numEntrants
+      }
+    }
+  }
+}`
+
 export const tournament = `query TournamentQuery($id: ID!){
     tournament(id: $id){
         ${Schema.tournament}
@@ -103,31 +129,6 @@ export const tournamentEvents = `query TournamentEvents($id: ID!){
             ${Schema.event}
         }
     }
-}`
-
-export const tournaments = `query Tournaments($page: Int, $perPage: Int, $sortBy: String, $filter: TournamentPageFilter){
-  tournaments(query: {
-    page: $page,
-    perPage: $perPage,
-    sortBy: $sortBy,
-    filter: $filter
-  }){
-    {pageInfo}
-    nodes{
-      id
-      name
-      slug
-      startAt
-      endAt
-      events {
-        id
-        name
-        slug
-        videogameId
-        numEntrants
-      }
-    }
-  }
 }`
 
 export const tournamentPhases = `query TournamentPhases($id: ID!){

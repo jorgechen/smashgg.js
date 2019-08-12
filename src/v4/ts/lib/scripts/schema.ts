@@ -5,12 +5,10 @@ score{
 	displayValue
 }
 `
-
 export const TournamentLink = `
 discord
 facebook
 `
-
 export const PageInfo = `
 total
 totalPages
@@ -19,7 +17,6 @@ perPage
 sortBy
 filter
 `
-
 export const Image = `
 id
 width
@@ -32,7 +29,23 @@ entity
 entityId
 uploadedBy
 `
-
+export const player = `
+id
+prefix
+gamerTag
+color
+twitterHandle
+twitchStream
+youtube
+region
+state
+country
+nameDisplay
+gamerTagChangedAt
+images {
+	${Image}
+}
+`
 export const Videogame = `
 id
 name
@@ -42,7 +55,6 @@ images {
 	${Image}
 }
 `
-
 export const league = `
 id
 name
@@ -52,54 +64,15 @@ endAt
 shortSlug
 url(relative: false)
 `
-// addrState
-// city
-// countryCode
-// currency
-// details
-// emailDirections
-// emailInstructions
-// emailNote
-// endAt
-// gettingThere
-// hashtag
-// hasOnlineEvents
-// hideAdmins
-// includeQRCheckIn
-// includeQRCode
-// isOnline
-// lat
-// lng
-// mapsPlaceId
-// ownerId
-// postalCode
-// prizes
-// qrCodeRedirect
-// qrCodeRedirectType
-// region
-// registrationClosesAt
-// defaultTab
-// rules
-// shortSlug
-// startAt
-// state
-// submissionState
-// timezone
-// tournamentType
-// venueAddress
-// venueName
-// showStandings
-// finalEventId
-// numProgressingToFinalEvent
 
 export const tournament = `
-id
-name
-slug
 shortSlug
 images{
 	${Image}
 }
+id
+name
+slug
 city
 postalCode
 addrState
@@ -119,6 +92,9 @@ contactPhone
 ownerId`
 
 export const event = `
+videogame {
+	${Videogame}
+}
 id
 name
 slug
@@ -130,11 +106,7 @@ checkInDuration
 checkInEnabled
 isOnline
 teamNameAllowed
-teamManagementDeadline
-videogame {
-	${Videogame}
-}
-`
+teamManagementDeadline`
 
 export const phase = `
 id
@@ -165,30 +137,12 @@ nameFirst
 nameLast
 zipcode`
 
-export const player = `
-id
-prefix
-gamerTag
-color
-twitterHandle
-twitchStream
-youtube
-region
-state
-country
-nameDisplay
-gamerTagChangedAt
-images {
-	${Image}
-}
-`
-
 // smash.gg participant
 export const attendee = `
-id
 player {
 	${player}
 }
+id
 gamerTag
 prefix
 createdAt
@@ -229,25 +183,26 @@ gamerTagChangedAt`
 
 export const setSlots = `
 slots(includeByes:false){
-	id
 	standing{
 		placement
 		stats{
 			${Stats}
 		}
 	}
-	entrant{
+	id
+	entrant {
 		id
 		name
-		participants{
-			id
+		participants {
 			playerId
+			id
 		}
 	}
-}
-`
+}`
 
 export const set = `
+lPlacement
+wPlacement
 id
 eventId
 phaseGroupId
@@ -259,8 +214,6 @@ completedAt
 winnerId
 totalGames
 state
-lPlacement
-wPlacement
 ${setSlots}
 `
 // NOTE: totalGames is not legit, use slot.standing.stats.score.value
@@ -288,15 +241,15 @@ players{
 	id
 }`
 
-export const standing = `
-id
-placement
+export const standings = `
 entrant{ 
 	${entrant}
 }
 stats{
 	${Stats}
 }
+id
+placement
 `
 
 export const venue = `
