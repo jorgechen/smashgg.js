@@ -1,5 +1,47 @@
 import * as Schema from './schema'
 
+export const eventStandings = `query EventStandings($id: ID!, $page: Int, $perPage: Int){
+    event(id: $id){
+        standings(query: {
+            page: $page,
+            perPage: $perPage,
+        }){
+            nodes{
+                ${Schema.standings}
+            }
+            {pageInfo}
+        }
+    }
+}
+`
+export const eventTournament = `query EventTournament($id: ID!){
+    event(id: $id){
+        tournament {
+            ${Schema.tournament}
+        }
+    }
+}
+`
+
+export const eventSetsRaw = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){
+    event(id: $id){
+          sets(
+              page: $page,
+              perPage: $perPage,
+              sortType: $sortType,
+              filters: $filters
+          ){
+              {pageInfo}
+              nodes{
+                  ${Schema.set}
+                  games {
+                    ${Schema.game}
+                  }
+              }
+        }
+    }   
+}`
+
 export const event = `query EventQuery($id: ID!){
     event(id:$id){   
         ${Schema.event}
@@ -39,48 +81,6 @@ export const eventSets = `query EventSets($id: ID!, $page: Int, $perPage: Int, $
               {pageInfo}
               nodes{
                   ${Schema.set}
-              }
-        }
-    }   
-}`
-
-export const eventStandings = `query EventStandings($id: ID!, $page: Int, $perPage: Int){
-    event(id: $id){
-        standings(query: {
-            page: $page,
-            perPage: $perPage,
-        }){
-            nodes{
-                ${Schema.standings}
-            }
-            {pageInfo}
-        }
-    }
-}
-`
-export const eventTournament = `query EventTournament($id: ID!){
-    event(id: $id){
-        tournament {
-            ${Schema.tournament}
-        }
-    }
-}
-`
-
-export const eventSetsRaw = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){
-    event(id: $id){
-          sets(
-              page: $page,
-              perPage: $perPage,
-              sortType: $sortType,
-              filters: $filters
-          ){
-              {pageInfo}
-              nodes{
-                  ${Schema.set}
-                  games {
-                    ${Schema.game}
-                  }
               }
         }
     }   
