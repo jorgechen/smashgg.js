@@ -11,6 +11,7 @@ import {
 	IEventPhaseData,
 	IEventPhaseGroupData,
 	IEventStandings,
+	IEventStandingData,
 	IEventEntrantData,
 	IEventAttendeeData,
 	IEventSetData
@@ -167,6 +168,24 @@ export class Event extends EventEmitter implements IEvent{
 	}
 
 	// aggregation
+	public async getStandingsRaw() : Promise<any[]> {
+		log.info('Getting Standings for Event [%s :: %s]', this.id, this.name)
+		const options = { page: 1 }
+		let data: IEventStandingData[] = await NI.paginatedQuery(
+			`Event Entrants [${this.id} :: ${this.name}]`,
+			queries.eventStandings,{id: this.id},
+			options,{},2
+		)
+		let standingData = _.flatten(data.map(d => d.event.standings.nodes))
+		return standingData
+	}
+
+	public async getTournamentRaw(): Promise<any> {
+		const { id } = this
+		const data = await NI.query(queries.eventTournament, { id })
+		return data.event.tournament
+	}
+
 	public async getPhases(): Promise<IPhase[]> {
 		log.info('Getting Phases for Event [%s :: %s]', this.id, this.name)
 		const data: IEventPhaseData = await NI.query(queries.eventPhases, {id: this.id})
@@ -277,10 +296,20 @@ export class Event extends EventEmitter implements IEvent{
 			queries.eventSets, {id: this.id},
 			options, {}, 3
 		)
-		const phaseGroups = _.flatten(data.map(d => d.event.phaseGroups))
-		const setData = _.flatten(phaseGroups.map(pg => pg.paginatedSets.nodes))
+		const setData = _.flatten(data.map(d => d.event.sets.nodes))
 		const sets: IGGSet[] = setData.map(set => GGSet.parse(set))
 		return _.uniqBy(sets, 'id')
+	}
+	
+	public async getSetsRaw(options: IGGSetOptions = GGSet.getDefaultSetOptions()) : Promise<any[]> {
+		log.info('Getting Sets for Event [%s :: %s]', this.id, this.name)
+		let data: IEventSetData[] = await NI.paginatedQuery(
+			`Event Sets [${this.id} :: ${this.name}]`,
+			queries.eventSetsRaw, {id: this.id},
+			options,{},3
+		)
+		let setData = _.flatten(data.map(d => d.event.sets.nodes))
+		return setData
 	}
 
 	// need coverage

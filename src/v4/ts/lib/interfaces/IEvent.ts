@@ -5,6 +5,7 @@ import {IGGSet, IGGSetOptions, IGGSetData} from './IGGSet'
 import {IEntrant, IEntrantOptions, IEntrantData} from './IEntrant'
 import {IAttendee, IAttendeeOptions, IAttendeeData} from './IAttendee'
 import {IStanding, IStandingData} from './IStanding'
+import { IStandings } from '../Standings'
 
 export interface IEvent{
 	// id: number 
@@ -61,6 +62,14 @@ export interface IEventData{
 	teamManagementDeadline: number | null
 }
 
+export interface IEventStandingData{
+	event:{
+		standings: {
+			nodes: IStandings.StandingData[]
+		}
+	}
+}
+
 export interface IEventPhaseData{
 	event: {
 		phases: IPhaseData[]
@@ -110,13 +119,11 @@ export interface IEventAttendeeData2{
 
 export interface IEventSetData{
 	event: {
-		phaseGroups: {
-			paginatedSets: {
-				pageInfo?: {
-					totalPages: number
-				},
-				nodes: IGGSetData[]
-			}
+		sets: {
+			pageInfo?:{
+				totalPages: number
+			},
+			nodes: IGGSetData[]
 		}
 	}
 }
