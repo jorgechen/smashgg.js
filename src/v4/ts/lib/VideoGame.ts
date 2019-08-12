@@ -36,7 +36,7 @@ export class VideoGame implements IVideoGame.VideoGame{
 	isCardGame: boolean
 	rawEncoding: string = 'json'
 
-	constructor(id: number, name: string, abbrev: string, displayName: string, minPerEntry: number,
+	constructor(id: number, name: string, abbrev: string, displayName: string, minPerEntry: number, 
 		maxPerEntry: number, approved: boolean, slug: string, isCardGame: boolean){
 		
 		this.id = id;
