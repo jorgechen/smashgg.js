@@ -12,7 +12,7 @@ import {Attendee, IAttendee} from './Attendee';
 
 import NI from './util/NetworkInterface'
 import * as queries from './scripts/eventQueries'
-import { IStandings, Standing } from './Standing'
+import { IStandings, Standings } from './Standings'
 
 export class Event extends EventEmitter implements IEvent.Event{
 
@@ -160,10 +160,10 @@ export class Event extends EventEmitter implements IEvent.Event{
 		return standingData
 	}
 
-	async getStandings() : Promise<Standing[]> {
+	async getStandings() : Promise<Standings[]> {
 		const { id } = this
 		const standingData = await this.getStandingsRaw()
-		const standings: Standing[] = standingData.map(item => Standing.parse(item, id))
+		const standings: Standings[] = standingData.map(item => Standings.parse(item, id))
 		return standings
 	}
 
@@ -246,7 +246,7 @@ export class Event extends EventEmitter implements IEvent.Event{
 		let data: IEvent.EventSetData[] = await NI.paginatedQuery(
 			`Event Sets [${this.id} :: ${this.name}]`,
 			queries.eventSets, {id: this.id},
-			options, {}, 3	
+			options, {}, 3
 		)
 		let setData = _.flatten(data.map(d => d.event.sets.nodes))
 		let sets: GGSet[] = setData.map(set => GGSet.parse(set))
@@ -305,7 +305,7 @@ export namespace IEvent{
 		isOnline: boolean | null
 		teamNameAllowed: boolean | null
 		teamManagementDeadline: number | null
-		
+	
 		getId() : number
 		getName() : string
 		getSlug() : string
@@ -318,7 +318,6 @@ export namespace IEvent{
 		getTeamNameAllowed() : boolean | null
 		getTeamManagementDeadline() : number | null
 
-		getStandings() : Promise<Standing[]>
 		getPhases() : Promise<Phase[]>
 		getPhaseGroups() : Promise<PhaseGroup[]>
 		getEntrants(options: IEntrant.EntrantOptions) : Promise<Entrant[]>

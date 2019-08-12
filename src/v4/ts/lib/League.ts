@@ -7,7 +7,7 @@ import { PhaseGroup, IPhaseGroup } from './PhaseGroup'
 import { Entrant, IEntrant } from './Entrant'
 import { Attendee, IAttendee } from './Attendee'
 import { GGSet, IGGSet } from './GGSet'
-import { IStandings, Standing } from './Standing'
+import { IStandings, Standings } from './Standings'
 
 import NI from './util/NetworkInterface'
 import * as queries from './scripts/leagueQueries'
@@ -112,10 +112,10 @@ export class League implements ILeague.League {
 		return standingData
 	}
 
-	async getStandings() : Promise<Standing[]> {
+	async getStandings() : Promise<Standings[]> {
 		const { id } = this
 		let standingData = await this.getStandingsRaw()
-		let standings: Standing[] = standingData.map(item => Standing.parse(item, id))
+		let standings: Standings[] = standingData.map(item => Standings.parse(item, id))
 		return standings
 	}
 
