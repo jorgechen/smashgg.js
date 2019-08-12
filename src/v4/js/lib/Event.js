@@ -69,7 +69,7 @@ var Entrant_1 = require("./Entrant");
 var Attendee_1 = require("./Attendee");
 var NetworkInterface_1 = __importDefault(require("./util/NetworkInterface"));
 var queries = __importStar(require("./scripts/eventQueries"));
-var Standing_1 = require("./Standing");
+var Standings_1 = require("./Standings");
 var Event = /** @class */ (function (_super) {
     __extends(Event, _super);
     function Event(id, name, slug, state, startAt, numEntrants, checkInBuffer, checkInDuration, checkInEnabled, isOnline, teamNameAllowed, teamManagementDeadline) {
@@ -198,7 +198,7 @@ var Event = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.getStandingsRaw()];
                     case 1:
                         standingData = _a.sent();
-                        standings = standingData.map(function (item) { return Standing_1.Standing.parse(item, id); });
+                        standings = standingData.map(function (item) { return Standings_1.Standings.parse(item, id); });
                         return [2 /*return*/, standings];
                 }
             });
@@ -354,15 +354,14 @@ var Event = /** @class */ (function (_super) {
     Event.prototype.getSets2 = function (options) {
         if (options === void 0) { options = GGSet_1.IGGSet.getDefaultSetOptions(); }
         return __awaiter(this, void 0, void 0, function () {
-            var _a, id, name, data, setData, sets;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var data, setData, sets;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        _a = this, id = _a.id, name = _a.name;
-                        Logger_1.default.info('Getting Sets for Event [%s :: %s]', id, name);
-                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Sets [" + id + " :: " + name + "]", queries.eventSets, { id: id }, options, {}, 3)];
+                        Logger_1.default.info('Getting Sets for Event [%s :: %s]', this.id, this.name);
+                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Sets [" + this.id + " :: " + this.name + "]", queries.eventSets, { id: this.id }, options, {}, 3)];
                     case 1:
-                        data = _b.sent();
+                        data = _a.sent();
                         setData = lodash_1.default.flatten(data.map(function (d) { return d.event.sets.nodes; }));
                         sets = setData.map(function (set) { return GGSet_1.GGSet.parse(set); });
                         return [2 /*return*/, sets];

@@ -133,7 +133,7 @@ var NetworkInterface = /** @class */ (function () {
     NetworkInterface.paginatedQuery = function (operationName, queryString, params, options, additionalParams, complexitySubtraction) {
         if (complexitySubtraction === void 0) { complexitySubtraction = 0; }
         return __awaiter(this, void 0, void 0, function () {
-            var results, page, perPage, filters, queryOptions, preflightQuery, preflightData, totalPages, onePageComplexity, query, data, i, queryParams, _a, _b;
+            var results, page, perPage, filters, queryOptions, preflightQuery, preflightData, totalPages, onePageComplexity, query, data, i, _a, _b;
             var _c;
             return __generator(this, function (_d) {
                 switch (_d.label) {
@@ -172,13 +172,13 @@ var NetworkInterface = /** @class */ (function () {
                             pageInfo: ''
                         }, additionalParams);
                         query = Common_1.mergeQuery(queryString, queryOptions);
-                        queryParams = Object.assign(params, {
+                        params = Object.assign(params, {
                             page: i,
                             perPage: perPage,
                             filters: filters,
                         });
                         _b = (_a = results).push;
-                        return [4 /*yield*/, NetworkInterface.query(query, queryParams)];
+                        return [4 /*yield*/, NetworkInterface.query(query, params)];
                     case 3:
                         _b.apply(_a, [_d.sent()]);
                         _d.label = 4;
@@ -203,7 +203,7 @@ var NetworkInterface = /** @class */ (function () {
         log.verbose('Calculating Optimal Pagecount: Complexity [%s], Total Pages [%s], Total Complexity [%s]',
             objectComplexity, totalPages, totalComplexity
         )
-
+        
         if(totalComplexity < MAX_COMPLEXITY)
             return 1
             //return Math.ceil(MAX_COMPLEXITY / objectComplexity / totalPages)

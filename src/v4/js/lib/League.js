@@ -53,7 +53,7 @@ var PhaseGroup_1 = require("./PhaseGroup");
 var Entrant_1 = require("./Entrant");
 var Attendee_1 = require("./Attendee");
 var GGSet_1 = require("./GGSet");
-var Standing_1 = require("./Standing");
+var Standings_1 = require("./Standings");
 var NetworkInterface_1 = __importDefault(require("./util/NetworkInterface"));
 var queries = __importStar(require("./scripts/leagueQueries"));
 var League = /** @class */ (function () {
@@ -153,7 +153,7 @@ var League = /** @class */ (function () {
                         return [4 /*yield*/, this.getStandingsRaw()];
                     case 1:
                         standingData = _a.sent();
-                        standings = standingData.map(function (item) { return Standing_1.Standing.parse(item, id); });
+                        standings = standingData.map(function (item) { return Standings_1.Standings.parse(item, id); });
                         return [2 /*return*/, standings];
                 }
             });
