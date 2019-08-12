@@ -35,21 +35,21 @@ export default class NetworkInterface{
 			NetworkInterface.initialized = true
 		}
 	}
-
+	
 	/**
 	 * query
-	 *
+	 * 
 	 * takes a graphql query string and corresponding variable object
 	 * if the client has not exceeded the threshold of 80 requests per 60
 	 * seconds, it is considered Not Delinquent.
 	 * otherwise, a Delinquent client will be halted from executing their
 	 * queries. In this case, the query is wrapped in a function returning
 	 * a promise to be fired after the 60 second time limit is up
-	 *
+	 * 
 	 * Useful for when many queries need to be run consecutively
-	 *
+	 * 
 	 * @param  {string} query
-	 * @param  {object} variables
+	 * @param  {object} variables 
 	 * @returns {promise} resolving the results of the query after being staggered in the request queue
 	 */
 	static query(query: string, variables: Variables) : Promise<any>{
@@ -75,7 +75,7 @@ export default class NetworkInterface{
 	}
 
 	static staggeredQuery(query: string, variables: Variables) : Promise<any>{
-		return new Promise(function(resolve, reject){
+		return new Promise(function(resolve, reject){ 
 			SRQ.getInstance().add(() => {
 				return NetworkInterface.client.request(query, variables)
 					.then(resolve)
@@ -133,7 +133,7 @@ export default class NetworkInterface{
 		//log.info('Total Pages using 1 perPage: %s, Object Complexity per Page: %s', totalPages, complexity)
 
 		// check to see if the implementer is forcing perPage
-		// if they are not, calculate the optimal perPage count,
+		// if they are not, calculate the optimal perPage count, 
 		// requery for new pageCount, and continue
 		let query, data;
 		/*
@@ -156,7 +156,7 @@ export default class NetworkInterface{
 		else
 			log.warn('Implementer has chosen to force perPage at %s per page', perPage)
 		*/
-
+			
 		// after, leave off the total page count to minimize complexity
 		for(let i = 1; i<=totalPages; i++){
 			log.info('%s: Collected %s/%s pages', operationName, i, totalPages)
@@ -167,12 +167,12 @@ export default class NetworkInterface{
 				pageInfo: ''
 			}, additionalParams);
 			query = mergeQuery(queryString, queryOptions)
-			const queryParams = Object.assign(params, {
+			params = Object.assign(params,{
 				page: i,
 				perPage,
 				filters,
 			})
-			results.push(await NetworkInterface.query(query, queryParams))
+			results.push(await NetworkInterface.query(query, params))
 		}
 
 		return results;
@@ -187,13 +187,13 @@ export default class NetworkInterface{
 
 	static calculateOptimalPerPagecount(objectComplexity: number, totalPages: number) : number{
 		let totalComplexity = objectComplexity * totalPages
-
+		
 		return MAX_COMPLEXITY / objectComplexity;
 		/*
-		log.verbose('Calculating Optimal Pagecount: Complexity [%s], Total Pages [%s], Total Complexity [%s]',
+		log.verbose('Calculating Optimal Pagecount: Complexity [%s], Total Pages [%s], Total Complexity [%s]', 
 			objectComplexity, totalPages, totalComplexity
 		)
-
+		
 		if(totalComplexity < MAX_COMPLEXITY)
 			return 1
 			//return Math.ceil(MAX_COMPLEXITY / objectComplexity / totalPages)
@@ -252,7 +252,7 @@ namespace IPaginatedQuery{
 	export interface PageInfoData{
 		pageInfo: {
 			totalPages: number
-		}
+		} 
 	}
 
 	export interface Filters{
