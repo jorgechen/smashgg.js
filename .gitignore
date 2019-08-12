@@ -3,9 +3,7 @@
 .idea/
 .vscode/
 node_modules/
-
-# knav: This needs to be committed, because we're using
-# src/v4/js/
+# src/v4/js/ # knav: This needs to be committed for directly pulling as NPM package
 src/v1/js/
 
 *.tgz

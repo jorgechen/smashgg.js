@@ -40,9 +40,9 @@ export default class NetworkInterface{
 	 * query
 	 * 
 	 * takes a graphql query string and corresponding variable object
-	 * if the client has not exceeded the threshold of 80 requests per 60
-	 * seconds, it is considered Not Delinquent.
-	 * otherwise, a Delinquent client will be halted from executing their
+	 * if the client has not exceeded the threshold of 80 requests per 60 
+	 * seconds, it is considered Not Delinquent. 
+	 * otherwise, a Delinquent client will be halted from executing their 
 	 * queries. In this case, the query is wrapped in a function returning
 	 * a promise to be fired after the 60 second time limit is up
 	 * 
@@ -180,7 +180,7 @@ export default class NetworkInterface{
 
 	static parseTotalPages(operationName: string, results: any) : number[] {
 		let parsed = TOTAL_PAGES_REGEX_STRING.exec(JSON.stringify(results))
-		if(!parsed)
+		if(!parsed) 
 			throw new Error(`${operationName}: Something wrong with paginated query. Did not match regex ${TOTAL_PAGES_REGEX_STRING.toString()}`)
 		return [+parsed[1], +parsed[2]]
 	}

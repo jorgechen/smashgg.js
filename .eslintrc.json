@@ -22,7 +22,7 @@
 			"off"
 		],
 		"no-global-assign": [
-			"warn"
+			"warn"			
 		]
 	}
 }
