@@ -1,3 +1,7 @@
+
+import {Entrant} from './Entrant'
+import {Standings} from './Standings'
+
 export class Seed implements ISeed.Seed{
 	id: number
 	entrantId: number

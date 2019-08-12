@@ -32,13 +32,13 @@ export class VideoGame implements IVideoGame.VideoGame{
 	minPerEntry: number
 	maxPerEntry: number
 	approved: boolean
-	slug: string
+	slug: string 
 	isCardGame: boolean
 	rawEncoding: string = 'json'
 
 	constructor(id: number, name: string, abbrev: string, displayName: string, minPerEntry: number,
 		maxPerEntry: number, approved: boolean, slug: string, isCardGame: boolean){
-
+		
 		this.id = id;
 		this.name = name;
 		this.abbrev = abbrev;
@@ -124,7 +124,7 @@ export class VideoGame implements IVideoGame.VideoGame{
 				let cached: VideoGame[] = await Cache.getInstance().get(cacheKey) as VideoGame[];
 				if(cached) return cached;
 			}
-
+			
 			let data: Data = JSON.parse(await request(API_URL));
 			let videoGames = data.entities.videogame.map(vg => VideoGame.resolve(vg));
 
@@ -175,7 +175,7 @@ export class VideoGame implements IVideoGame.VideoGame{
 
 			let data = await VideoGame.getAll();
 			let videoGames = data.filter(vg => {
-				return vg.name === name ||
+				return vg.name === name || 
 					vg.abbrev === name ||
 					vg.slug === name ||
 					vg.displayName === name;
@@ -217,7 +217,7 @@ export namespace IVideoGame{
 		minPerEntry: number
 		maxPerEntry: number
 		approved: boolean
-		slug: string
+		slug: string 
 		isCardGame: boolean
 		rawEncoding: string
 
