@@ -3,6 +3,7 @@ require('colors');
 require('dotenv').config({path: require('path').join(__dirname, '..', '.env')});
 const smashgg = require('..');
 smashgg.initialize(process.env.API_TOKEN);
+smashgg.setLogLevel('debug');
 const {Tournament, Event, GGSet, Player, Phase, PhaseGroup} = smashgg;
 
 const tournamentSlugRegex = new RegExp(/(http|https):\/\/api.smash.gg\/tournament\/([\S]*)\/?/);
@@ -12,13 +13,16 @@ const phaseGroupSlugRegex = new RegExp(/(http|https):\/\/api.smash.gg\/tournamen
 
 (async function(){
 
-    let t = await Tournament.get('svenska-raketligan-open-qualifiers-5');
+    let e = await Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
+    let standings = await e.getStandings();
+    //console.log(standings)
 
-    let a = await t.getAttendees();
-    let e = await t.getEntrants();
-    let s = await t.getSets();
+    console.log('Standings for %s at Tipped Off 12', e.getName().green);
+    standings.forEach(result => {
+        console.log("%s: %d", result.getGamerTag().magenta, result.getPlacement())
+    })
 
-    return true;
+    return true
 })()
 
 function parseTournamentSlug(slug){

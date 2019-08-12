@@ -70,7 +70,9 @@ export const eventPhaseGroups = `query EventPhaseGroups($id: ID!){
     }   
 }`
 
-export const eventSets = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){
+export const eventSets = 
+`query EventSets(
+    $id: ID!, $page: Int, $perPage: Int, $hasPermissions: Boolean, $sortType: SetSortType, $filters: SetFilters){
     event(id: $id){
           sets(
               page: $page,
@@ -86,7 +88,8 @@ export const eventSets = `query EventSets($id: ID!, $page: Int, $perPage: Int, $
     }   
 }`
 
-export const eventEntrants = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
+export const eventEntrants = 
+`query EventSets($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
     event(id: $id){
         entrants(query: {
             page: $page,
@@ -102,7 +105,9 @@ export const eventEntrants = `query EventSets($id: ID!, $page: Int, $perPage: In
     }
 }`
 
-export const eventAttendees = `query EventAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $isAdmin: Boolean, $filter: ParticipantPageFilter){
+export const eventAttendees = 
+`query EventAttendees(
+    $id: ID!, $page: Int, $perPage: Int, $sortBy: String, $isAdmin: Boolean, $filter: ParticipantPageFilter){
     event(id: $id){
         tournament{
             participants(query: {
@@ -120,7 +125,8 @@ export const eventAttendees = `query EventAttendees($id: ID!, $page: Int, $perPa
     }
 }`
 
-export const eventAttendees2 = `query EventAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
+export const eventAttendees2 = 
+`query EventAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
     event(id: $id){
         entrants(query: {
             page: $page,
@@ -138,3 +144,24 @@ export const eventAttendees2 = `query EventAttendees($id: ID!, $page: Int, $perP
     }
 }`
 
+export const eventStandings = `
+query StandingsQuery($id:ID!, $page:Int, $perPage:Int, $sortBy:String, $filter:StandingPageFilter){
+    event(id:$id){
+      standings(query:{
+        page: $page,
+        perPage: $perPage,
+        sortBy: $sortBy,
+        filter: $filter
+      }){
+        nodes{
+          id
+          placement
+          entrant{
+            ${Schema.entrant}
+          }
+        },
+        {pageInfo}
+      }
+    }
+  }
+`

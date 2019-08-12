@@ -48,7 +48,8 @@ export const tournamentVenue = `query tournamentVenue($id: ID!){
 	}	
 }`
 
-export const tournamentEntrants = `query TournamentEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
+export const tournamentEntrants =
+`query TournamentEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: EventEntrantPageQueryFilter){
     tournament(id: $id){
         events{
             entrants(query: {
@@ -66,7 +67,8 @@ export const tournamentEntrants = `query TournamentEntrants($id: ID!, $page: Int
     }
 }`
 
-export const tournamentAttendees = `query TournamentAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: ParticipantPageFilter){
+export const tournamentAttendees =
+`query TournamentAttendees($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $filter: ParticipantPageFilter){
     tournament(id: $id){
         participants(query: {
             page: $page,
@@ -103,7 +105,8 @@ export const tournamentAttendeeSearch = `query SearchTournamentAttendeesQuery($i
     }
   }`
 
-  export const tournamentAttendeeSearchByPrefix = `query SearchTournamentAttendeesBySponsorQuery($id:ID!, $sponsor:String){
+export const tournamentAttendeeSearchByPrefix =
+`query SearchTournamentAttendeesBySponsorQuery($id:ID!, $sponsor:String){
     tournament(id:$id){
       participants(query:{
         page: 1,
@@ -152,7 +155,7 @@ export const tournamentPhaseGroups = `query TournamentPhaseGroups($id: ID!){
     }   
 }`
 
-/** WARNING THIS DOES NOT WORK CURRENTLY DUE TO RECURSIVE LIMITATIONS, Use tournamentPhaseGroupIds instead **/
+// WARNING THIS DOES NOT WORK CURRENTLY DUE TO RECURSIVE LIMITATIONS, Use tournamentPhaseGroupIds instead **/
 export const tournamentSets = `query TournamentSets($id: ID!){
     tournament(id: $id){
         events{
