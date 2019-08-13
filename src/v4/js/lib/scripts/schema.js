@@ -22,7 +22,7 @@ exports.set = "\nlPlacement\nwPlacement\nid\neventId\nphaseGroupId\ndisplayScore
 // NOTE: totalGames is not legit, use slot.standing.stats.score.value
 exports.game = "\nid\nstate\nwinnerId\norderNum\nselections{\n\tselectionType\n\tselectionValue\n\tentrantId\n\tparticipantId\n}";
 exports.seeds = "\nid\nentrantId\nplaceholderName\nseedNum\nplacement\nisBye\nplayers{\n\tid\n}";
-exports.standings = "\nid\nentrantId\t\nplaceholderName\t\nseedNum\t\nplacement\nisBye\nplayers{\t\n\tid\t\n}\t\nstandings{\t\n\tstats{\t\n\t\tscore{\t\n\t\t\tlabel\t\n\t\t\tvalue\t\n\t\t}\t\n\t}\t\n}";
+exports.standings = "\nid\nentrantId\nplaceholderName\nseedNum\nplacement\nisBye\nplayers{\n\tid\n}\nstandings{\n\tstats{\n\t\tscore{\n\t\t\tlabel\n\t\t\tvalue\n\t\t}\n\t}\n}";
 exports.venue = "\nvenueName\nvenueAddress\ncity\naddrState\ncountryCode";
 exports.organizer = "\nownerId\ncontactEmail\ncontactTwitter\ncontactPhone\ncontactInfo";
 exports.stream = "\nid\neventId\ntournamentId\nstreamName\nnumSetups\nstreamSource\nstreamType\nstreamTypeId\nisOnline\nenabled\nfollowerCount\nremovesTasks\nstreamStatus\nstreamGame\nstreamLogo";

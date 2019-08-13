@@ -8,38 +8,44 @@ require('colors')
 const { Event, League, Tournament, VideoGame } = smashgg
 
 ;(async () => {
-  const filter = {
-    past: true,
-    isFeatured: true,
-    videogameIds: [3200],
-  }
-  const videogames = await VideoGame.getTournamentsRaw(filter)
-  videogames.forEach(({ name, startAt, endAt }) => {
-    console.log(_.padStart(name, 70), new Date(startAt * 1000), new Date(endAt * 1000))
-  })
-  console.log(`${videogames.length} games found`)
-  console.log(videogames[0])
-
-  return true
+  // const filter = {
+  //   past: true,
+  //   isFeatured: true,
+  //   videogameIds: [3200],
+  // }
+  // const videogames = await VideoGame.getTournamentsRaw(filter)
+  // videogames.forEach(({ name, startAt, endAt }) => {
+  //   console.log(_.padStart(name, 70), new Date(startAt * 1000), new Date(endAt * 1000))
+  // })
+  // console.log(`${videogames.length} games found`)
+  // console.log(videogames[0])
+  // return true
 
   const leagueSlug = 'the-2019-mortal-kombat-pro-kompetition'
   const league = await League.get(leagueSlug)
-  console.info(league.getName())
+  console.info(league)
 
   // NOTE: this is currently lacking data like player's points
-  // const leagueStandings = await league.getStandingsRaw()
-  // console.log(leagueStandings)
+  const leagueStandings = await league.getStandingsRaw()
+  console.info(leagueStandings[0])
 
   const events = await league.getEvents()
   const event = events[0]
   console.info(event)
   const tourney = await event.getTournamentRaw()
-  console.log(tourney)
+  console.info(tourney)
 
-  let sets = await event.getSetsRaw()
-  console.info('Got %s sets played', sets.length)
-  console.info('Sample sets:')
-  console.info(JSON.stringify(sets.slice(sets.length - 4), null, 2))
+  // let sets = await event.getSetsRaw()
+  // console.info('Got %s sets played', sets.length)
+  // console.info('Sample sets:')
+  // console.info(JSON.stringify(sets.slice(sets.length - 4), null, 2))
+
+  // event's phases, phaseGroups (aka pools)
+  const phaseGroups = await event.getPhaseGroups()
+  const phases = await event.getPhases()
+  phases[0].getGroupCount()
+  console.info(phases)
+  console.info(phaseGroups.map(phaseGroup => _.pick(phaseGroup, 'phaseId', 'id')))
 
   // const standings = await event.getStandingsRaw()
   // console.info(`Found ${standings.length} standings`)

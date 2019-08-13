@@ -241,21 +241,21 @@ players{
 
 export const standings = `
 id
-entrantId	
-placeholderName	
-seedNum	
+entrantId
+placeholderName
+seedNum
 placement
 isBye
-players{	
-	id	
-}	
-standings{	
-	stats{	
-		score{	
-			label	
-			value	
-		}	
-	}	
+players{
+	id
+}
+standings{
+	stats{
+		score{
+			label
+			value
+		}
+	}
 }`
 
 export const venue = `

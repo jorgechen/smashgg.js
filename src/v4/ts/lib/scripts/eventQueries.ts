@@ -9,7 +9,8 @@ export const eventTournament = `query EventTournament($id: ID!){
 }
 `
 
-export const eventSetsRaw = `query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){
+export const eventSetsRaw = `
+query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){
     event(id: $id){
           sets(
               page: $page,

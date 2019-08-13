@@ -9,7 +9,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Schema = __importStar(require("./schema"));
 exports.eventTournament = "query EventTournament($id: ID!){\n    event(id: $id){\n        tournament {\n            " + Schema.tournament + "\n        }\n    }\n}\n";
-exports.eventSetsRaw = "query EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){\n    event(id: $id){\n          sets(\n              page: $page,\n              perPage: $perPage,\n              sortType: $sortType,\n              filters: $filters\n          ){\n              {pageInfo}\n              nodes{\n                  " + Schema.set + "\n                  games {\n                    " + Schema.game + "\n                  }\n              }\n        }\n    }   \n}";
+exports.eventSetsRaw = "\nquery EventSets($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){\n    event(id: $id){\n          sets(\n              page: $page,\n              perPage: $perPage,\n              sortType: $sortType,\n              filters: $filters\n          ){\n              {pageInfo}\n              nodes{\n                  " + Schema.set + "\n                  games {\n                    " + Schema.game + "\n                  }\n              }\n        }\n    }   \n}";
 exports.event = "query EventQuery($id: ID!){\n    event(id:$id){   \n        " + Schema.event + "\n    }\n}";
 exports.eventSlug = "query EventQuery($slug:String){\n    event(slug:$slug){\n        " + Schema.event + "\n  \t}\n}";
 exports.eventPhases = "query EventPhases($id: ID!){\n    event(id: $id){\n        phases{\n            " + Schema.phase + "\n        }   \n    }\n}";

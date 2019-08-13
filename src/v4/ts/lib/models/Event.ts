@@ -168,16 +168,15 @@ export class Event extends EventEmitter implements IEvent{
 	}
 
 	// aggregation
-	public async getStandingsRaw() : Promise<any[]> {
+	public async getStandingsRaw(): Promise<any[]> {
 		log.info('Getting Standings for Event [%s :: %s]', this.id, this.name)
 		const options = { page: 1 }
-		let data: IEventStandingData[] = await NI.paginatedQuery(
+		const data: IEventStandingData[] = await NI.paginatedQuery(
 			`Event Entrants [${this.id} :: ${this.name}]`,
 			queries.eventStandings,{id: this.id},
 			options,{},2
 		)
-		let standingData = _.flatten(data.map(d => d.event.standings.nodes))
-		return standingData
+		return _.flatten(data.map(d => d.event.standings.nodes))
 	}
 
 	public async getTournamentRaw(): Promise<any> {
@@ -301,15 +300,14 @@ export class Event extends EventEmitter implements IEvent{
 		return _.uniqBy(sets, 'id')
 	}
 	
-	public async getSetsRaw(options: IGGSetOptions = GGSet.getDefaultSetOptions()) : Promise<any[]> {
+	public async getSetsRaw(options: IGGSetOptions = GGSet.getDefaultSetOptions()): Promise<any[]> {
 		log.info('Getting Sets for Event [%s :: %s]', this.id, this.name)
-		let data: IEventSetData[] = await NI.paginatedQuery(
+		const data: IEventSetData[] = await NI.paginatedQuery(
 			`Event Sets [${this.id} :: ${this.name}]`,
 			queries.eventSetsRaw, {id: this.id},
 			options,{},3
 		)
-		let setData = _.flatten(data.map(d => d.event.sets.nodes))
-		return setData
+		return _.flatten(data.map(d => d.event.sets.nodes))
 	}
 
 	// need coverage
