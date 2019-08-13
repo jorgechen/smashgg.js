@@ -16,7 +16,7 @@
     "url": "https://github.com/BrandonCookeDev/smashgg.js"
   },
   "scripts": {
-    "knav": "tsc && node knav.js",
+    "eg": "tsc && node example.js",
     "setupDebug": "node resources/scripts/setupDebug",
     "pretest": "tsc",
     "watch": "gulp watch",
