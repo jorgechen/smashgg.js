@@ -3,18 +3,46 @@ import { format } from 'util'
 import Cache from '../util/Cache'
 
 import {
+	IVideoGameTournamentData,
+	IVideoGameTournamentOptions,
 	IVideoGame,
 	IVideoGameData,
 	IVideoGameDataFull,
-	IVideoGameOptions
+	IVideoGameOptions,
 } from '../interfaces/IVideoGame'
 import log from '../util/Logger'
 
 const API_URL = 'https://api.smash.gg/public/videogames'
 // const LEGAL_ENCODINGS = ['json', 'utf8', 'base64']
 // const DEFAULT_ENCODING = 'json'
+import NI from '../util/NetworkInterface'
+import * as queries from '../scripts/tournamentQueries'
+import _ from 'lodash'
 
 export class VideoGame implements IVideoGame{
+	public static getDefaultTournamentOptions(): IVideoGameTournamentOptions{
+		return {
+			page: 1,
+			perPage: null,
+			sortBy: null,
+			filters: null
+		}
+	}
+
+	public static async getTournamentsRaw(
+		filter: object,
+		options: IVideoGameTournamentOptions = VideoGame.getDefaultTournamentOptions()
+	): Promise<any[]> {
+		const data: IVideoGameTournamentData[] = await NI.paginatedQuery(
+			`Finding tournaments with filter:${JSON.stringify(filter)}`,
+			queries.tournaments,
+			{ filter },
+			options,
+			{},
+			3,
+		)
+		return _.flatten(data.map(d => d.tournaments.nodes))
+	}
 
 	public static resolve(data: IVideoGameData): IVideoGame {
 		const vg = new VideoGame(

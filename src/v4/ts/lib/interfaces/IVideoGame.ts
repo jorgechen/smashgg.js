@@ -49,3 +49,26 @@ export interface IVideoGameData{
 export interface IVideoGameOptions{
 	isCached?: boolean,
 }
+
+export interface IVideoGameTournamentData{
+	tournaments: {
+		nodes: any[]
+	}
+}
+
+export interface IVideoGameTournamentOptions{
+	filterDQs?: boolean,
+	filterByes?: boolean,
+	filterResets?: boolean,
+	page?: number | null,
+	perPage?: number | null,
+	sortBy?: null | 'NONE' | 'STANDARD' | 'RACE_SPECTATOR' | 'ADMIN',
+	filters?: null | {
+		entrantIds?: number[],
+		state?: number[],
+		stationIds?: number[],
+		phaseIds?: number[],
+		phaseGroupIds?: number[],
+		roundNumber?: number
+	}
+}
