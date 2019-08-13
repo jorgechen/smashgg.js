@@ -17,10 +17,11 @@ export interface IStandingData{
 	id: number | null,
 	placement: number | null,
 	entrant: IEntrantData
+	stats: IStandingStats
 }
 
 export interface IStandingStats{
-	// score: IStandingScore
+	score: IStandingScore
 
 	getScore(): IStandingScore
 }
@@ -28,6 +29,7 @@ export interface IStandingStats{
 export interface IStandingScore{
 	label: string,
 	value: number
+	displayValue: string
 }
 
 export interface IStandingOptions{

@@ -2,8 +2,11 @@
 import {IStandingStats, IStandingScore} from '../interfaces/IStanding'
 
 export class StandingStats implements IStandingStats{
+	public static parse(data: IStandingStats): StandingStats {
+		return new StandingStats(data.score)
+	}
 
-	private score: IStandingScore
+	public score: IStandingScore
 
 	constructor(score: IStandingScore){
 		this.score = score

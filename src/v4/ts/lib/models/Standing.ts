@@ -1,8 +1,9 @@
 
-import { IStanding, IStandingData } from '../interfaces/IStanding'
+import { IStanding, IStandingData, IStandingStats } from '../interfaces/IStanding'
 import { IEntrant } from '../interfaces/IEntrant'
 
 import { Entrant } from './Entrant'
+import { StandingStats } from './StandingStats'
 
 export class Standing implements IStanding {
 
@@ -19,22 +20,26 @@ export class Standing implements IStanding {
 		return new Standing(
 			data.id,
 			data.placement,
-			Entrant.parse(data.entrant)
+			Entrant.parse(data.entrant),
+			StandingStats.parse(data.stats),
 		)
 	}
 
 	private id: number | null
 	private placement: number | null
 	private entrant: Entrant
+	private stats: IStandingStats
 
 	constructor(
 		id: number | null,
 		placement: number | null,
-		entrant: Entrant
+		entrant: Entrant,
+		stats: IStandingStats,
 	) {
 		this.id = id
 		this.placement = placement
 		this.entrant = entrant
+		this.stats = stats
 	}
 
 	public getId(): number | null {
