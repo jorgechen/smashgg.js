@@ -8,4 +8,4 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Schema = __importStar(require("./schema"));
-exports.stream = "query StreamQuery($id: ID!!){\n\tstream(id:$id){\n\t\t" + Schema.stream + "\n\t}\n}";
+exports.stream = "query StreamQuery($id: ID!){\n\tstream(id:$id){\n\t\t" + Schema.stream + "\n\t}\n}";

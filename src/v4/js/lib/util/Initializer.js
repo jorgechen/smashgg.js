@@ -15,7 +15,7 @@ function handleErrors(e) {
     winston_1.default.debug(e);
 }
 function default_1(token) {
-    //process.on('error', handleErrors)
+    // process.on('error', handleErrors)
     process.on('error', handleErrors);
     process.on('unhandledRejection', handleErrors);
     process.on('uncaughtException', handleErrors);

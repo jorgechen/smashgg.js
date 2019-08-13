@@ -50,32 +50,45 @@ var ROOT = path_1.default.join(__dirname, '..', '..', '..', '..', '.env');
 var dotenv_1 = require("dotenv");
 dotenv_1.config({ path: ROOT });
 require("../lib/util/ErrorHandler");
-var lodash_1 = __importDefault(require("lodash"));
 var chai_1 = __importDefault(require("chai"));
 var chai_as_promised_1 = __importDefault(require("chai-as-promised"));
 chai_1.default.use(chai_as_promised_1.default);
 var expect = chai_1.default.expect;
-var Event_1 = require("../lib/Event");
-var Phase_1 = require("../lib/Phase");
-var PhaseGroup_1 = require("../lib/PhaseGroup");
-var Entrant_1 = require("../lib/Entrant");
-var Attendee_1 = require("../lib/Attendee");
-var GGSet_1 = require("../lib/GGSet");
+var Event_1 = require("../lib/models/Event");
+var Phase_1 = require("../lib/models/Phase");
+var PhaseGroup_1 = require("../lib/models/PhaseGroup");
+var Entrant_1 = require("../lib/models/Entrant");
+var Attendee_1 = require("../lib/models/Attendee");
+var GGSet_1 = require("../lib/models/GGSet");
 var Initializer_1 = __importDefault(require("../lib/util/Initializer"));
 var testData = __importStar(require("./data/event.testData"));
 var event1, event2, event3;
-var EVENT_ID_1 = 133902;
-var EVENT_SLUG_1 = 'tournament/21xx-cameron-s-birthday-bash-1/event/melee-singles';
-var EVENT_TOURNAMENT_SLUG_1 = '21xx-cameron-s-birthday-bash-1';
-var EVENT_EVENT_SLUG_1 = 'melee-singles';
-var EVENT_ID_2 = 23597;
-var EVENT_SLUG_2 = 'tournament/tipped-off-12-presented-by-the-lab-gaming-center/event/melee-doubles';
-var EVENT_TOURNAMENT_SLUG_2 = 'tipped-off-12-presented-by-the-lab-gaming-center';
-var EVENT_EVENT_SLUG_2 = 'melee-doubles';
-var EVENT_ID_3 = 11787;
-var EVENT_SLUG_3 = 'tournament/ceo-2016/event/melee-singles';
-var EVENT_TOURNAMENT_SLUG_3 = 'ceo-2016';
-var EVENT_EVENT_SLUG_3 = 'melee-singles';
+var EVENT_1_ID = 133902;
+var EVENT_1_SLUG = 'tournament/21xx-cameron-s-birthday-bash-1/event/melee-singles';
+var EVENT_1_TOURNAMENT_SLUG = '21xx-cameron-s-birthday-bash-1';
+var EVENT_1_EVENT_SLUG = 'melee-singles';
+var EVENT_1_PHASE_COUNT = 1;
+var EVENT_1_PHASE_GROUP_COUNT = 1;
+var EVENT_1_ENTRANT_COUNT = 39;
+var EVENT_1_ATTENDEE_COUNT = 39;
+var EVENT_1_SET_COUNT = 77;
+var EVENT_2_ID = 23597;
+var EVENT_2_SLUG = 'tournament/tipped-off-12-presented-by-the-lab-gaming-center/event/melee-doubles';
+var EVENT_2_TOURNAMENT_SLUG = 'tipped-off-12-presented-by-the-lab-gaming-center';
+var EVENT_2_EVENT_SLUG = 'melee-doubles';
+var EVENT_2_PHASE_COUNT = 2;
+var EVENT_2_PHASE_GROUP_COUNT = 9;
+var EVENT_2_ENTRANT_COUNT = 60;
+var EVENT_2_ATTENDEE_COUNT = 120;
+var EVENT_2_SET_COUNT = 77;
+var EVENT_3_ID = 11787;
+var EVENT_3_SLUG = 'tournament/ceo-2016/event/melee-singles';
+var EVENT_3_TOURNAMENT_SLUG = 'ceo-2016';
+var EVENT_3_EVENT_SLUG = 'melee-singles';
+var EVENT_3_PHASE_COUNT = 2;
+var EVENT_3_PHASE_GROUP_COUNT = 33;
+var EVENT_3_ENTRANT_COUNT = 725;
+var EVENT_3_ATTENDEE_COUNT = 725;
 var TOP_8_LABELS = [
     'Losers Quarter-Final', 'Losers Quarter-Final',
     'Losers Semi-Final', 'Losers Semi-Final',
@@ -95,31 +108,31 @@ describe('smashgg Event', function () {
                         return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, Event_1.Event.getById(EVENT_ID_1)];
+                        return [4 /*yield*/, Event_1.Event.getById(EVENT_1_ID)];
                     case 2:
                         ei1 = _a.sent();
-                        return [4 /*yield*/, Event_1.Event.getById(EVENT_ID_2)];
+                        return [4 /*yield*/, Event_1.Event.getById(EVENT_2_ID)];
                     case 3:
                         ei2 = _a.sent();
-                        return [4 /*yield*/, Event_1.Event.getById(EVENT_ID_3)];
+                        return [4 /*yield*/, Event_1.Event.getById(EVENT_3_ID)];
                     case 4:
                         ei3 = _a.sent();
-                        return [4 /*yield*/, Event_1.Event.getBySlug(EVENT_SLUG_1)];
+                        return [4 /*yield*/, Event_1.Event.getBySlug(EVENT_1_SLUG)];
                     case 5:
                         es1 = _a.sent();
-                        return [4 /*yield*/, Event_1.Event.getBySlug(EVENT_SLUG_2)];
+                        return [4 /*yield*/, Event_1.Event.getBySlug(EVENT_2_SLUG)];
                     case 6:
                         es2 = _a.sent();
-                        return [4 /*yield*/, Event_1.Event.getBySlug(EVENT_SLUG_3)];
+                        return [4 /*yield*/, Event_1.Event.getBySlug(EVENT_3_SLUG)];
                     case 7:
                         es3 = _a.sent();
-                        return [4 /*yield*/, Event_1.Event.get(EVENT_TOURNAMENT_SLUG_1, EVENT_EVENT_SLUG_1)];
+                        return [4 /*yield*/, Event_1.Event.get(EVENT_1_TOURNAMENT_SLUG, EVENT_1_EVENT_SLUG)];
                     case 8:
                         e1 = _a.sent();
-                        return [4 /*yield*/, Event_1.Event.get(EVENT_TOURNAMENT_SLUG_2, EVENT_EVENT_SLUG_2)];
+                        return [4 /*yield*/, Event_1.Event.get(EVENT_2_TOURNAMENT_SLUG, EVENT_2_EVENT_SLUG)];
                     case 9:
                         e2 = _a.sent();
-                        return [4 /*yield*/, Event_1.Event.get(EVENT_TOURNAMENT_SLUG_3, EVENT_EVENT_SLUG_3)];
+                        return [4 /*yield*/, Event_1.Event.get(EVENT_3_TOURNAMENT_SLUG, EVENT_3_EVENT_SLUG)];
                     case 10:
                         e3 = _a.sent();
                         expect(ei1).to.deep.equal(es1);
@@ -249,22 +262,13 @@ describe('smashgg Event', function () {
     // phases
     it('should return the correct list of Phases in the Event 1', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var phases, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, event1.getPhases()];
+                        return [4 /*yield*/, testPhases(event1, EVENT_1_PHASE_COUNT)];
                     case 1:
-                        phases = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(phases)).to.be.false;
-                        phases.forEach(function (phase) {
-                            expect(phase).to.be.an.instanceof(Phase_1.Phase);
-                        });
-                        expect(phases.length).to.be.equal(1);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -272,22 +276,13 @@ describe('smashgg Event', function () {
     });
     it('should return the correct list of Phases in the Event 2', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var phases, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, event2.getPhases()];
+                        return [4 /*yield*/, testPhases(event2, EVENT_2_PHASE_COUNT)];
                     case 1:
-                        phases = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(phases)).to.be.false;
-                        phases.forEach(function (phase) {
-                            expect(phase).to.be.an.instanceof(Phase_1.Phase);
-                        });
-                        expect(phases.length).to.be.equal(2);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -295,22 +290,13 @@ describe('smashgg Event', function () {
     });
     it('should return the correct list of Phases in the Event 3', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var phases, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, event3.getPhases()];
+                        return [4 /*yield*/, testPhases(event3, EVENT_3_PHASE_COUNT)];
                     case 1:
-                        phases = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(phases)).to.be.false;
-                        phases.forEach(function (phase) {
-                            expect(phase).to.be.an.instanceof(Phase_1.Phase);
-                        });
-                        expect(phases.length).to.be.equal(2);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -319,22 +305,13 @@ describe('smashgg Event', function () {
     // phase groups
     it('should return the correct list of Phase Groups in the Event 1', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var groups, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, event1.getPhaseGroups()];
+                        return [4 /*yield*/, testPhaseGroups(event1, EVENT_1_PHASE_GROUP_COUNT)];
                     case 1:
-                        groups = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(groups)).to.be.false;
-                        groups.forEach(function (group) {
-                            expect(group).to.be.an.instanceof(PhaseGroup_1.PhaseGroup);
-                        });
-                        expect(groups.length).to.be.equal(1);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -342,22 +319,13 @@ describe('smashgg Event', function () {
     });
     it('should return the correct list of Phase Groups in the Event 2', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var groups, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, event2.getPhaseGroups()];
+                        return [4 /*yield*/, testPhaseGroups(event2, EVENT_2_PHASE_GROUP_COUNT)];
                     case 1:
-                        groups = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(groups)).to.be.false;
-                        groups.forEach(function (group) {
-                            expect(group).to.be.an.instanceof(PhaseGroup_1.PhaseGroup);
-                        });
-                        expect(groups.length).to.be.equal(9);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -365,22 +333,13 @@ describe('smashgg Event', function () {
     });
     it('should return the correct list of Phase Groups in the Event 3', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var groups, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, event3.getPhaseGroups()];
+                        return [4 /*yield*/, testPhaseGroups(event3, EVENT_3_PHASE_GROUP_COUNT)];
                     case 1:
-                        groups = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(groups)).to.be.false;
-                        groups.forEach(function (group) {
-                            expect(group).to.be.an.instanceof(PhaseGroup_1.PhaseGroup);
-                        });
-                        expect(groups.length).to.be.equal(33);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -389,22 +348,13 @@ describe('smashgg Event', function () {
     // entrants
     it('should return the correct list of Entrants in the Event 1', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var entrants, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, event1.getEntrants()];
+                        return [4 /*yield*/, testEntrants(event1, EVENT_1_ENTRANT_COUNT)];
                     case 1:
-                        entrants = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(entrants)).to.be.false;
-                        entrants.forEach(function (entrant) {
-                            expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
-                        });
-                        expect(entrants.length).to.be.equal(50);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -412,22 +362,13 @@ describe('smashgg Event', function () {
     });
     it('should return the correct list of Entrants in the Event 2', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var entrants, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, event2.getEntrants()];
+                        return [4 /*yield*/, testEntrants(event2, EVENT_2_ENTRANT_COUNT)];
                     case 1:
-                        entrants = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(entrants)).to.be.false;
-                        entrants.forEach(function (entrant) {
-                            expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
-                        });
-                        expect(entrants.length).to.be.equal(84);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -435,22 +376,13 @@ describe('smashgg Event', function () {
     });
     xit('should return the correct list of Entrants in the Event 3', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var entrants, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(60000);
-                        return [4 /*yield*/, event3.getEntrants()];
+                        return [4 /*yield*/, testEntrants(event3, EVENT_3_ENTRANT_COUNT)];
                     case 1:
-                        entrants = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(entrants)).to.be.false;
-                        entrants.forEach(function (entrant) {
-                            expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
-                        });
-                        expect(entrants.length).to.be.equal(725);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -459,22 +391,13 @@ describe('smashgg Event', function () {
     // attendee
     it('should return the correct list of Attendees in the Event 1', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var attendees, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, event1.getAttendees()];
+                        return [4 /*yield*/, testAttendees(event1, EVENT_1_ATTENDEE_COUNT)];
                     case 1:
-                        attendees = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(attendees)).to.be.false;
-                        attendees.forEach(function (attendee) {
-                            expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
-                        });
-                        expect(attendees.length).to.be.equal(50);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -482,22 +405,13 @@ describe('smashgg Event', function () {
     });
     it('should return the correct list of Attendees in the Event 2', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var attendees, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, event2.getAttendees()];
+                        return [4 /*yield*/, testAttendees(event2, EVENT_2_ATTENDEE_COUNT)];
                     case 1:
-                        attendees = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(attendees)).to.be.false;
-                        attendees.forEach(function (attendee) {
-                            expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
-                        });
-                        expect(attendees.length).to.be.equal(168);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -505,22 +419,13 @@ describe('smashgg Event', function () {
     });
     xit('should return the correct list of Attendees in the Event 3', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var attendees, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(60000);
-                        return [4 /*yield*/, event3.getAttendees()];
+                        return [4 /*yield*/, testAttendees(event3, EVENT_3_ATTENDEE_COUNT)];
                     case 1:
-                        attendees = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(attendees)).to.be.false;
-                        attendees.forEach(function (attendee) {
-                            expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
-                        });
-                        expect(attendees.length).to.be.equal(725);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -529,22 +434,13 @@ describe('smashgg Event', function () {
     // sets
     it('should return the correct list of Sets in the Event 1', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var sets, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, event1.getSets()];
+                        return [4 /*yield*/, testSets(event1, EVENT_1_SET_COUNT)];
                     case 1:
-                        sets = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(sets)).to.be.false;
-                        sets.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(GGSet_1.GGSet);
-                        });
-                        expect(sets.length).to.be.equal(84);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -552,48 +448,106 @@ describe('smashgg Event', function () {
     });
     it('should return the correct list of Sets in the Event 2', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var sets, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(60000);
-                        return [4 /*yield*/, event2.getSets()];
+                        return [4 /*yield*/, testSets(event2, EVENT_2_SET_COUNT)];
                     case 1:
-                        sets = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(sets)).to.be.false;
-                        sets.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(GGSet_1.GGSet);
-                        });
-                        expect(sets.length).to.be.equal(132);
-                        return [2 /*return*/, true];
-                }
-            });
-        });
-    });
-    xit('should return the correct list of Sets in the Event 3', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var sets, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.timeout(30000);
-                        return [4 /*yield*/, event3.getSets()];
-                    case 1:
-                        sets = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(sets)).to.be.false;
-                        sets.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(GGSet_1.GGSet);
-                        });
-                        expect(sets.length).to.be.equal(75);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
         });
     });
 });
+function testPhases(event, expected) {
+    return __awaiter(this, void 0, void 0, function () {
+        var phases;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, event.getPhases()];
+                case 1:
+                    phases = _a.sent();
+                    phases.forEach(function (phase) {
+                        expect(phase).to.be.an.instanceof(Phase_1.Phase);
+                        expect(phases.filter(function (x) { return x.getId() === phase.getId(); }).length, 'Phase array must not have duplicates! Found: ' + phase.getId()).to.be.equal(1);
+                    });
+                    expect(phases.length).to.be.equal(expected);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function testPhaseGroups(event, expected) {
+    return __awaiter(this, void 0, void 0, function () {
+        var groups;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, event.getPhaseGroups()];
+                case 1:
+                    groups = _a.sent();
+                    groups.forEach(function (group) {
+                        expect(group).to.be.an.instanceof(PhaseGroup_1.PhaseGroup);
+                        expect(groups.filter(function (x) { return x.getId() === group.getId(); }).length, 'Phase Group array must not have duplicates! Found: ' + group.getId()).to.be.equal(1);
+                    });
+                    expect(groups.length).to.be.equal(expected);
+                    return [2 /*return*/, true];
+            }
+        });
+    });
+}
+function testEntrants(event, expected) {
+    return __awaiter(this, void 0, void 0, function () {
+        var entrants;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, event.getEntrants()];
+                case 1:
+                    entrants = _a.sent();
+                    entrants.forEach(function (entrant) {
+                        expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
+                        expect(entrants.filter(function (x) { return x.getId() === entrant.getId(); }).length, 'Entrant array must not have duplicates! Found: ' + entrant.getId()).to.be.equal(1);
+                    });
+                    expect(entrants.length).to.be.equal(expected);
+                    return [2 /*return*/, true];
+            }
+        });
+    });
+}
+function testAttendees(event, expected) {
+    return __awaiter(this, void 0, void 0, function () {
+        var attendees;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, event.getAttendees()];
+                case 1:
+                    attendees = _a.sent();
+                    attendees.forEach(function (attendee) {
+                        expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
+                        expect(attendees.filter(function (x) { return x.getId() === attendee.getId(); }).length, 'Attendee array must not have duplicates! Found: ' + attendee.getId()).to.be.equal(1);
+                    });
+                    expect(attendees.length).to.be.equal(expected);
+                    return [2 /*return*/, true];
+            }
+        });
+    });
+}
+function testSets(event, expected) {
+    return __awaiter(this, void 0, void 0, function () {
+        var sets;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, event.getSets()];
+                case 1:
+                    sets = _a.sent();
+                    sets.forEach(function (set) {
+                        expect(set).to.be.an.instanceof(GGSet_1.GGSet);
+                        expect(sets.filter(function (x) { return x.getId() === set.getId(); }).length, 'Set array must not have duplicates! Found: ' + set.getId()).to.be.equal(1);
+                    });
+                    expect(sets.length).to.be.equal(EVENT_1_SET_COUNT);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}

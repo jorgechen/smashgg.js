@@ -44,6 +44,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = __importDefault(require("path"));
 var ROOT = path_1.default.join(__dirname, '..', '..', '..', '..', '.env');
@@ -51,27 +52,25 @@ var dotenv_1 = require("dotenv");
 dotenv_1.config({ path: ROOT });
 require("../lib/util/ErrorHandler");
 var chai_1 = require("chai");
-var Entrant_1 = require("../lib/Entrant");
-var Attendee_1 = require("../lib/Attendee");
+var Entrant_1 = require("../lib/models/Entrant");
+var Attendee_1 = require("../lib/models/Attendee");
 var Initializer_1 = __importDefault(require("../lib/util/Initializer"));
 var testData = __importStar(require("./data/player.testData"));
 var player1, player2, player3;
 describe('smashgg Player (Entrant) Singles', function () {
-    before(function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
-                    case 1:
-                        _a.sent();
-                        player1 = Entrant_1.Entrant.parse(testData.player1Data);
-                        player2 = Entrant_1.Entrant.parse(testData.player2Data);
-                        player3 = Entrant_1.Entrant.parse(testData.player3Data);
-                        return [2 /*return*/, true];
-                }
-            });
+    before(function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
+                case 1:
+                    _a.sent();
+                    player1 = Entrant_1.Entrant.parse(testData.player1Data);
+                    player2 = Entrant_1.Entrant.parse(testData.player2Data);
+                    player3 = Entrant_1.Entrant.parse(testData.player3Data);
+                    return [2 /*return*/, true];
+            }
         });
-    });
+    }); });
     // id
     it('should get the correct Player (smash.gg Entrant) Id 1', function () {
         chai_1.expect(player1.getId()).to.be.equal(testData.player1Data.id);
@@ -278,12 +277,12 @@ describe('smashgg Player (Entrant) Singles', function () {
     });
 });
 /*
-describe('smashgg Player (Entrant) Doubles', function(){
-    before(async function(){
+describe('smashgg Player (Entrant) Doubles', () => {
+    before(async () => {
         //player1 = Player.parse(testData.player1Data)
         //player2 = Player.parse(testData.player2Data)
         //player3 = Player.parse(testData.player3Data)
-        return true;
+        return true
     })
 })
-*/ 
+*/

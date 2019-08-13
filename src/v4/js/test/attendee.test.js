@@ -44,35 +44,34 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = __importDefault(require("path"));
 var ROOT = path_1.default.join(__dirname, '..', '..', '..', '..', '.env');
 var dotenv_1 = require("dotenv");
 dotenv_1.config({ path: ROOT });
 var chai_1 = require("chai");
-var Attendee_1 = require("../lib/Attendee");
-var User_1 = require("../lib/User");
-var Phase_1 = require("../lib/Phase");
-var PhaseGroup_1 = require("../lib/PhaseGroup");
+var Attendee_1 = require("../lib/models/Attendee");
+var User_1 = require("../lib/models/User");
+var Phase_1 = require("../lib/models/Phase");
+var PhaseGroup_1 = require("../lib/models/PhaseGroup");
 var Initializer_1 = __importDefault(require("../lib/util/Initializer"));
 var testData = __importStar(require("./data/attendee.testData"));
 var attendee1, attendee2, attendee3;
 describe('smash.gg Attendee (Participant)', function () {
-    before(function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
-                    case 1:
-                        _a.sent();
-                        attendee1 = Attendee_1.Attendee.parseFull(testData.attendee1Data);
-                        attendee2 = Attendee_1.Attendee.parseFull(testData.attendee2Data);
-                        attendee3 = Attendee_1.Attendee.parseFull(testData.attendee3Data);
-                        return [2 /*return*/, true];
-                }
-            });
+    before(function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
+                case 1:
+                    _a.sent();
+                    attendee1 = Attendee_1.Attendee.parseFull(testData.attendee1Data);
+                    attendee2 = Attendee_1.Attendee.parseFull(testData.attendee2Data);
+                    attendee3 = Attendee_1.Attendee.parseFull(testData.attendee3Data);
+                    return [2 /*return*/, true];
+            }
         });
-    });
+    }); });
     // attendee id
     it('should get the correct attendee Attendee (smash.gg Participant) id 1', function () {
         chai_1.expect(attendee1.getId()).to.be.equal(testData.attendee1Data.participant.id);
@@ -213,28 +212,6 @@ describe('smash.gg Attendee (Participant)', function () {
     it('should get the correct attendee Attendee (smash.gg Participant) zipcode 3', function () {
         chai_1.expect(attendee3.getZipcode()).to.be.equal(testData.attendee3Data.participant.contactInfo.zipcode);
     });
-    // events entered
-    xit('should get the correct events the attendee entered 1', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
-            });
-        });
-    });
-    xit('should get the correct events the attendee entered 1', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
-            });
-        });
-    });
-    xit('should get the correct events the attendee entered 1', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
-            });
-        });
-    });
     // user account
     it('should get the correct user account for an attendee 1', function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -246,8 +223,8 @@ describe('smash.gg Attendee (Participant)', function () {
                         return [4 /*yield*/, User_1.User.getById(attendee1.getPlayerId())];
                     case 1:
                         actual = _a.sent();
-                        chai_1.expect(actual).to.not.be.null;
                         chai_1.expect(actual).to.be.instanceof(User_1.User);
+                        chai_1.expect(actual).to.not.be.equal(null);
                         return [2 /*return*/];
                 }
             });
@@ -263,8 +240,8 @@ describe('smash.gg Attendee (Participant)', function () {
                         return [4 /*yield*/, User_1.User.getById(attendee2.getPlayerId())];
                     case 1:
                         actual = _a.sent();
-                        chai_1.expect(actual).to.not.be.null;
                         chai_1.expect(actual).to.be.instanceof(User_1.User);
+                        chai_1.expect(actual).to.not.be.equal(null);
                         return [2 /*return*/];
                 }
             });

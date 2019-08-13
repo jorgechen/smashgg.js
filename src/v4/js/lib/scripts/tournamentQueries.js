@@ -20,6 +20,6 @@ exports.tournamentAttendeeSearchByPrefix = "query SearchTournamentAttendeesBySpo
 exports.tournamentEvents = "query TournamentEvents($id: ID!){\n    tournament(id: $id){\n        events:{\n            " + Schema.event + "\n        }\n    }\n}";
 exports.tournamentPhases = "query TournamentPhases($id: ID!){\n    tournament(id: $id){\n        events{\n            id\n            phases{\n                " + Schema.phase + "\n            }\n        }\n    }   \n}";
 exports.tournamentPhaseGroups = "query TournamentPhaseGroups($id: ID!){\n    tournament(id: $id){\n        events{\n            phaseGroups{\n                " + Schema.phaseGroup + "\n            }\n        }\n    }   \n}";
-/** WARNING THIS DOES NOT WORK CURRENTLY DUE TO RECURSIVE LIMITATIONS, Use tournamentPhaseGroupIds instead **/
+// WARNING THIS DOES NOT WORK CURRENTLY DUE TO RECURSIVE LIMITATIONS, Use tournamentPhaseGroupIds instead **/
 exports.tournamentSets = "query TournamentSets($id: ID!){\n    tournament(id: $id){\n        events{\n            phaseGroups{\n                sets{\n                    " + Schema.set + "\n                }\n            }\n        }\n    }   \n}";
 exports.tournamentPhaseGroupIds = "query PhaseGroupIdQuery($id: ID!){\n    tournament(id: $id){\n        events{\n            id\n            phaseGroups{\n                id\n            }\n        }\n    }\n}";

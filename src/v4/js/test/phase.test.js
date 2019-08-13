@@ -51,29 +51,40 @@ var dotenv_1 = require("dotenv");
 dotenv_1.config({ path: ROOT });
 require("../lib/util/ErrorHandler");
 var log = __importStar(require("../lib/util/Logger"));
-var lodash_1 = __importDefault(require("lodash"));
 var chai_1 = __importDefault(require("chai"));
 var chai_as_promised_1 = __importDefault(require("chai-as-promised"));
 chai_1.default.use(chai_as_promised_1.default);
 var expect = chai_1.default.expect;
-var Phase_1 = require("../lib/Phase");
-var PhaseGroup_1 = require("../lib/PhaseGroup");
-var GGSet_1 = require("../lib/GGSet");
-var Entrant_1 = require("../lib/Entrant");
-var Attendee_1 = require("../lib/Attendee");
+var Phase_1 = require("../lib/models/Phase");
+var PhaseGroup_1 = require("../lib/models/PhaseGroup");
+var GGSet_1 = require("../lib/models/GGSet");
+var Entrant_1 = require("../lib/models/Entrant");
+var Attendee_1 = require("../lib/models/Attendee");
 var Initializer_1 = __importDefault(require("../lib/util/Initializer"));
 var testData = __importStar(require("./data/phase.testData"));
 var LOG_LEVEL = log.levels.DEBUG;
 var ID1 = 111483;
-var ID2 = 45262;
-var ID3 = 100046;
 var EVENT_ID_1 = 25545;
+var PHASE_1_PG_COUNT = 16;
+var PHASE_1_SET_COUNT = 232;
+var PHASE_1_ENTRANT_COUNT = 156;
+var PHASE_1_ATTENDEE_COUNT = 156;
+var ID2 = 45262;
 var EVENT_ID_2 = 11787;
+var PHASE_2_PG_COUNT = 25;
+var PHASE_2_SET_COUNT = 1164;
+var PHASE_2_ENTRANT_COUNT = 429;
+var PHASE_2_ATTENDEE_COUNT = 200;
+var ID3 = 100046;
 var EVENT_ID_3 = 23596;
+var PHASE_3_PG_COUNT = 16;
+var PHASE_3_SET_COUNT = 1164;
+var PHASE_3_ENTRANT_COUNT = 226;
+var PHASE_3_ATTENDEE_COUNT = 226;
 var phase1;
 var phase2;
 var phase3;
-var concurrency = 4;
+// let concurrency = 4
 describe('Smash GG Phase', function () {
     var _this = this;
     this.timeout(10000);
@@ -151,22 +162,13 @@ describe('Smash GG Phase', function () {
     // sets
     it('should correctly get all sets 1', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var sets, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(60000);
-                        return [4 /*yield*/, phase1.getSets()];
+                        return [4 /*yield*/, testSets(phase1, PHASE_1_SET_COUNT)];
                     case 1:
-                        sets = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(sets)).to.be.false;
-                        sets.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(GGSet_1.GGSet);
-                        });
-                        expect(sets.length).to.be.equal(388);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -174,22 +176,13 @@ describe('Smash GG Phase', function () {
     });
     xit('should correctly get all sets 2', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var sets, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(120000);
-                        return [4 /*yield*/, phase2.getSets()];
+                        return [4 /*yield*/, testSets(phase2, PHASE_2_SET_COUNT)];
                     case 1:
-                        sets = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(sets)).to.be.false;
-                        sets.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(GGSet_1.GGSet);
-                        });
-                        expect(sets.length).to.be.equal(1164);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -197,22 +190,13 @@ describe('Smash GG Phase', function () {
     });
     xit('should correctly get all sets 3', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var sets, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(60000);
-                        return [4 /*yield*/, phase2.getSets()];
+                        return [4 /*yield*/, testSets(phase3, PHASE_3_SET_COUNT)];
                     case 1:
-                        sets = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(sets)).to.be.false;
-                        sets.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(GGSet_1.GGSet);
-                        });
-                        expect(sets.length).to.be.equal(1164);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -221,22 +205,13 @@ describe('Smash GG Phase', function () {
     // entrants
     it('should correctly get all entrants 1', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var entrants, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(60000);
-                        return [4 /*yield*/, phase1.getEntrants()];
+                        return [4 /*yield*/, testEntrants(phase1, PHASE_1_ENTRANT_COUNT)];
                     case 1:
-                        entrants = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(entrants)).to.be.false;
-                        entrants.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(Entrant_1.Entrant);
-                        });
-                        expect(entrants.length).to.be.equal(156);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -244,22 +219,13 @@ describe('Smash GG Phase', function () {
     });
     xit('should correctly get all entrants 2', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var entrants, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, phase2.getEntrants()];
+                        return [4 /*yield*/, testEntrants(phase2, PHASE_2_ENTRANT_COUNT)];
                     case 1:
-                        entrants = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(entrants)).to.be.false;
-                        entrants.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(Entrant_1.Entrant);
-                        });
-                        expect(entrants.length).to.be.equal(429);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -267,22 +233,13 @@ describe('Smash GG Phase', function () {
     });
     it('should correctly get all entrants 3', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var entrants, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, phase3.getEntrants()];
+                        return [4 /*yield*/, testEntrants(phase3, PHASE_3_ENTRANT_COUNT)];
                     case 1:
-                        entrants = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(entrants)).to.be.false;
-                        entrants.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(Entrant_1.Entrant);
-                        });
-                        expect(entrants.length).to.be.equal(250);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -291,22 +248,13 @@ describe('Smash GG Phase', function () {
     // attendee
     it('should correctly get all attendees 1', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var attendee, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, phase1.getAttendees()];
+                        return [4 /*yield*/, testAttendees(phase1, PHASE_1_ATTENDEE_COUNT)];
                     case 1:
-                        attendee = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(attendee)).to.be.false;
-                        attendee.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(Attendee_1.Attendee);
-                        });
-                        expect(attendee.length).to.be.equal(175);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -314,22 +262,13 @@ describe('Smash GG Phase', function () {
     });
     xit('should correctly get all attendees 2', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var attendee, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, phase2.getAttendees()];
+                        return [4 /*yield*/, testAttendees(phase2, PHASE_2_ATTENDEE_COUNT)];
                     case 1:
-                        attendee = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(attendee)).to.be.false;
-                        attendee.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(Attendee_1.Attendee);
-                        });
-                        expect(attendee.length).to.be.equal(200);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -337,22 +276,13 @@ describe('Smash GG Phase', function () {
     });
     it('should correctly get all attendees 3', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var attendee, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(60000);
-                        return [4 /*yield*/, phase3.getAttendees()];
+                        return [4 /*yield*/, testAttendees(phase3, PHASE_3_ATTENDEE_COUNT)];
                     case 1:
-                        attendee = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(attendee)).to.be.false;
-                        attendee.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(Attendee_1.Attendee);
-                        });
-                        expect(attendee.length).to.be.equal(226);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -361,22 +291,13 @@ describe('Smash GG Phase', function () {
     // phase groups
     it('should correctly get all phase groups 1', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var groups, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, phase1.getPhaseGroups()];
+                        return [4 /*yield*/, testPhaseGroups(phase1, PHASE_1_PG_COUNT)];
                     case 1:
-                        groups = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(groups)).to.be.false;
-                        groups.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(PhaseGroup_1.PhaseGroup);
-                        });
-                        expect(groups.length).to.be.equal(16);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -384,22 +305,13 @@ describe('Smash GG Phase', function () {
     });
     it('should correctly get all phase groups 2', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var groups, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, phase2.getPhaseGroups()];
+                        return [4 /*yield*/, testPhaseGroups(phase2, PHASE_2_PG_COUNT)];
                     case 1:
-                        groups = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(groups)).to.be.false;
-                        groups.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(PhaseGroup_1.PhaseGroup);
-                        });
-                        expect(groups.length).to.be.equal(32);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
@@ -407,147 +319,138 @@ describe('Smash GG Phase', function () {
     });
     it('should correctly get all phase groups 3', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var groups, hasDuplicates;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.timeout(30000);
-                        return [4 /*yield*/, phase3.getPhaseGroups()];
+                        return [4 /*yield*/, testPhaseGroups(phase3, PHASE_3_PG_COUNT)];
                     case 1:
-                        groups = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(groups)).to.be.false;
-                        groups.forEach(function (set) {
-                            expect(set).to.be.an.instanceof(PhaseGroup_1.PhaseGroup);
-                        });
-                        expect(groups.length).to.be.equal(16);
+                        _a.sent();
                         return [2 /*return*/, true];
                 }
             });
         });
     });
     /*
-    it('should correctly get all phase groups', async function(){
+    it('should correctly get all phase groups', async () => {
         this.timeout(45000)
 
-        let phaseGroups1 = await phase1.getPhaseGroups({concurrency: concurrency});
+        let phaseGroups1 = await phase1.getPhaseGroups({concurrency: concurrency})
 
-        expect(phaseGroups1.length).to.be.equal(16);
+        expect(phaseGroups1.length).to.be.equal(16)
 
         var hasDuplicates = function(a: Array<PhaseGroup>) {
-            return _.uniq(a).length !== a.length;
-        };
-        expect(hasDuplicates(phaseGroups1)).to.be.false;
+            return _.uniq(a).length !== a.length
+        }
+        expect(hasDuplicates(phaseGroups1)).to.be.false
 
         phaseGroups1.forEach(set => {
-            expect(set).to.be.an.instanceof(PhaseGroup);
-        });
-
-        return true;
-    });
-
-    it('should correctly get all phase groups 2', async function(){
-        this.timeout(45000);
-        
-        let phaseGroups2 = await phase2.getPhaseGroups({concurrency: concurrency});
-
-        expect(phaseGroups2.length).to.be.equal(32);
-
-        var hasDuplicates = function(a: Array<PhaseGroup>) {
-            return _.uniq(a).length !== a.length;
-        };
-        expect(hasDuplicates(phaseGroups2)).to.be.false;
-
-        phaseGroups2.forEach(set => {
-            expect(set).to.be.an.instanceof(PhaseGroup);
-        });
+            expect(set).to.be.an.instanceof(PhaseGroup)
+        })
 
         return true
     })
 
-    it('should correctly get all phase groups 3', async function(){
-        this.timeout(45000);
+    it('should correctly get all phase groups 2', async () => {
+        this.timeout(45000)
         
-        let phaseGroups3 = await phase3.getPhaseGroups({concurrency: concurrency});
+        let phaseGroups2 = await phase2.getPhaseGroups({concurrency: concurrency})
 
-        expect(phaseGroups3.length).to.be.equal(16);
+        expect(phaseGroups2.length).to.be.equal(32)
 
         var hasDuplicates = function(a: Array<PhaseGroup>) {
-            return _.uniq(a).length !== a.length;
-        };
-        expect(hasDuplicates(phaseGroups3)).to.be.false;
+            return _.uniq(a).length !== a.length
+        }
+        expect(hasDuplicates(phaseGroups2)).to.be.false
+
+        phaseGroups2.forEach(set => {
+            expect(set).to.be.an.instanceof(PhaseGroup)
+        })
+
+        return true
+    })
+
+    it('should correctly get all phase groups 3', async () => {
+        this.timeout(45000)
+        
+        let phaseGroups3 = await phase3.getPhaseGroups({concurrency: concurrency})
+
+        expect(phaseGroups3.length).to.be.equal(16)
+
+        var hasDuplicates = function(a: Array<PhaseGroup>) {
+            return _.uniq(a).length !== a.length
+        }
+        expect(hasDuplicates(phaseGroups3)).to.be.false
 
         phaseGroups3.forEach(set => {
             expect(set).to.be.an.instanceof(PhaseGroup)
         })
 
-        return true;
+        return true
     })
 
-    it('should correctly get all sets for a phase', async function(){
+    it('should correctly get all sets for a phase', async () => {
         this.timeout(30000)
 
-        let sets1 = await phase1.getSets({concurrency: concurrency});
+        let sets1 = await phase1.getSets({concurrency: concurrency})
 
-        expect(sets1.length).to.be.equal(248);
+        expect(sets1.length).to.be.equal(248)
 
         sets1.forEach(set => {
-            expect(set).to.be.instanceof(GGSet);
-        })
-
-        return true;
-    })
-
-    xit('should correctly get all sets for a phase 2', async function(){
-        this.timeout(45000);
-        
-        let sets2 = await phase2.getSets({concurrency: concurrency});
-
-        expect(sets2.length).to.be.equal(1292);
-
-        sets2.forEach(set => {
-            expect(set).to.be.instanceof(GGSet);
-        })
-
-        return true;
-    })
-
-    it('should correctly get all sets for a phase 3', async function(){
-        this.timeout(45000);
-        
-        let sets3 = await phase3.getSets({concurrency: concurrency});
-
-        expect(sets3.length).to.be.equal(450);
-
-        sets3.forEach(set => {
-            expect(set).to.be.instanceof(GGSet);
+            expect(set).to.be.instanceof(GGSet)
         })
 
         return true
     })
 
-    it('should correctly get all players for a phase', async function(){
+    xit('should correctly get all sets for a phase 2', async () => {
+        this.timeout(45000)
+        
+        let sets2 = await phase2.getSets({concurrency: concurrency})
+
+        expect(sets2.length).to.be.equal(1292)
+
+        sets2.forEach(set => {
+            expect(set).to.be.instanceof(GGSet)
+        })
+
+        return true
+    })
+
+    it('should correctly get all sets for a phase 3', async () => {
+        this.timeout(45000)
+        
+        let sets3 = await phase3.getSets({concurrency: concurrency})
+
+        expect(sets3.length).to.be.equal(450)
+
+        sets3.forEach(set => {
+            expect(set).to.be.instanceof(GGSet)
+        })
+
+        return true
+    })
+
+    it('should correctly get all players for a phase', async () => {
         this.timeout(30000)
         
-        let players1 = await phase1.getPlayers({concurrency: concurrency});
+        let players1 = await phase1.getPlayers({concurrency: concurrency})
 
-        expect(players1.length).to.be.equal(156);
+        expect(players1.length).to.be.equal(156)
 
         players1.forEach(set => {
             expect(set).to.be.instanceof(Entrant)
         })
 
-        return true;
+        return true
     })
 
-    it('should correctly get all players for a phase', async function(){
-        this.timeout(30000);
+    it('should correctly get all players for a phase', async () => {
+        this.timeout(30000)
         
-        let players2 = await phase2.getPlayers({concurrency: concurrency});
+        let players2 = await phase2.getPlayers({concurrency: concurrency})
 
-        expect(players2.length).to.be.equal(678);
+        expect(players2.length).to.be.equal(678)
 
         players2.forEach(set => {
             expect(set).to.be.instanceof(Entrant)
@@ -556,26 +459,98 @@ describe('Smash GG Phase', function () {
         return true
     })
 
-    it('should correctly get sets x minutes back', async function(){
+    it('should correctly get sets x minutes back', async () => {
         this.timeout(30000)
 
-        let minutesBack = 5;
-        let event = await Event.getEventById(phase1.getEventId(), {});
-        let eventDate = moment(event.getStartTime() as Date).add(30, 'minutes').toDate();
+        let minutesBack = 5
+        let event = await Event.getEventById(phase1.getEventId(), {})
+        let eventDate = moment(event.getStartTime() as Date).add(30, 'minutes').toDate()
 
         let clock = sinon.useFakeTimers(eventDate)
         let sets = await phase1.getSetsXMinutesBack(minutesBack)
         expect(sets.length).to.be.equal(5)
         sets.forEach(set=> {
-            expect(set).to.be.instanceof(GGSet);
+            expect(set).to.be.instanceof(GGSet)
 
-            let now = moment();
-            let then = moment(set.getCompletedAt() as Date);
-            let diff = moment.duration(now.diff(then)).minutes();
-            expect(diff <= minutesBack && diff >= 0 && set.getIsComplete()).to.be.true;
+            let now = moment()
+            let then = moment(set.getCompletedAt() as Date)
+            let diff = moment.duration(now.diff(then)).minutes()
+            expect(diff <= minutesBack && diff >= 0 && set.getIsComplete()).to.be.true
         })
         clock.restore()
         return true
     })
     */
 });
+function testSets(phase, expected) {
+    return __awaiter(this, void 0, void 0, function () {
+        var arr;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, phase.getSets()];
+                case 1:
+                    arr = _a.sent();
+                    arr.forEach(function (set) {
+                        expect(set).to.be.an.instanceof(GGSet_1.GGSet);
+                        expect(arr.filter(function (x) { return x.getId() === set.getId(); }).length, 'Set array must not have duplicates! Found: ' + set.getId()).to.be.equal(1);
+                    });
+                    expect(arr.length).to.be.equal(expected);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function testEntrants(phase, expected) {
+    return __awaiter(this, void 0, void 0, function () {
+        var arr;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, phase.getEntrants()];
+                case 1:
+                    arr = _a.sent();
+                    arr.forEach(function (entrant) {
+                        expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
+                        expect(arr.filter(function (x) { return x.getId() === entrant.getId(); }).length, 'Entrant array must not have duplicates! Found: ' + entrant.getId()).to.be.equal(1);
+                    });
+                    expect(arr.length).to.be.equal(expected);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function testAttendees(phase, expected) {
+    return __awaiter(this, void 0, void 0, function () {
+        var arr;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, phase.getAttendees()];
+                case 1:
+                    arr = _a.sent();
+                    arr.forEach(function (attendee) {
+                        expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
+                        expect(arr.filter(function (x) { return x.getId() === attendee.getId(); }).length, 'Attendee array must not have duplicates! Found: ' + attendee.getId()).to.be.equal(1);
+                    });
+                    expect(arr.length).to.be.equal(expected);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function testPhaseGroups(phase, expected) {
+    return __awaiter(this, void 0, void 0, function () {
+        var arr;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, phase.getPhaseGroups()];
+                case 1:
+                    arr = _a.sent();
+                    arr.forEach(function (group) {
+                        expect(group).to.be.an.instanceof(PhaseGroup_1.PhaseGroup);
+                        expect(arr.filter(function (x) { return x.getId() === group.getId(); }).length, 'Phase Group array must not have duplicates! Found: ' + group.getId()).to.be.equal(1);
+                    });
+                    expect(arr.length).to.be.equal(expected);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}

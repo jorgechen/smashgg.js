@@ -55,35 +55,34 @@ var chai_as_promised_1 = __importDefault(require("chai-as-promised"));
 chai_1.default.use(chai_as_promised_1.default);
 var expect = chai_1.default.expect;
 var Initializer_1 = __importDefault(require("../lib/util/Initializer"));
-var Stream_1 = require("../lib/Stream");
+var Stream_1 = require("../lib/models/Stream");
 var testData = __importStar(require("./data/stream.testData"));
 var stream1, stream2, stream3;
 var STREAM_ID_1 = 10493;
 var STREAM_ID_2 = 574;
 var STREAM_ID_3 = 40210;
 describe('smashgg Stream', function () {
+    var _this = this;
     this.timeout(10000);
-    before(function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
-                    case 1:
-                        _a.sent();
-                        return [4 /*yield*/, Stream_1.Stream.get(STREAM_ID_1)];
-                    case 2:
-                        stream1 = _a.sent();
-                        return [4 /*yield*/, Stream_1.Stream.get(STREAM_ID_2)];
-                    case 3:
-                        stream2 = _a.sent();
-                        return [4 /*yield*/, Stream_1.Stream.get(STREAM_ID_3)];
-                    case 4:
-                        stream3 = _a.sent();
-                        return [2 /*return*/, true];
-                }
-            });
+    before(function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, Stream_1.Stream.get(STREAM_ID_1)];
+                case 2:
+                    stream1 = _a.sent();
+                    return [4 /*yield*/, Stream_1.Stream.get(STREAM_ID_2)];
+                case 3:
+                    stream2 = _a.sent();
+                    return [4 /*yield*/, Stream_1.Stream.get(STREAM_ID_3)];
+                case 4:
+                    stream3 = _a.sent();
+                    return [2 /*return*/, true];
+            }
         });
-    });
+    }); });
     // id
     it('should get the correct stream id 1', function () {
         expect(stream1.getId()).to.be.equal(testData.stream1.id);

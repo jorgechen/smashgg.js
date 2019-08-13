@@ -69,18 +69,17 @@ var StaggeredRequestQueue = /** @class */ (function (_super) {
         return _this;
     }
     StaggeredRequestQueue.init = function () {
+        var _this = this;
         if (!StaggeredRequestQueue.initialized) {
             StaggeredRequestQueue.instance = new StaggeredRequestQueue();
             StaggeredRequestQueue.processing = false;
-            StaggeredRequestQueue.instance.on('add', function () {
-                return __awaiter(this, void 0, void 0, function () {
-                    return __generator(this, function (_a) {
-                        if (!StaggeredRequestQueue.processing)
-                            StaggeredRequestQueue.getInstance().processQueue();
-                        return [2 /*return*/];
-                    });
+            StaggeredRequestQueue.instance.on('add', function () { return __awaiter(_this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    if (!StaggeredRequestQueue.processing)
+                        StaggeredRequestQueue.getInstance().processQueue();
+                    return [2 /*return*/];
                 });
-            });
+            }); });
             StaggeredRequestQueue.initialized = true;
         }
     };
@@ -145,7 +144,7 @@ var StaggeredRequestQueue = /** @class */ (function (_super) {
     };
     // TODO enforce strict type on element being added
     StaggeredRequestQueue.prototype.add = function (element) {
-        if (element.constructor.name != 'Function')
+        if (element.constructor.name !== 'Function')
             throw new Error('SRQ Error: Elements added must be a function wrapping around a promise');
         this.queue.push(element);
         this.emitAddEvent();
@@ -170,4 +169,3 @@ var StaggeredRequestQueue = /** @class */ (function (_super) {
     return StaggeredRequestQueue;
 }(events_1.EventEmitter));
 exports.default = StaggeredRequestQueue;
-module.exports = StaggeredRequestQueue;

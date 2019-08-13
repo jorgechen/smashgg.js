@@ -15,4 +15,3 @@ var TokenHandler = /** @class */ (function () {
     return TokenHandler;
 }());
 exports.default = TokenHandler;
-module.exports = TokenHandler;

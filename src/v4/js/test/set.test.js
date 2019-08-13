@@ -50,16 +50,15 @@ var ROOT = path_1.default.join(__dirname, '..', '..', '..', '..', '.env');
 var dotenv_1 = require("dotenv");
 dotenv_1.config({ path: ROOT });
 require("../lib/util/ErrorHandler");
-var lodash_1 = __importDefault(require("lodash"));
 var moment_1 = __importDefault(require("moment"));
 var chai_1 = __importDefault(require("chai"));
 var chai_as_promised_1 = __importDefault(require("chai-as-promised"));
 chai_1.default.use(chai_as_promised_1.default);
 var expect = chai_1.default.expect;
-var GGSet_1 = require("../lib/GGSet");
-var Game_1 = require("../lib/Game");
-var Entrant_1 = require("../lib/Entrant");
-var Attendee_1 = require("../lib/Attendee");
+var GGSet_1 = require("../lib/models/GGSet");
+var Game_1 = require("../lib/models/Game");
+var Entrant_1 = require("../lib/models/Entrant");
+var Attendee_1 = require("../lib/models/Attendee");
 var testData = __importStar(require("./data/sets.testData"));
 var gameData = __importStar(require("./data/games.testData"));
 var Initializer_1 = __importDefault(require("../lib/util/Initializer"));
@@ -68,33 +67,32 @@ var SET_ID_1 = +'11186682';
 var SET_ID_2 = +'11186683';
 var SET_ID_3 = +'8798920';
 describe('Smash GG Set', function () {
+    var _this = this;
     this.timeout(10000);
-    before(function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
-                    case 1:
-                        _a.sent();
-                        console.log('Testing displayScore parsing first...');
-                        expect(GGSet_1.GGSet.parseDisplayScore(testData.set1.displayScore)).to.deep.equal(testData.parsedDisplayScore1);
-                        expect(GGSet_1.GGSet.parseDisplayScore(testData.set2.displayScore)).to.deep.equal(testData.parsedDisplayScore2);
-                        expect(GGSet_1.GGSet.parseDisplayScore(testData.set3.displayScore)).to.deep.equal(testData.parsedDisplayScore3);
-                        console.log('Success!');
-                        return [4 /*yield*/, GGSet_1.GGSet.get(SET_ID_1)];
-                    case 2:
-                        set1 = _a.sent();
-                        return [4 /*yield*/, GGSet_1.GGSet.get(SET_ID_2)];
-                    case 3:
-                        set2 = _a.sent();
-                        return [4 /*yield*/, GGSet_1.GGSet.get(SET_ID_3)];
-                    case 4:
-                        set3 = _a.sent();
-                        return [2 /*return*/, true];
-                }
-            });
+    before(function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
+                case 1:
+                    _a.sent();
+                    console.log('Testing displayScore parsing first...');
+                    expect(GGSet_1.GGSet.parseDisplayScore(testData.set1.displayScore)).to.deep.equal(testData.parsedDisplayScore1);
+                    expect(GGSet_1.GGSet.parseDisplayScore(testData.set2.displayScore)).to.deep.equal(testData.parsedDisplayScore2);
+                    expect(GGSet_1.GGSet.parseDisplayScore(testData.set3.displayScore)).to.deep.equal(testData.parsedDisplayScore3);
+                    console.log('Success!');
+                    return [4 /*yield*/, GGSet_1.GGSet.get(SET_ID_1)];
+                case 2:
+                    set1 = _a.sent();
+                    return [4 /*yield*/, GGSet_1.GGSet.get(SET_ID_2)];
+                case 3:
+                    set2 = _a.sent();
+                    return [4 /*yield*/, GGSet_1.GGSet.get(SET_ID_3)];
+                case 4:
+                    set3 = _a.sent();
+                    return [2 /*return*/, true];
+            }
         });
-    });
+    }); });
     // event id
     it('should return the correct event id 1', function () {
         expect(set1.getEventId()).to.be.equal(testData.set1.eventId);
@@ -117,76 +115,76 @@ describe('Smash GG Set', function () {
     });
     // started at time
     it('should return the correct starting timestamp 1', function () {
-        expect(set1.getStartedAtTimestamp()).to.be.equal(set1.startedAt);
+        expect(set1.getStartedAtTimestamp()).to.be.equal(testData.set1.startedAt);
     });
     it('should return the correct starting timestamp 2 ', function () {
-        expect(set2.getStartedAtTimestamp()).to.be.equal(set2.startedAt);
+        expect(set2.getStartedAtTimestamp()).to.be.equal(testData.set2.startedAt);
     });
     it('should return the correct starting timestamp 3', function () {
-        expect(set3.getStartedAtTimestamp()).to.be.equal(set3.startedAt);
+        expect(set3.getStartedAtTimestamp()).to.be.equal(testData.set3.startedAt);
     });
     // completed at time
     it('should return the correct completed timestamp 1', function () {
-        expect(set1.getCompletedAtTimestamp()).to.be.equal(set1.completedAt);
+        expect(set1.getCompletedAtTimestamp()).to.be.equal(testData.set1.completedAt);
     });
     it('should return the correct completed timestamp 2', function () {
-        expect(set2.getCompletedAtTimestamp()).to.be.equal(set2.completedAt);
+        expect(set2.getCompletedAtTimestamp()).to.be.equal(testData.set2.completedAt);
     });
     it('should return the correct completed timestamp 3', function () {
-        expect(set3.getCompletedAtTimestamp()).to.be.equal(set3.completedAt);
+        expect(set3.getCompletedAtTimestamp()).to.be.equal(testData.set3.completedAt);
     });
     // completed at time date
     it('should return the correct completed Datetime 1', function () {
-        var expected = moment_1.default.unix(set1.completedAt).toDate();
+        var expected = moment_1.default.unix(testData.set1.completedAt).toDate();
         expect(moment_1.default(set1.getCompletedAt()).isSame(expected)).to.to.true;
     });
     it('should return the correct completed Datetime 2', function () {
-        var expected = moment_1.default.unix(set2.completedAt).toDate();
+        var expected = moment_1.default.unix(testData.set2.completedAt).toDate();
         expect(moment_1.default(set2.getCompletedAt()).isSame(expected)).to.to.true;
     });
     it('should return the correct completed Datetime 3', function () {
-        var expected = moment_1.default.unix(set3.completedAt).toDate();
+        var expected = moment_1.default.unix(testData.set3.completedAt).toDate();
         expect(moment_1.default(set3.getCompletedAt()).isSame(expected)).to.to.true;
     });
     // display score
     it('should return the correct display score string 1', function () {
-        expect(set1.getDisplayScore()).to.be.equal(set1.displayScore);
+        expect(set1.getDisplayScore()).to.be.equal(testData.set1.displayScore);
     });
     it('should return the correct display score string 2', function () {
-        expect(set2.getDisplayScore()).to.be.equal(set2.displayScore);
+        expect(set2.getDisplayScore()).to.be.equal(testData.set2.displayScore);
     });
     it('should return the correct display score string 3', function () {
-        expect(set3.getDisplayScore()).to.be.equal(set3.displayScore);
+        expect(set3.getDisplayScore()).to.be.equal(testData.set3.displayScore);
     });
     // full round text
     it('should return the full round text 1', function () {
-        expect(set1.getFullRoundText()).to.be.equal(set1.fullRoundText);
+        expect(set1.getFullRoundText()).to.be.equal(testData.set1.fullRoundText);
     });
     it('should return the full round text 2', function () {
-        expect(set2.getFullRoundText()).to.be.equal(set2.fullRoundText);
+        expect(set2.getFullRoundText()).to.be.equal(testData.set2.fullRoundText);
     });
     it('should return the full round text 3', function () {
-        expect(set3.getFullRoundText()).to.be.equal(set3.fullRoundText);
+        expect(set3.getFullRoundText()).to.be.equal(testData.set3.fullRoundText);
     });
     // round
     it('should return the round 1', function () {
-        expect(set1.getRound()).to.be.equal(set1.round);
+        expect(set1.getRound()).to.be.equal(testData.set1.round);
     });
     it('should return the round 2', function () {
-        expect(set2.getRound()).to.be.equal(set2.round);
+        expect(set2.getRound()).to.be.equal(testData.set2.round);
     });
     it('should return the round 3', function () {
-        expect(set3.getRound()).to.be.equal(set3.round);
+        expect(set3.getRound()).to.be.equal(testData.set3.round);
     });
     // state
     it('should return the state 1', function () {
-        expect(set1.getState()).to.be.equal(set1.state);
+        expect(set1.getState()).to.be.equal(testData.set1.state);
     });
     it('should return the state 2', function () {
-        expect(set2.getState()).to.be.equal(set2.state);
+        expect(set2.getState()).to.be.equal(testData.set2.state);
     });
     it('should return the state 3', function () {
-        expect(set3.getState()).to.be.equal(set3.state);
+        expect(set3.getState()).to.be.equal(testData.set3.state);
     });
     // player 1
     it('should return player1 1', function () {
@@ -319,202 +317,130 @@ describe('Smash GG Set', function () {
         expect(set3.getLoserScore()).to.be.equal(1);
     });
     // games
-    it('should get the list of games played in the set 1', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var expected, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        expected = gameData.games1.map(function (gameData) { return Game_1.Game.parse(gameData); });
-                        _a = expect;
-                        return [4 /*yield*/, set1.getGames()];
-                    case 1:
-                        _a.apply(void 0, [_b.sent()]).to.have.deep.members(expected);
-                        return [2 /*return*/, true];
-                }
-            });
+    it('should get the list of games played in the set 1', function () { return __awaiter(_this, void 0, void 0, function () {
+        var expected, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    expected = gameData.games1.map(function (data) { return Game_1.Game.parse(data); });
+                    _a = expect;
+                    return [4 /*yield*/, set1.getGames()];
+                case 1:
+                    _a.apply(void 0, [_b.sent()]).to.have.deep.members(expected);
+                    return [2 /*return*/, true];
+            }
         });
-    });
-    it('should get the list of games played in the set 2', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var expected, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        expected = gameData.games2.map(function (gameData) { return Game_1.Game.parse(gameData); });
-                        _a = expect;
-                        return [4 /*yield*/, set2.getGames()];
-                    case 1:
-                        _a.apply(void 0, [_b.sent()]).to.have.deep.members(expected);
-                        return [2 /*return*/, true];
-                }
-            });
+    }); });
+    it('should get the list of games played in the set 2', function () { return __awaiter(_this, void 0, void 0, function () {
+        var expected, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    expected = gameData.games2.map(function (data) { return Game_1.Game.parse(data); });
+                    _a = expect;
+                    return [4 /*yield*/, set2.getGames()];
+                case 1:
+                    _a.apply(void 0, [_b.sent()]).to.have.deep.members(expected);
+                    return [2 /*return*/, true];
+            }
         });
-    });
-    it('should get the list of games played in the set 3', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var expected, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        expected = gameData.games3.map(function (gameData) { return Game_1.Game.parse(gameData); });
-                        _a = expect;
-                        return [4 /*yield*/, set3.getGames()];
-                    case 1:
-                        _a.apply(void 0, [_b.sent()]).to.have.deep.members(expected);
-                        return [2 /*return*/, true];
-                }
-            });
+    }); });
+    it('should get the list of games played in the set 3', function () { return __awaiter(_this, void 0, void 0, function () {
+        var expected, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    expected = gameData.games3.map(function (data) { return Game_1.Game.parse(data); });
+                    _a = expect;
+                    return [4 /*yield*/, set3.getGames()];
+                case 1:
+                    _a.apply(void 0, [_b.sent()]).to.have.deep.members(expected);
+                    return [2 /*return*/, true];
+            }
         });
-    });
+    }); });
     // entrants
-    it('should get the correct entrants who played in the set 1', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var entrants, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, set1.getEntrants()];
-                    case 1:
-                        entrants = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(entrants)).to.be.false;
-                        entrants.forEach(function (entrant) {
-                            expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
-                        });
-                        expect(entrants.length).to.be.equal(2);
-                        return [2 /*return*/, true];
-                }
-            });
+    it('should get the correct entrants who played in the set 1', function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, testGetEntrants(set1)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
         });
-    });
-    it('should get the correct entrants who played in the set 2', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var entrants, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, set2.getEntrants()];
-                    case 1:
-                        entrants = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(entrants)).to.be.false;
-                        entrants.forEach(function (entrant) {
-                            expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
-                        });
-                        expect(entrants.length).to.be.equal(2);
-                        return [2 /*return*/, true];
-                }
-            });
+    }); });
+    it('should get the correct entrants who played in the set 2', function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, testGetEntrants(set2)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
         });
-    });
-    it('should get the correct entrants who played in the set 3', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var entrants, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, set3.getEntrants()];
-                    case 1:
-                        entrants = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(entrants)).to.be.false;
-                        entrants.forEach(function (entrant) {
-                            expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
-                        });
-                        expect(entrants.length).to.be.equal(2);
-                        return [2 /*return*/, true];
-                }
-            });
+    }); });
+    it('should get the correct entrants who played in the set 3', function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, testGetEntrants(set3)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
         });
-    });
+    }); });
     // participants
-    it('should get the correct attendees who played in the set 1', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var attendees, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, set1.getAttendees()];
-                    case 1:
-                        attendees = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(attendees)).to.be.false;
-                        attendees.forEach(function (attendee) {
-                            expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
-                        });
-                        expect(attendees.length).to.be.equal(2);
-                        return [2 /*return*/, true];
-                }
-            });
+    it('should get the correct attendees who played in the set 1', function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, testGetAttendees(set1)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
         });
-    });
-    it('should get the correct attendees who played in the set 2', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var attendees, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, set2.getAttendees()];
-                    case 1:
-                        attendees = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(attendees)).to.be.false;
-                        attendees.forEach(function (attendee) {
-                            expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
-                        });
-                        expect(attendees.length).to.be.equal(2);
-                        return [2 /*return*/, true];
-                }
-            });
+    }); });
+    it('should get the correct attendees who played in the set 2', function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, testGetAttendees(set2)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
         });
-    });
-    it('should get the correct participants who played in the set 3', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var attendees, hasDuplicates;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, set3.getAttendees()];
-                    case 1:
-                        attendees = _a.sent();
-                        hasDuplicates = function (a) {
-                            return lodash_1.default.uniq(a).length !== a.length;
-                        };
-                        expect(hasDuplicates(attendees)).to.be.false;
-                        attendees.forEach(function (attendee) {
-                            expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
-                        });
-                        expect(attendees.length).to.be.equal(2);
-                        return [2 /*return*/, true];
-                }
-            });
+    }); });
+    it('should get the correct participants who played in the set 3', function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, testGetAttendees(set3)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
         });
-    });
+    }); });
     xit('should give the correct Bracket ID', function (done) {
-        //expect(set1.getBracketId()).to.be.equal('58df119c60fbb')
-        //expect(set2.getBracketId()).to.be.equal('58df119c60fbb')
-        //expect(set3.getBracketId()).to.be.equal('58df119c60fbb')
+        // expect(set1.getBracketId()).to.be.equal('58df119c60fbb')
+        // expect(set2.getBracketId()).to.be.equal('58df119c60fbb')
+        // expect(set3.getBracketId()).to.be.equal('58df119c60fbb')
         done();
     });
     xit('should give the correct Winners Tournament Placement', function (done) {
         /*
         let winner1 = set1.getWinner() as Player
         let data1 = winner1.data as IPlayer.Entity
-        expect(set1.getWinnersTournamentPlacement()).to.be.equal(data1.finalPlacement);
+        expect(set1.getWinnersTournamentPlacement()).to.be.equal(data1.finalPlacement)
 
-        done();
+        done()
         */
     });
     xit('should give the correct Winners Tournament Placement 2', function (done) {
         /*
         let winner2 = set2.getWinner() as Player
         let data2 = winner2.data as IPlayer.Entity
-        expect(set2.getWinnersTournamentPlacement()).to.be.equal(data2.finalPlacement);
+        expect(set2.getWinnersTournamentPlacement()).to.be.equal(data2.finalPlacement)
         
         done()
         */
@@ -523,25 +449,25 @@ describe('Smash GG Set', function () {
         /*
         let winner3 = set3.getWinner() as Player
         let data3 = winner3.data as IPlayer.Entity
-        expect(set3.getWinnersTournamentPlacement()).to.be.equal(data3.finalPlacement);
+        expect(set3.getWinnersTournamentPlacement()).to.be.equal(data3.finalPlacement)
 
-        done();
+        done()
         */
     });
     xit('should give the correct Losers Tournament Placement', function (done) {
         /*
         let loser1 = set1.getLoser() as Player
         let data1 = loser1.data as IPlayer.Entity
-        expect(set1.getLosersTournamentPlacement()).to.be.equal(data1.finalPlacement);
+        expect(set1.getLosersTournamentPlacement()).to.be.equal(data1.finalPlacement)
 
         done()
-        */ ;
+        */
     });
     xit('should give the correct Losers Tournament Placement 2', function (done) {
         /*
         let loser2 = set2.getLoser() as Player
         let data2 = loser2.data as IPlayer.Entity
-        expect(set2.getLosersTournamentPlacement()).to.be.equal(data2.finalPlacement);
+        expect(set2.getLosersTournamentPlacement()).to.be.equal(data2.finalPlacement)
 
         done()
         */
@@ -550,7 +476,7 @@ describe('Smash GG Set', function () {
         /*
         let loser3 = set3.getLoser() as Player
         let data3 = loser3.data as IPlayer.Entity
-        expect(set3.getLosersTournamentPlacement()).to.be.equal(data3.finalPlacement);
+        expect(set3.getLosersTournamentPlacement()).to.be.equal(data3.finalPlacement)
 
         done()
         */
@@ -564,3 +490,39 @@ describe('Smash GG Set', function () {
         */
     });
 });
+function testGetEntrants(set) {
+    return __awaiter(this, void 0, void 0, function () {
+        var arr;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, set.getEntrants()];
+                case 1:
+                    arr = _a.sent();
+                    arr.forEach(function (entrant) {
+                        expect(entrant).to.be.an.instanceof(Entrant_1.Entrant);
+                        expect(arr.filter(function (x) { return x.getId() === entrant.getId(); }).length, 'Phase Group array must not have duplicates! Found: ' + entrant.getId()).to.be.equal(1);
+                    });
+                    expect(arr.length).to.be.equal(2);
+                    return [2 /*return*/, true];
+            }
+        });
+    });
+}
+function testGetAttendees(set) {
+    return __awaiter(this, void 0, void 0, function () {
+        var arr;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, set.getAttendees()];
+                case 1:
+                    arr = _a.sent();
+                    arr.forEach(function (attendee) {
+                        expect(attendee).to.be.an.instanceof(Attendee_1.Attendee);
+                        expect(arr.filter(function (x) { return x.getId() === attendee.getId(); }).length, 'Phase Group array must not have duplicates! Found: ' + attendee.getId()).to.be.equal(1);
+                    });
+                    expect(arr.length).to.be.equal(2);
+                    return [2 /*return*/, true];
+            }
+        });
+    });
+}

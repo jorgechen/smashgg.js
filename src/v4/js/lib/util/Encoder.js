@@ -6,16 +6,16 @@ var Encoder = /** @class */ (function () {
     function Encoder() {
     }
     Encoder.determineEncoding = function (encoding) {
-        return encoding != undefined && LEGAL_ENCODINGS.includes(encoding) ? encoding : DEFAULT_ENCODING;
+        return encoding !== undefined && LEGAL_ENCODINGS.includes(encoding) ? encoding : DEFAULT_ENCODING;
     };
     Encoder.encode = function (data, encoding) {
         if (encoding === void 0) { encoding = DEFAULT_ENCODING; }
-        var encoded = encoding == 'json' ? data : new Buffer(JSON.stringify(data)).toString(encoding);
+        var encoded = encoding === 'json' ? data : new Buffer(JSON.stringify(data)).toString(encoding);
         return encoded;
     };
     Encoder.decode = function (data, encoding) {
         if (encoding === void 0) { encoding = DEFAULT_ENCODING; }
-        var decoded = encoding == 'json' ? data : JSON.parse(new Buffer(data.toString(), encoding).toString('utf8'));
+        var decoded = encoding === 'json' ? data : JSON.parse(new Buffer(data.toString(), encoding).toString('utf8'));
         return decoded;
     };
     return Encoder;

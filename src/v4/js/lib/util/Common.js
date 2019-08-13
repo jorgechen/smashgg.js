@@ -23,8 +23,10 @@ var losersRoundRegex = new RegExp(/Losers Round ([0-9])/);
 function merge(target, obj) {
     var ret = lodash_1.default.clone(target);
     for (var prop in obj) {
-        var regex = new RegExp("{" + prop + "}", 'g');
-        ret = ret.replace(regex, obj[prop]);
+        if (prop) {
+            var regex = new RegExp("{" + prop + "}", 'g');
+            ret = ret.replace(regex, obj[prop]);
+        }
     }
     return ret;
 }
@@ -32,8 +34,10 @@ exports.merge = merge;
 function mergeQuery(target, obj) {
     var ret = lodash_1.default.clone(target);
     for (var prop in obj) {
-        var regex = new RegExp("{" + prop + "}", 'g');
-        ret = ret.replace(regex, obj[prop]);
+        if (prop) {
+            var regex = new RegExp("{" + prop + "}", 'g');
+            ret = ret.replace(regex, obj[prop]);
+        }
     }
     var orphanedVarsRegex = new RegExp(/\{[\S]*\}/, 'g');
     var orphanedVars = orphanedVarsRegex.exec(ret);
@@ -54,15 +58,17 @@ function determineComplexity() {
     var complexity = 0;
     var objs = [];
     for (var i in objects) {
-        var obj = objects[i];
-        for (var key in obj) {
-            if (typeof obj[key] === 'object') {
-                complexity++;
-                objs.push(obj[key]);
+        if (i) {
+            var obj = objects[i];
+            for (var key in obj) {
+                if (typeof obj[key] === 'object') {
+                    complexity++;
+                    objs.push(obj[key]);
+                }
             }
         }
     }
-    if (complexity == 0)
+    if (complexity === 0)
         return 0;
     else
         return complexity + determineComplexity(objs);
@@ -78,7 +84,7 @@ function orderTop8(sets) {
     var ordered = [];
     var fn = function (roundName) {
         ordered = ordered.concat(lodash_1.default.find(sets, function (set) {
-            return set.getFullRoundText() == roundName;
+            return set.getFullRoundText() === roundName;
         }));
     };
     var hasReset = lodash_1.default.find(sets, function (set) {
@@ -100,7 +106,7 @@ function orderTop8(sets) {
 exports.orderTop8 = orderTop8;
 function parseOptions(options) {
     return {
-        isCached: options.isCached != undefined ? options.isCached === true : true,
+        isCached: options.isCached !== undefined ? options.isCached === true : true,
         concurrency: options.concurrency || DEFAULT_CONCURRENCY,
         rawEncoding: Encoder_1.default.determineEncoding(options.rawEncoding)
     };
@@ -136,14 +142,3 @@ function convertEpochToDate(epoch) {
     return d;
 }
 exports.convertEpochToDate = convertEpochToDate;
-var ICommon;
-(function (ICommon) {
-    function parseOptions(options) {
-        return {
-            isCached: options.isCached != undefined ? options.isCached === true : true,
-            concurrency: options.concurrency || 4,
-            rawEncoding: Encoder_1.default.determineEncoding(options.rawEncoding)
-        };
-    }
-    ICommon.parseOptions = parseOptions;
-})(ICommon = exports.ICommon || (exports.ICommon = {}));

@@ -44,6 +44,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = __importDefault(require("path"));
 var ROOT = path_1.default.join(__dirname, '..', '..', '..', '..', '.env');
@@ -55,29 +56,27 @@ var chai_as_promised_1 = __importDefault(require("chai-as-promised"));
 chai_1.default.use(chai_as_promised_1.default);
 var expect = chai_1.default.expect;
 var Initializer_1 = __importDefault(require("../lib/util/Initializer"));
-var StreamQueue_1 = require("../lib/StreamQueue");
-var Stream_1 = require("../lib/Stream");
-var GGSet_1 = require("../lib/GGSet");
+var StreamQueue_1 = require("../lib/models/StreamQueue");
+var Stream_1 = require("../lib/models/Stream");
+var GGSet_1 = require("../lib/models/GGSet");
 var testData = __importStar(require("./data/streamQueue.testData"));
 var streamQueue1;
 var STREAM_QUEUE_TOURNAMENT_ID_1 = 6620;
 describe('smashgg Stream Queue', function () {
-    before(function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
-                    case 1:
-                        _a.sent();
-                        return [4 /*yield*/, StreamQueue_1.StreamQueue.get(STREAM_QUEUE_TOURNAMENT_ID_1)];
-                    case 2:
-                        streamQueue1 = _a.sent();
-                        expect(streamQueue1).to.not.be.null;
-                        return [2 /*return*/, true];
-                }
-            });
+    before(function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, StreamQueue_1.StreamQueue.get(STREAM_QUEUE_TOURNAMENT_ID_1)];
+                case 2:
+                    streamQueue1 = _a.sent();
+                    expect(streamQueue1).to.not.be.null;
+                    return [2 /*return*/, true];
+            }
         });
-    });
+    }); });
     it('should get the correct Stream 1', function () {
         expect(streamQueue1[0].getStream()).to.deep.equal(Stream_1.Stream.parse(testData.streamQueue1[0].stream));
     });

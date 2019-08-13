@@ -1,5 +1,4 @@
-/* eslint-disable */
-'use strict';
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -38,10 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = __importDefault(require("chai"));
 var expect = chai_1.default.expect;
-var Character_1 = require("../lib/Character");
+var Character_1 = require("../lib/models/Character");
 var Cache_1 = __importDefault(require("../lib/util/Cache"));
 var MELEE_CHAR_COUNT = 27;
 var PM_CHAR_COUNT = 42;
@@ -50,18 +50,16 @@ var MELEE_ID = 1;
 var WOLF_ID = 116;
 var PM_ID = 2;
 describe('Smashgg Character', function () {
-    beforeEach(function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Cache_1.default.getInstance().flushAll()];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
+    beforeEach(function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Cache_1.default.getInstance().flushAll()];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
         });
-    });
+    }); });
     it('should get all characters', function () {
         return __awaiter(this, void 0, void 0, function () {
             var characters;
@@ -72,7 +70,7 @@ describe('Smashgg Character', function () {
                         return [4 /*yield*/, Character_1.Character.getAll()];
                     case 1:
                         characters = _a.sent();
-                        expect(characters.length > 0).to.be.true;
+                        expect(characters.length > 0).to.be.equal(true);
                         characters.forEach(function (character) {
                             expect(character).to.be.instanceof(Character_1.Character);
                         });
@@ -176,10 +174,10 @@ describe('Smashgg Character', function () {
                         wolf.forEach(function (character) {
                             expect(character).to.be.instanceof(Character_1.Character);
                         });
-                        expect(bowser[0].id).to.be.equal(BOWSER_ID);
-                        expect(bowser[0].videogameId).to.be.equal(MELEE_ID);
-                        expect(wolf[0].id).to.be.equal(WOLF_ID);
-                        expect(wolf[0].videogameId).to.be.equal(PM_ID);
+                        expect(bowser[0].getId()).to.be.equal(BOWSER_ID);
+                        expect(bowser[0].getVideoGameId()).to.be.equal(MELEE_ID);
+                        expect(wolf[0].getId()).to.be.equal(WOLF_ID);
+                        expect(wolf[0].getVideoGameId()).to.be.equal(PM_ID);
                         return [2 /*return*/, true];
                 }
             });
@@ -200,10 +198,10 @@ describe('Smashgg Character', function () {
                         wolf = _a.sent();
                         expect(bowser).to.be.instanceof(Character_1.Character);
                         expect(wolf).to.be.instanceof(Character_1.Character);
-                        expect(bowser.id).to.be.equal(BOWSER_ID);
-                        expect(bowser.videogameId).to.be.equal(MELEE_ID);
-                        expect(wolf.id).to.be.equal(WOLF_ID);
-                        expect(wolf.videogameId).to.be.equal(PM_ID);
+                        expect(bowser.getId()).to.be.equal(BOWSER_ID);
+                        expect(bowser.getVideoGameId()).to.be.equal(MELEE_ID);
+                        expect(wolf.getId()).to.be.equal(WOLF_ID);
+                        expect(wolf.getVideoGameId()).to.be.equal(PM_ID);
                         return [2 /*return*/, true];
                 }
             });
@@ -224,10 +222,10 @@ describe('Smashgg Character', function () {
                         wolf = _a.sent();
                         expect(bowser).to.be.instanceof(Character_1.Character);
                         expect(wolf).to.be.instanceof(Character_1.Character);
-                        expect(bowser.id).to.be.equal(BOWSER_ID);
-                        expect(bowser.videogameId).to.be.equal(MELEE_ID);
-                        expect(wolf.id).to.be.equal(WOLF_ID);
-                        expect(wolf.videogameId).to.be.equal(PM_ID);
+                        expect(bowser.getId()).to.be.equal(BOWSER_ID);
+                        expect(bowser.getVideoGameId()).to.be.equal(MELEE_ID);
+                        expect(wolf.getId()).to.be.equal(WOLF_ID);
+                        expect(wolf.getVideoGameId()).to.be.equal(PM_ID);
                         return [2 /*return*/, true];
                 }
             });

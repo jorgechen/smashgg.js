@@ -51,7 +51,7 @@ var StaggeredRequestQueue_1 = __importDefault(require("./StaggeredRequestQueue")
 var GQLClient_1 = __importDefault(require("./GQLClient"));
 var QueryQueue_1 = __importDefault(require("./QueryQueue"));
 var Common_1 = require("./Common");
-//import {ITournament, IEvent, IPhase, IPhaseGroup, IPlayer, IGGSet} from '../internal'
+// import {ITournament, IEvent, IPhase, IPhaseGroup, IPlayer, IGGSet} from '../internal'
 var RATE_LIMIT_MS_TIME = process.env.RateLimitMsTime || 1000;
 var TOTAL_PAGES_REGEX_JSON = new RegExp(/"pageInfo":[\s]?{[\n\s]*?"totalPages": ([0-9]*)/);
 var TOTAL_PAGES_REGEX_STRING = new RegExp(/"pageInfo":{"totalPages":([0-9]*),"perPage":([0-9]*)}/);
@@ -83,7 +83,7 @@ var NetworkInterface = /** @class */ (function () {
      */
     NetworkInterface.query = function (query, variables) {
         return new Promise(function (resolve, reject) {
-            Logger_1.default.queries("Query: " + JSON.stringify(query) + ":\n" + JSON.stringify(variables));
+            Logger_1.default.queries('Query: ' + JSON.stringify(query) + ':\n' + JSON.stringify(variables));
             QueryQueue_1.default.getInstance().add(function () {
                 return NetworkInterface.client.request(query, variables)
                     .then(resolve)
@@ -93,7 +93,7 @@ var NetworkInterface = /** @class */ (function () {
     };
     NetworkInterface.rawQuery = function (query, variables) {
         return new Promise(function (resolve, reject) {
-            Logger_1.default.queries("Raw Query: " + JSON.stringify(query) + ":\n" + JSON.stringify(variables));
+            Logger_1.default.queries('Raw Query: ' + JSON.stringify(query) + ':\n' + JSON.stringify(variables));
             QueryQueue_1.default.getInstance().add(function () {
                 return NetworkInterface.client.rawRequest(query, variables)
                     .then(resolve)
@@ -133,59 +133,66 @@ var NetworkInterface = /** @class */ (function () {
     NetworkInterface.paginatedQuery = function (operationName, queryString, params, options, additionalParams, complexitySubtraction) {
         if (complexitySubtraction === void 0) { complexitySubtraction = 0; }
         return __awaiter(this, void 0, void 0, function () {
-            var results, page, perPage, filters, queryOptions, preflightQuery, preflightData, totalPages, onePageComplexity, query, data, i, _a, _b;
+            var results, isSinglePage, curPage, curFilters, curPerPage, queryOptions, singlePageQuery, preflightQuery, preflightData, totalPages, onePageComplexity, query, i, _a, _b;
             var _c;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
                         Logger_1.default.info('%s: Calling Paginated Querys', operationName);
-                        Logger_1.default.queries("Paginated Query: " + JSON.stringify(queryString) + ":\n" + JSON.stringify(params));
+                        Logger_1.default.queries('Paginated Query: ' + JSON.stringify(queryString) + ':\n' + JSON.stringify(params));
                         results = [];
-                        page = options != undefined && options.page ? options.page : 1;
-                        perPage = options != undefined && options.perPage ? options.perPage : null;
-                        filters = options != undefined && options.filters ? options.filters : null;
+                        isSinglePage = options !== undefined && options.page;
+                        curPage = options !== undefined && options.page ? options.page : 1;
+                        curFilters = options !== undefined && options.filters ? options.filters : null;
+                        curPerPage = options !== undefined && options.perPage ? options.perPage : null;
                         queryOptions = {
-                            page: page,
-                            perPage: perPage,
-                            filters: filters,
+                            page: curPage,
+                            perPage: curPerPage,
+                            filters: curFilters,
                             pageInfo: 'pageInfo{\ntotalPages\nperPage\n}'
                         };
                         queryOptions = Object.assign(queryOptions, additionalParams);
+                        if (!isSinglePage) return [3 /*break*/, 2];
+                        params = Object.assign(params, queryOptions);
+                        singlePageQuery = Common_1.mergeQuery(queryString, queryOptions);
+                        return [4 /*yield*/, NetworkInterface.query(singlePageQuery, params)];
+                    case 1: return [2 /*return*/, [_d.sent()]];
+                    case 2:
                         preflightQuery = Common_1.mergeQuery(queryString, queryOptions);
                         return [4 /*yield*/, NetworkInterface.rawQuery(preflightQuery, params)];
-                    case 1:
+                    case 3:
                         preflightData = [_d.sent()];
                         if (preflightData.length <= 0)
                             throw new Error(operationName + ": No data returned from query for operation");
-                        _c = NetworkInterface.parseTotalPages(operationName, preflightData), totalPages = _c[0], perPage = _c[1];
+                        _c = NetworkInterface.parseTotalPages(operationName, preflightData), totalPages = _c[0], curPerPage = _c[1];
                         onePageComplexity = preflightData[0].extensions.queryComplexity - complexitySubtraction;
-                        Logger_1.default.info('%s total pages, %s perPage, Object Complexity per Page: %s', totalPages, perPage, onePageComplexity);
+                        Logger_1.default.info('Total Pages using 1 perPage: %s, Object Complexity per Page: %s', totalPages, onePageComplexity);
                         i = 1;
-                        _d.label = 2;
-                    case 2:
-                        if (!(i <= totalPages)) return [3 /*break*/, 5];
+                        _d.label = 4;
+                    case 4:
+                        if (!(i <= totalPages)) return [3 /*break*/, 7];
                         Logger_1.default.info('%s: Collected %s/%s pages', operationName, i, totalPages);
                         queryOptions = Object.assign({
                             page: i,
-                            perPage: perPage,
-                            filters: filters,
+                            // TODO fix perPage
+                            // perPage: perPage.toFixed(0),
+                            filters: curFilters,
                             pageInfo: ''
-                        }, additionalParams);
+                        }, additionalParams, params);
                         query = Common_1.mergeQuery(queryString, queryOptions);
-                        params = Object.assign(params, {
+                        queryOptions = Object.assign(queryOptions, {
                             page: i,
-                            perPage: perPage,
-                            filters: filters,
+                            perPage: curPerPage,
                         });
                         _b = (_a = results).push;
-                        return [4 /*yield*/, NetworkInterface.query(query, params)];
-                    case 3:
+                        return [4 /*yield*/, NetworkInterface.query(query, queryOptions)];
+                    case 5:
                         _b.apply(_a, [_d.sent()]);
-                        _d.label = 4;
-                    case 4:
+                        _d.label = 6;
+                    case 6:
                         i++;
-                        return [3 /*break*/, 2];
-                    case 5: return [2 /*return*/, results];
+                        return [3 /*break*/, 4];
+                    case 7: return [2 /*return*/, results];
                 }
             });
         });
@@ -216,21 +223,23 @@ var NetworkInterface = /** @class */ (function () {
         var complexity = 0;
         var nextArgs = [];
         for (var i in objects) {
-            // add 1 for each object passed into the function arg array
-            complexity++;
-            var cur = objects[i];
-            for (var key in cur) {
-                if (key === 'pageInfo')
-                    continue;
-                else if (typeof cur[key] === 'object' && cur[key] != null) {
-                    // if array, calculate the first object then multiple by how many perPage
-                    // otherwise add object to nextArgs and dig
-                    if (Array.isArray(cur[key])) {
-                        complexity *= cur[key].length;
-                        nextArgs.push(cur[key][0]);
-                    }
-                    else {
-                        nextArgs.push(cur[key]);
+            if (i) {
+                // add 1 for each object passed into the function arg array
+                complexity++;
+                var cur = objects[i];
+                for (var key in cur) {
+                    if (key === 'pageInfo')
+                        continue;
+                    else if (typeof cur[key] === 'object' && cur[key] != null) {
+                        // if array, calculate the first object then multiple by how many perPage
+                        // otherwise add object to nextArgs and dig
+                        if (Array.isArray(cur[key])) {
+                            complexity *= cur[key].length;
+                            nextArgs.push(cur[key][0]);
+                        }
+                        else {
+                            nextArgs.push(cur[key]);
+                        }
                     }
                 }
             }
@@ -246,4 +255,3 @@ var NetworkInterface = /** @class */ (function () {
     return NetworkInterface;
 }());
 exports.default = NetworkInterface;
-module.exports = NetworkInterface;

@@ -51,7 +51,7 @@ var dotenv_1 = require("dotenv");
 dotenv_1.config({ path: ROOT });
 require("../lib/util/ErrorHandler");
 var chai_1 = require("chai");
-var User_1 = require("../lib/User");
+var User_1 = require("../lib/models/User");
 var Initializer_1 = __importDefault(require("../lib/util/Initializer"));
 var testData = __importStar(require("./data/user.testData"));
 var user1, user2, user3;
@@ -60,14 +60,14 @@ var USER_ID_2 = 34475; // Mike G
 var USER_ID_3 = 7802; // j00t
 var DAVEMON_RANKINGS = [
     {
-        "id": 294398,
-        "title": "Tennessee: Spring 2018",
-        "rank": 2
+        id: 294398,
+        title: 'Tennessee: Spring 2018',
+        rank: 2
     },
     {
-        "id": 317143,
-        "title": "Tennessee: Fall 2018",
-        "rank": 2
+        id: 317143,
+        title: 'Tennessee: Fall 2018',
+        rank: 2
     }
 ];
 describe('smashgg User', function () {

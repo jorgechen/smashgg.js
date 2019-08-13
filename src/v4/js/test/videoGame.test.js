@@ -37,48 +37,48 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-/* eslint-disable */
 require("../lib/util/ErrorHandler");
 var chai_1 = __importDefault(require("chai"));
 var expect = chai_1.default.expect;
-var VideoGame_1 = require("../lib/VideoGame");
+var VideoGame_1 = require("../lib/models/VideoGame");
 var Cache_1 = __importDefault(require("../lib/util/Cache"));
 var expected = {
     Melee: {
         id: 1,
         data: {
-            "abbrev": "Melee",
-            "approved": true,
-            "characterTerm": [null],
-            "displayName": "Melee",
-            "enabled": "1",
-            "expand": [],
-            "gameTerm": [null],
-            "id": 1,
-            "images": [
+            abbrev: 'Melee',
+            approved: true,
+            characterTerm: [null],
+            displayName: 'Melee',
+            enabled: '1',
+            expand: [],
+            gameTerm: [null],
+            id: 1,
+            images: [
                 {
-                    "createdAt": [null],
-                    "entity": [null],
-                    "entityId": [null],
-                    "height": 190,
-                    "id": 6180,
-                    "isOriginal": true,
-                    "ratio": 0.73,
-                    "type": "primary",
-                    "updatedAt": [null],
-                    "uploadedBy": [null],
-                    "url": "https://images.smash.gg/images/videogame/1/image-f26ab87b8de31d78597a664d225e1c71.jpg",
-                    "width": 138
+                    createdAt: [null],
+                    entity: [null],
+                    entityId: [null],
+                    height: 190,
+                    id: 6180,
+                    isOriginal: true,
+                    ratio: 0.73,
+                    type: 'primary',
+                    updatedAt: [null],
+                    uploadedBy: [null],
+                    url: 'https://images.smash.gg/images/videogame/1/image-f26ab87b8de31d78597a664d225e1c71.jpg',
+                    width: 138
                 },
             ],
-            "initialStocks": [null],
-            "isCardGame": [null],
-            "maxPerEntry": 2,
-            "minPerEntry": 1,
-            "name": "Super Smash Bros. Melee",
-            "slug": "melee",
-            "stageTerm": [null]
+            initialStocks: [null],
+            isCardGame: [null],
+            maxPerEntry: 2,
+            minPerEntry: 1,
+            name: 'Super Smash Bros. Melee',
+            slug: 'melee',
+            stageTerm: [null]
         },
         name: 'Super Smash Bros. Melee',
         abbrev: 'Melee',
@@ -93,37 +93,37 @@ var expected = {
     PM: {
         id: 2,
         data: {
-            "abbrev": "pm",
-            "approved": true,
-            "characterTerm": [null],
-            "displayName": "PM",
-            "enabled": "1",
-            "expand": [],
-            "gameTerm": [null],
-            "id": 2,
-            "images": [
+            abbrev: 'pm',
+            approved: true,
+            characterTerm: [null],
+            displayName: 'PM',
+            enabled: '1',
+            expand: [],
+            gameTerm: [null],
+            id: 2,
+            images: [
                 {
-                    "createdAt": [null],
-                    "entity": [null],
-                    "entityId": [null],
-                    "height": 512,
-                    "id": 1330116,
-                    "isOriginal": true,
-                    "ratio": 0.73,
-                    "type": "primary",
-                    "updatedAt": [null],
-                    "uploadedBy": [null],
-                    "url": "https://images.smash.gg/images/videogame/2/image-11a8d11dbd2af24429b41b7e6a166f42.png",
-                    "width": 372,
+                    createdAt: [null],
+                    entity: [null],
+                    entityId: [null],
+                    height: 512,
+                    id: 1330116,
+                    isOriginal: true,
+                    ratio: 0.73,
+                    type: 'primary',
+                    updatedAt: [null],
+                    uploadedBy: [null],
+                    url: 'https://images.smash.gg/images/videogame/2/image-11a8d11dbd2af24429b41b7e6a166f42.png',
+                    width: 372,
                 },
             ],
-            "initialStocks": [null],
-            "isCardGame": [null],
-            "maxPerEntry": [null],
-            "minPerEntry": [null],
-            "name": "Project M",
-            "slug": "pm",
-            "stageTerm": [null],
+            initialStocks: [null],
+            isCardGame: [null],
+            maxPerEntry: [null],
+            minPerEntry: [null],
+            name: 'Project M',
+            slug: 'pm',
+            stageTerm: [null],
         },
         name: 'Project M',
         abbrev: 'pm',
@@ -137,94 +137,84 @@ var expected = {
     }
 };
 function eq(original, other) {
-    return other.id === original.id &&
-        other.name === original.name &&
-        other.abbrev === original.abbrev &&
-        other.displayName === original.displayName &&
-        other.minPerEntry === original.minPerEntry &&
-        other.maxPerEntry === original.maxPerEntry &&
-        other.approved === original.approved &&
-        other.slug === original.slug &&
-        other.rawEncoding === original.rawEncoding &&
-        other.isCardGame === original.isCardGame;
+    return other.getId() === original.id &&
+        other.getName() === original.name &&
+        other.getAbbreviation() === original.abbrev &&
+        other.getDisplayName() === original.displayName &&
+        other.getMinPerEntry() === original.minPerEntry &&
+        other.getMaxPerEntry() === original.maxPerEntry &&
+        other.getApproved() === original.approved &&
+        other.getSlug() === original.slug &&
+        other.getRawEncoding() === original.rawEncoding &&
+        other.getIsCardGame() === original.isCardGame;
 }
 describe('SmashGG VideoGame', function () {
-    before(function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                Cache_1.default.flush();
-                return [2 /*return*/];
-            });
+    before(function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            Cache_1.default.flush();
+            return [2 /*return*/];
         });
-    });
-    it('should get all video games from api', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var videoGames;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, VideoGame_1.VideoGame.getAll()];
-                    case 1:
-                        videoGames = _a.sent();
-                        videoGames.forEach(function (e) {
-                            expect(e).to.be.instanceof(VideoGame_1.VideoGame);
-                        });
-                        return [2 /*return*/, true];
-                }
-            });
+    }); });
+    it('should get all video games from api', function () { return __awaiter(_this, void 0, void 0, function () {
+        var videoGames;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, VideoGame_1.VideoGame.getAll()];
+                case 1:
+                    videoGames = _a.sent();
+                    videoGames.forEach(function (e) {
+                        expect(e).to.be.instanceof(VideoGame_1.VideoGame);
+                    });
+                    return [2 /*return*/, true];
+            }
         });
-    });
-    it('should get correct video game by id', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var vg1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, VideoGame_1.VideoGame.getById(1)];
-                    case 1:
-                        vg1 = _a.sent();
-                        expect(eq(expected.Melee, vg1)).to.be.true;
-                        return [2 /*return*/, true];
-                }
-            });
+    }); });
+    it('should get correct video game by id', function () { return __awaiter(_this, void 0, void 0, function () {
+        var vg1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, VideoGame_1.VideoGame.getById(1)];
+                case 1:
+                    vg1 = _a.sent();
+                    expect(eq(expected.Melee, vg1)).to.be.true;
+                    return [2 /*return*/, true];
+            }
         });
-    });
-    it('should get correct video game by id 2', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var vg2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, VideoGame_1.VideoGame.getById(2)];
-                    case 1:
-                        vg2 = _a.sent();
-                        expect(eq(expected.PM, vg2)).to.be.true;
-                        return [2 /*return*/, true];
-                }
-            });
+    }); });
+    it('should get correct video game by id 2', function () { return __awaiter(_this, void 0, void 0, function () {
+        var vg2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, VideoGame_1.VideoGame.getById(2)];
+                case 1:
+                    vg2 = _a.sent();
+                    expect(eq(expected.PM, vg2)).to.be.true;
+                    return [2 /*return*/, true];
+            }
         });
-    });
-    it('should get correct video game by name', function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var melee1, melee2, pm1, pm2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, VideoGame_1.VideoGame.getByName('Super Smash Bros. Melee', { isCached: false })];
-                    case 1:
-                        melee1 = _a.sent();
-                        return [4 /*yield*/, VideoGame_1.VideoGame.getByName('melee', { isCached: false })];
-                    case 2:
-                        melee2 = _a.sent();
-                        return [4 /*yield*/, VideoGame_1.VideoGame.getByName('pm')];
-                    case 3:
-                        pm1 = _a.sent();
-                        return [4 /*yield*/, VideoGame_1.VideoGame.getByName('Project M')];
-                    case 4:
-                        pm2 = _a.sent();
-                        expect(eq(expected.Melee, melee1)).to.be.true;
-                        expect(eq(expected.Melee, melee2)).to.be.true;
-                        expect(eq(expected.PM, pm1)).to.be.true;
-                        expect(eq(expected.PM, pm2)).to.be.true;
-                        return [2 /*return*/, true];
-                }
-            });
+    }); });
+    it('should get correct video game by name', function () { return __awaiter(_this, void 0, void 0, function () {
+        var melee1, melee2, pm1, pm2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, VideoGame_1.VideoGame.getByName('Super Smash Bros. Melee', { isCached: false })];
+                case 1:
+                    melee1 = _a.sent();
+                    return [4 /*yield*/, VideoGame_1.VideoGame.getByName('melee', { isCached: false })];
+                case 2:
+                    melee2 = _a.sent();
+                    return [4 /*yield*/, VideoGame_1.VideoGame.getByName('pm')];
+                case 3:
+                    pm1 = _a.sent();
+                    return [4 /*yield*/, VideoGame_1.VideoGame.getByName('Project M')];
+                case 4:
+                    pm2 = _a.sent();
+                    expect(eq(expected.Melee, melee1)).to.be.true;
+                    expect(eq(expected.Melee, melee2)).to.be.true;
+                    expect(eq(expected.PM, pm1)).to.be.true;
+                    expect(eq(expected.PM, pm2)).to.be.true;
+                    return [2 /*return*/, true];
+            }
         });
-    });
+    }); });
 });

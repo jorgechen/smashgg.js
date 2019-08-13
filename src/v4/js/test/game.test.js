@@ -44,37 +44,37 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = __importDefault(require("path"));
 var ROOT = path_1.default.join(__dirname, '..', '..', '..', '..', '.env');
 var dotenv_1 = require("dotenv");
 dotenv_1.config({ path: ROOT });
-require("../lib/util/ErrorHandler");
 var chai_1 = require("chai");
-var Game_1 = require("../lib/Game");
+require("../lib/util/ErrorHandler");
+var Game_1 = require("../lib/models/Game");
+var Selections_1 = require("../lib/models/Selections");
 var Initializer_1 = __importDefault(require("../lib/util/Initializer"));
 var testData = __importStar(require("./data/games.testData"));
 var games1, games2, games3;
 var selections1, selections2, selections3;
 describe('smash.gg Game', function () {
-    before(function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
-                    case 1:
-                        _a.sent();
-                        games1 = Game_1.Game.parseFull(testData.games1Full);
-                        games2 = Game_1.Game.parseFull(testData.games2Full);
-                        games3 = Game_1.Game.parseFull(testData.games3Full);
-                        selections1 = Game_1.Selections.parse(testData.selectionsS1G1P2);
-                        selections2 = Game_1.Selections.parse(testData.selectionsS1G2P2);
-                        selections3 = Game_1.Selections.parse(testData.selectionsS1G3P2);
-                        return [2 /*return*/, true];
-                }
-            });
+    before(function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Initializer_1.default(process.env.API_TOKEN)];
+                case 1:
+                    _a.sent();
+                    games1 = Game_1.Game.parseFull(testData.games1Full);
+                    games2 = Game_1.Game.parseFull(testData.games2Full);
+                    games3 = Game_1.Game.parseFull(testData.games3Full);
+                    selections1 = Selections_1.Selections.parse(testData.selectionsS1G1P2);
+                    selections2 = Selections_1.Selections.parse(testData.selectionsS1G2P2);
+                    selections3 = Selections_1.Selections.parse(testData.selectionsS1G3P2);
+                    return [2 /*return*/, true];
+            }
         });
-    });
+    }); });
     // id
     it('should return the id of a game 1', function () {
         for (var i = 0; i < games1.length; i++) {
@@ -155,19 +155,19 @@ describe('smash.gg Game', function () {
     it('should return the correct array of selections 1', function () {
         for (var i = 0; i < games1.length; i++) {
             var game = games1[i];
-            chai_1.expect(game.getSelections()).to.have.deep.members(Game_1.Selections.parseArray(testData.games1[i].selections));
+            chai_1.expect(game.getSelections()).to.have.deep.members(Selections_1.Selections.parseArray(testData.games1[i].selections));
         }
     });
     it('should return the correct array of selections 3', function () {
         for (var i = 0; i < games2.length; i++) {
             var game = games2[i];
-            chai_1.expect(game.getSelections()).to.have.deep.members(Game_1.Selections.parseArray(testData.games2[i].selections));
+            chai_1.expect(game.getSelections()).to.have.deep.members(Selections_1.Selections.parseArray(testData.games2[i].selections));
         }
     });
     it('should return the correct array of selections 2', function () {
         for (var i = 0; i < games3.length; i++) {
             var game = games3[i];
-            chai_1.expect(game.getSelections()).to.have.deep.members(Game_1.Selections.parseArray(testData.games3[i].selections));
+            chai_1.expect(game.getSelections()).to.have.deep.members(Selections_1.Selections.parseArray(testData.games3[i].selections));
         }
     });
     // selection by entrant id

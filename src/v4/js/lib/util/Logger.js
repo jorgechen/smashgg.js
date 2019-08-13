@@ -30,10 +30,10 @@ var tempLogger = winston_1.default.createLogger({
         new winston_1.default.transports.Console()
     ]
 });
-var queries = function (msg) {
+var logQuery = function (msg) {
     tempLogger.log('queries', msg);
 };
-var logger = Object.assign(tempLogger, { queries: queries });
+var logger = Object.assign(tempLogger, { queries: logQuery });
 exports.default = logger;
 winston_1.default.addColors(smashggJsLevels.colors);
 function setLogLevel(level) {
