@@ -1,5 +1,5 @@
-import { Event, IEvent } from '../Event'
-import { IStandings } from '../Standings'
+import { IEvent, IEventData } from './IEvent'
+import { IStandingData } from './IStanding'
 
 export interface ILeague {
 	getId(): number
@@ -16,7 +16,7 @@ export interface ILeague {
 
 	getShortSlug(): string
 
-	getEvents(): Promise<Event[]>
+	getEvents(): Promise<IEvent[]>
 }
 
 export interface ILeagueData {
@@ -36,7 +36,7 @@ export interface ILeagueAttributes {
 export interface ILeagueStandingData {
 	league: {
 		standings: {
-			nodes: IStandings.StandingData[]
+			nodes: IStandingData[]
 		}
 	}
 }
@@ -44,7 +44,7 @@ export interface ILeagueStandingData {
 export interface ILeagueEventData {
 	league: {
 		events: {
-			nodes: IEvent.EventData[]
+			nodes: IEventData[]
 		}
 	}
 }

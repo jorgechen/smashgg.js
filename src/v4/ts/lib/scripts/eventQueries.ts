@@ -1,19 +1,5 @@
 import * as Schema from './schema'
 
-export const eventStandings = `query EventStandings($id: ID!, $page: Int, $perPage: Int){
-    event(id: $id){
-        standings(query: {
-            page: $page,
-            perPage: $perPage,
-        }){
-            nodes{
-                ${Schema.standings}
-            }
-            {pageInfo}
-        }
-    }
-}
-`
 export const eventTournament = `query EventTournament($id: ID!){
     event(id: $id){
         tournament {
@@ -144,8 +130,8 @@ export const eventAttendees2 =
     }
 }`
 
-export const eventStandings = `
-query StandingsQuery($id:ID!, $page:Int, $perPage:Int, $sortBy:String, $filter:StandingPageFilter){
+export const eventStandings =
+`query StandingsQuery($id:ID!, $page:Int, $perPage:Int, $sortBy:String, $filter:StandingPageFilter){
     event(id:$id){
       standings(query:{
         page: $page,
@@ -158,6 +144,9 @@ query StandingsQuery($id:ID!, $page:Int, $perPage:Int, $sortBy:String, $filter:S
           placement
           entrant{
             ${Schema.entrant}
+          }
+          stats{
+            ${Schema.stats}
           }
         },
         {pageInfo}

@@ -5,7 +5,6 @@ import {IGGSet, IGGSetOptions, IGGSetData} from './IGGSet'
 import {IEntrant, IEntrantOptions, IEntrantData} from './IEntrant'
 import {IAttendee, IAttendeeOptions, IAttendeeData} from './IAttendee'
 import {IStanding, IStandingData} from './IStanding'
-import { IStandings } from '../Standings'
 
 export interface IEvent{
 	// id: number 
@@ -65,7 +64,7 @@ export interface IEventData{
 export interface IEventStandingData{
 	event:{
 		standings: {
-			nodes: IStandings.StandingData[]
+			nodes: IStandingData[]
 		}
 	}
 }

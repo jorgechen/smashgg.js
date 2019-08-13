@@ -1,4 +1,4 @@
-export const Stats = `
+export const stats = `
 score{
 	label
 	value
@@ -184,7 +184,7 @@ slots(includeByes:false){
 	standing{
 		placement
 		stats{
-			${Stats}
+			${stats}
 		}
 	}
 	id
@@ -240,15 +240,23 @@ players{
 }`
 
 export const standings = `
-entrant{ 
-	${entrant}
-}
-stats{
-	${Stats}
-}
 id
+entrantId	
+placeholderName	
+seedNum	
 placement
-`
+isBye
+players{	
+	id	
+}	
+standings{	
+	stats{	
+		score{	
+			label	
+			value	
+		}	
+	}	
+}`
 
 export const venue = `
 venueName

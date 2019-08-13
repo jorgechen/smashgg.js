@@ -1,17 +1,12 @@
 import _ from 'lodash'
 import log from '../util/Logger'
-
-import { Event, IEvent } from '../Event'
-import { Phase, IPhase } from './Phase'
-import { PhaseGroup, IPhaseGroup } from './PhaseGroup'
-import { Entrant, IEntrant } from './Entrant'
-import { Attendee, IAttendee } from './Attendee'
-import { GGSet, IGGSet } from './GGSet'
-import { IStandings, Standings } from '../Standings'
-
 import NI from '../util/NetworkInterface'
 import * as queries from '../scripts/leagueQueries'
 import { ILeague, ILeagueAttributes, ILeagueData, ILeagueEventData, ILeagueStandingData } from '../interfaces/ILeague'
+import { IEvent } from '../interfaces/IEvent'
+import { IStanding } from '../interfaces/IStanding'
+import { Event } from './Event'
+import { Standing } from './Standing'
 
 export class League implements ILeague {
 	public static parse(data: ILeagueAttributes): League {
@@ -98,10 +93,10 @@ export class League implements ILeague {
 
 	public async getStandingsRaw(): Promise<any[]> {
 		const { id, name } = this
-		log.info('Getting Standings for Event [%s :: %s]', id, name)
+		log.info('Getting Standings for League [%s :: %s]', id, name)
 		const options = { page: 1 }
 		const data: ILeagueStandingData[] = await NI.paginatedQuery(
-			`Event Entrants [${id} :: ${name}]`,
+			`League Standings [${id} :: ${name}]`,
 			queries.leagueStandings,
 			{ id },
 			options,
@@ -112,18 +107,15 @@ export class League implements ILeague {
 		return standingData
 	}
 
-	public async getStandings(): Promise<Standings[]> {
-		const { id } = this
+	public async getStandings(): Promise<IStanding[]> {
 		const standingData = await this.getStandingsRaw()
-		const standings: Standings[] = standingData.map(item => Standings.parse(item, id))
-		return standings
+		return standingData.map(item => Standing.parse(item))
 	}
 
-	public async getEvents(): Promise<Event[]> {
+	public async getEvents(): Promise<IEvent[]> {
 		const { id, name } = this
 		log.info('Getting Events for League [%s :: %s]', id, name)
 		const data: ILeagueEventData = await NI.query(queries.leagueEvents, { id })
-		const events = data.league.events.nodes.map(event => Event.parse(event))
-		return events
+		return data.league.events.nodes.map(event => Event.parse(event))
 	}
 }
