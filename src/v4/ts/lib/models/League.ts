@@ -11,281 +11,119 @@ import { IStandings, Standings } from '../Standings'
 
 import NI from '../util/NetworkInterface'
 import * as queries from '../scripts/leagueQueries'
+import { ILeague, ILeagueAttributes, ILeagueData, ILeagueEventData, ILeagueStandingData } from '../interfaces/ILeague'
 
-export class League implements ILeague.League {
-  id: number
-  name: string
-  slug: string
-  url: string
-  startAt: number
-  endAt: number
-  shortSlug: string
+export class League implements ILeague {
+	public static parse(data: ILeagueAttributes): League {
+		return new League(
+			data.id,
+			data.name,
+			data.slug,
+			data.url,
+			data.startAt,
+			data.endAt,
+			data.shortSlug,
+		)
+	}
 
-  constructor(
-    id: number,
-    name: string,
-    slug: string,
-    url: string,
-    startAt: number,
-    endAt: number,
-    shortSlug: string,
-  ) {
-    this.id = id
-    this.name = name
-    this.slug = slug
-    this.url = url
-    this.startAt = startAt
-    this.endAt = endAt
-    this.shortSlug = shortSlug
-  }
+	public static parseFull(data: ILeagueData): League {
+		return League.parse(data.league)
+	}
 
-  static parse(data: ILeague.LeagueData): League {
-    return new League(
-      data.id,
-      data.name,
-      data.slug,
-      data.url,
-      data.startAt,
-      data.endAt,
-      data.shortSlug,
-    )
-  }
+	public static async getById(id: number): Promise<League> {
+		log.info('Getting League with id %s', id)
+		const data: ILeagueData = await NI.query(queries.league, { id })
+		return League.parseFull(data)
+	}
 
-  static parseFull(data: ILeague.Data): League {
-    return League.parse(data.league)
-  }
+	public static async get(slug: string): Promise<League> {
+		log.info('Getting League with slug "%s"', slug)
+		const data: ILeagueData = await NI.query(queries.leagueBySlug, { slug })
+		return League.parseFull(data)
+	}
 
-  static async getById(id: number): Promise<League> {
-    log.info('Getting League with id %s', id)
-    let data: ILeague.Data = await NI.query(queries.league, { id })
-    return League.parseFull(data)
-  }
+	public id: number
+	public name: string
+	public slug: string
+	public url: string
+	public startAt: number
+	public endAt: number
+	public shortSlug: string
 
-  static async get(slug: string): Promise<League> {
-    log.info('Getting League with slug "%s"', slug)
-    let data: ILeague.Data = await NI.query(queries.leagueBySlug, { slug })
-    return League.parseFull(data)
-  }
+	constructor(
+		id: number,
+		name: string,
+		slug: string,
+		url: string,
+		startAt: number,
+		endAt: number,
+		shortSlug: string,
+	) {
+		this.id = id
+		this.name = name
+		this.slug = slug
+		this.url = url
+		this.startAt = startAt
+		this.endAt = endAt
+		this.shortSlug = shortSlug
+	}
 
-  getId(): number {
-    return this.id
-  }
+	public getId(): number {
+		return this.id
+	}
 
-  getName(): string {
-    return this.name
-  }
+	public getName(): string {
+		return this.name
+	}
 
-  getSlug(): string {
-    return this.slug
-  }
+	public getSlug(): string {
+		return this.slug
+	}
 
-  getUrl(): string {
-    return this.url
-  }
+	public getUrl(): string {
+		return this.url
+	}
 
-  getStartAt(): number {
-    return this.startAt
-  }
+	public getStartAt(): number {
+		return this.startAt
+	}
 
-  getEndAt(): number {
-    return this.endAt
-  }
+	public getEndAt(): number {
+		return this.endAt
+	}
 
-  getShortSlug(): string {
-    return this.shortSlug
-  }
+	public getShortSlug(): string {
+		return this.shortSlug
+	}
 
-	async getStandingsRaw() : Promise<any[]> {
+	public async getStandingsRaw(): Promise<any[]> {
 		const { id, name } = this
 		log.info('Getting Standings for Event [%s :: %s]', id, name)
 		const options = { page: 1 }
-		let data: ILeague.LeagueStandingData[] = await NI.paginatedQuery(
+		const data: ILeagueStandingData[] = await NI.paginatedQuery(
 			`Event Entrants [${id} :: ${name}]`,
 			queries.leagueStandings,
-			{id},
+			{ id },
 			options,
 			{},
-			2
+			2,
 		)
-		// return data
-		let standingData = _.flatten(data.map(d => d.league.standings.nodes))
+		const standingData = _.flatten(data.map(d => d.league.standings.nodes))
 		return standingData
 	}
 
-	async getStandings() : Promise<Standings[]> {
+	public async getStandings(): Promise<Standings[]> {
 		const { id } = this
-		let standingData = await this.getStandingsRaw()
-		let standings: Standings[] = standingData.map(item => Standings.parse(item, id))
+		const standingData = await this.getStandingsRaw()
+		const standings: Standings[] = standingData.map(item => Standings.parse(item, id))
 		return standings
 	}
 
-  async getEvents(): Promise<Event[]> {
-    const { id, name } = this
-    log.info('Getting Events for League [%s :: %s]', id, name)
-    let data: ILeague.LeagueEventData = await NI.query(queries.leagueEvents, { id })
-    let events = data.league.events.nodes.map(event => Event.parse(event))
-    return events
-  }
-
-  async getPhases(): Promise<Phase[]> {
-    const { id, name } = this
-    log.info('Getting Phases for League [%s :: %s]', id, name)
-    let data: ILeague.LeaguePhaseData = await NI.query(queries.leaguePhases, { id })
-    let events = data.league.events
-    let phases: Phase[] = _.flatten(events.map(event => event.phases.map(phase => Phase.parse(phase, event.id))))
-    return phases
-  }
-
-  async getPhaseGroups(): Promise<PhaseGroup[]> {
-    const { id, name } = this
-    log.info('Getting Phase Groups for League [%s :: %s]', id, name)
-    let data: ILeague.LeaguePhaseGroupData = await NI.query(queries.leaguePhaseGroups, { id })
-    let events = data.league.events
-    let phaseGroups: PhaseGroup[] = _.flatten(events.map(event => event.phaseGroups.map(group => PhaseGroup.parse(group))))
-    return phaseGroups
-  }
-
-  async getSets(options: IGGSet.SetOptions = IGGSet.getDefaultSetOptions()): Promise<GGSet[]> {
-    log.info('Getting Sets for League [%s :: %s]', this.id, this.name)
-
-    log.warn('Puilling Sets for large or massive Leagues may lead to long execution times and lowered usability. It is recommended to pull from Event if you are targetting a single event\'s Sets')
-    let pgs = await this.getPhaseGroups()
-    let sets = await NI.clusterQuery(pgs, 'getSets', options)
-    return _.flatten(sets)
-  }
-
-  async getEntrants(options: IEntrant.EntrantOptions = IEntrant.getDefaultEntrantOptions()): Promise<Entrant[]> {
-    log.info('Getting Entrants for League [%s :: %s]', this.id, this.name)
-
-    log.warn('Puilling Entrants for large or massive Leagues may lead to long execution times and lowered usability. It is recommended to pull from Event if you are targetting a single event\'s Entrants')
-    let pgs = await this.getPhaseGroups()
-    let entrants = await NI.clusterQuery(pgs, 'getEntrants', options)
-    entrants = _.uniq(entrants)
-    return _.flatten(entrants)
-  }
-
-  async getAttendees(options: IAttendee.AttendeeOptions = IAttendee.getDefaultAttendeeOptions()): Promise<Attendee[]> {
-    log.info('Getting Attendees for League [%s :: %s]', this.id, this.name)
-
-    log.warn('Puilling Attendees for large or massive Leagues may lead to long execution times and lowered usability. It is recommended to pull from Event if you are targetting a single event\'s Attendees')
-    let pgs = await this.getPhaseGroups()
-    let attendees = await NI.clusterQuery(pgs, 'getAttendees', options)
-    attendees = _.uniqWith(attendees, (a1: Attendee, a2: Attendee) => Attendee.eq(a1, a2))
-    return _.flatten(attendees)
-  }
-}
-
-export namespace ILeague {
-  export interface League {
-    id: number
-    name: string
-    slug: string
-    url: string
-
-    getId(): number
-
-    getName(): string
-
-    getSlug(): string
-
-    getUrl(): string
-
-    getStartAt(): number
-
-    getEndAt(): number
-
-    getShortSlug(): string
-
-    getEvents(): Promise<Event[]>
-
-    getPhases(): Promise<Phase[]>
-
-    getPhaseGroups(): Promise<PhaseGroup[]>
-
-    /*
-    getSets(options: IGGSet.SetOptions) : Promise<GGSet[]>
-    getIncompleteSets(options: IGGSet.SetOptions) : Promise<GGSet[]>
-    getCompletedSets(options: IGGSet.SetOptions) : Promise<GGSet[]>
-    getSetsXMinutesBack(minutesBack: number, options: IGGSet.SetOptions) : Promise<GGSet[]>
-    getEntrants(options: IEntrant.EntrantOptions) : Promise<Entrant[]>
-    getAttendees(options: IAttendee.AttendeeOptions) : Promise<Attendee[]>
-    */
-  }
-
-  export interface Data {
-    league: LeagueData
-  }
-
-  export interface LeagueData {
-    id: number
-    name: string
-    slug: string
-    url: string
-    startAt: number
-    endAt: number
-    shortSlug: string
-  }
-
-  export interface LeagueStandingData{
-    league:{
-      standings: {
-        nodes: IStandings.StandingData[]
-      }
-    }
-  }
-
-  export interface LeagueEventData {
-    league: {
-      events: {
-        nodes: IEvent.EventData[]
-      }
-    }
-  }
-
-  export interface LeaguePhaseData {
-    league: {
-      events: {
-        id: number,
-        phases: IPhase.PhaseData[]
-      }[]
-    }
-  }
-
-  export interface LeaguePhaseGroupData {
-    league: {
-      events: {
-        id: number,
-        phaseGroups: IPhaseGroup.PhaseGroup[]
-      }[]
-    }
-  }
-
-  export interface LeagueAttendeeData {
-    league: {
-      participants: IAttendee.AttendeeData[]
-    }
-  }
-
-  export interface LeagueEntrantData {
-    league: {
-      events: {
-        entrant: IEntrant.EntrantData[]
-      }[]
-    }
-  }
-
-  export interface LeagueSetData {
-    league: {
-      events: {
-        phaseGroups: {
-          paginatedSets: {
-            pageInfo?: {
-              totalPages: number
-            },
-            nodes: IGGSet.SetData[]
-          }
-        }[]
-      }[]
-    }
-  }
+	public async getEvents(): Promise<Event[]> {
+		const { id, name } = this
+		log.info('Getting Events for League [%s :: %s]', id, name)
+		const data: ILeagueEventData = await NI.query(queries.leagueEvents, { id })
+		const events = data.league.events.nodes.map(event => Event.parse(event))
+		return events
+	}
 }
