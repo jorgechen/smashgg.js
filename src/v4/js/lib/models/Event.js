@@ -138,6 +138,21 @@ var Event = /** @class */ (function (_super) {
             });
         });
     };
+    Event.getStandingsRaw = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        Logger_1.default.info('Getting Standings for Event [%s :: %s]', id);
+                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event standings [" + id + "]", queries.eventStandings, { id: id }, { page: null }, {}, 2)];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, lodash_1.default.flatten(data.map(function (d) { return d.event.standings.nodes; }))];
+                }
+            });
+        });
+    };
     Event.prototype.getId = function () {
         return this.id;
     };
@@ -172,21 +187,6 @@ var Event = /** @class */ (function (_super) {
         return this.teamManagementDeadline;
     };
     // aggregation
-    Event.prototype.getStandingsRaw = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        Logger_1.default.info('Getting Standings for Event [%s :: %s]', this.id, this.name);
-                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Entrants [" + this.id + " :: " + this.name + "]", queries.eventStandings, { id: this.id }, { page: null }, {}, 2)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, lodash_1.default.flatten(data.map(function (d) { return d.event.standings.nodes; }))];
-                }
-            });
-        });
-    };
     Event.prototype.getTournamentRaw = function () {
         return __awaiter(this, void 0, void 0, function () {
             var id, data;
