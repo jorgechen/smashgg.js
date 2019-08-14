@@ -72,7 +72,7 @@ var VideoGame = /** @class */ (function () {
     }
     VideoGame.getDefaultTournamentOptions = function () {
         return {
-            page: 1,
+            page: null,
             perPage: null,
             sortBy: null,
             filters: null

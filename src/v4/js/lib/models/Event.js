@@ -174,17 +174,16 @@ var Event = /** @class */ (function (_super) {
     // aggregation
     Event.prototype.getStandingsRaw = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var options, data, standingData;
+            var options, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         Logger_1.default.info('Getting Standings for Event [%s :: %s]', this.id, this.name);
-                        options = { page: 1 };
+                        options = { page: null };
                         return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Entrants [" + this.id + " :: " + this.name + "]", queries.eventStandings, { id: this.id }, options, {}, 2)];
                     case 1:
                         data = _a.sent();
-                        standingData = lodash_1.default.flatten(data.map(function (d) { return d.event.standings.nodes; }));
-                        return [2 /*return*/, standingData];
+                        return [2 /*return*/, lodash_1.default.flatten(data.map(function (d) { return d.event.standings.nodes; }))];
                 }
             });
         });
@@ -378,7 +377,7 @@ var Event = /** @class */ (function (_super) {
     Event.prototype.getSetsRaw = function (options) {
         if (options === void 0) { options = GGSet_1.GGSet.getDefaultSetOptions(); }
         return __awaiter(this, void 0, void 0, function () {
-            var data, setData;
+            var data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -386,8 +385,7 @@ var Event = /** @class */ (function (_super) {
                         return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("Event Sets [" + this.id + " :: " + this.name + "]", queries.eventSetsRaw, { id: this.id }, options, {}, 3)];
                     case 1:
                         data = _a.sent();
-                        setData = lodash_1.default.flatten(data.map(function (d) { return d.event.sets.nodes; }));
-                        return [2 /*return*/, setData];
+                        return [2 /*return*/, lodash_1.default.flatten(data.map(function (d) { return d.event.sets.nodes; }))];
                 }
             });
         });
