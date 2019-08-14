@@ -10,7 +10,7 @@ const { Event, League, Tournament, VideoGame } = smashgg
 ;(async () => {
   // const filter = {
   //   past: true,
-  //   isFeatured: true,
+  //   // isFeatured: true,
   //   videogameIds: [3200],
   // }
   // const videogames = await VideoGame.getTournamentsRaw(filter)
@@ -35,10 +35,14 @@ const { Event, League, Tournament, VideoGame } = smashgg
   const tourney = await event.getTournamentRaw()
   console.info(tourney)
 
-  // let sets = await event.getSetsRaw()
-  // console.info('Got %s sets played', sets.length)
-  // console.info('Sample sets:')
-  // console.info(JSON.stringify(sets.slice(sets.length - 4), null, 2))
+  const placings = await event.getStandingsRaw()
+  console.info(`Got ${placings.length} placings for event`)
+  console.info(placings[0])
+
+  let sets = await event.getSetsRaw()
+  console.info('Got %s sets played', sets.length)
+  console.info('Sample sets:')
+  console.info(JSON.stringify(sets.slice(sets.length - 4), null, 2))
 
   // event's phases, phaseGroups (aka pools)
   const phaseGroups = await event.getPhaseGroups()

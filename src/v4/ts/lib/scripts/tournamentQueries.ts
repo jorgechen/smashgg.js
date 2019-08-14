@@ -1,6 +1,7 @@
 import * as Schema from './schema'
 
-export const tournaments = `query Tournaments($page: Int, $perPage: Int, $sortBy: String, $filter: TournamentPageFilter){
+export const tournaments = `
+query Tournaments($page: Int, $perPage: Int, $sortBy: String, $filter: TournamentPageFilter){
   tournaments(query: {
     page: $page,
     perPage: $perPage,
@@ -9,15 +10,25 @@ export const tournaments = `query Tournaments($page: Int, $perPage: Int, $sortBy
   }){
     {pageInfo}
     nodes{
-      id
-      name
-      slug
-      startAt
-      endAt
+    	shortSlug
+			images{
+				width
+				height
+				url
+			}
+			id
+			name
+			slug
+			countryCode
+			venueAddress
+			venueName
+			startAt
+			endAt
       events {
         id
         name
         slug
+        startAt
         videogameId
         numEntrants
       }

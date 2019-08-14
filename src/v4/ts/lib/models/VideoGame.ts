@@ -22,7 +22,7 @@ import _ from 'lodash'
 export class VideoGame implements IVideoGame{
 	public static getDefaultTournamentOptions(): IVideoGameTournamentOptions{
 		return {
-			page: 1,
+			page: null,
 			perPage: null,
 			sortBy: null,
 			filters: null
@@ -35,11 +35,8 @@ export class VideoGame implements IVideoGame{
 	): Promise<any[]> {
 		const data: IVideoGameTournamentData[] = await NI.paginatedQuery(
 			`Finding tournaments with filter:${JSON.stringify(filter)}`,
-			queries.tournaments,
-			{ filter },
-			options,
-			{},
-			3,
+			queries.tournaments, { filter },
+			options, {}, 3,
 		)
 		return _.flatten(data.map(d => d.tournaments.nodes))
 	}
