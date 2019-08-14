@@ -120,14 +120,13 @@ var League = /** @class */ (function () {
     };
     League.prototype.getStandingsRaw = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, id, name, options, data, standingData;
+            var _a, id, name, data, standingData;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _a = this, id = _a.id, name = _a.name;
                         Logger_1.default.info('Getting Standings for League [%s :: %s]', id, name);
-                        options = { page: 1 };
-                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("League Standings [" + id + " :: " + name + "]", queries.leagueStandings, { id: id }, options, {}, 2)];
+                        return [4 /*yield*/, NetworkInterface_1.default.paginatedQuery("League Standings [" + id + " :: " + name + "]", queries.leagueStandings, { id: id }, { page: null }, {}, 2)];
                     case 1:
                         data = _b.sent();
                         standingData = lodash_1.default.flatten(data.map(function (d) { return d.league.standings.nodes; }));
