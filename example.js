@@ -25,9 +25,9 @@ const { Event, League, Tournament, VideoGame } = smashgg
   const league = await League.get(leagueSlug)
   console.info(league)
 
-  // NOTE: this is currently lacking data like player's points
-  const leagueStandings = await league.getStandingsRaw()
-  console.info(leagueStandings[0])
+  // // NOTE: this is currently lacking data like player's points
+  // const leagueStandings = await league.getStandingsRaw()
+  // console.info(leagueStandings[0])
 
   const events = await league.getEvents()
   const event = events[0]
@@ -35,7 +35,7 @@ const { Event, League, Tournament, VideoGame } = smashgg
   const tourney = await event.getTournamentRaw()
   console.info(tourney)
 
-  const placings = await event.getStandingsRaw()
+  const placings = await Event.getStandingsRaw(event.id)
   console.info(`Got ${placings.length} placings for event`)
   console.info(placings[0])
 

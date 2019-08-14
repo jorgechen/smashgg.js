@@ -80,6 +80,16 @@ export class Event extends EventEmitter implements IEvent{
 		return Event.parseFull(data)
 	}
 
+	public static async getStandingsRaw(id: number): Promise<any[]> {
+		log.info('Getting Standings for Event [%s :: %s]', id)
+		const data: IEventStandingData[] = await NI.paginatedQuery(
+			`Event standings [${id}]`,
+			queries.eventStandings,{id},
+			{ page: null },{},2
+		)
+		return _.flatten(data.map(d => d.event.standings.nodes))
+	}
+
 	private id: number 
 	private name: string
 	private slug: string
@@ -168,16 +178,6 @@ export class Event extends EventEmitter implements IEvent{
 	}
 
 	// aggregation
-	public async getStandingsRaw(): Promise<any[]> {
-		log.info('Getting Standings for Event [%s :: %s]', this.id, this.name)
-		const data: IEventStandingData[] = await NI.paginatedQuery(
-			`Event Entrants [${this.id} :: ${this.name}]`,
-			queries.eventStandings,{id: this.id},
-			{ page: null },{},2
-		)
-		return _.flatten(data.map(d => d.event.standings.nodes))
-	}
-
 	public async getTournamentRaw(): Promise<any> {
 		const { id } = this
 		const data = await NI.query(queries.eventTournament, { id })
