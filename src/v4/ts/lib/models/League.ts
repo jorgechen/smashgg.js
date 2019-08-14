@@ -94,12 +94,11 @@ export class League implements ILeague {
 	public async getStandingsRaw(): Promise<any[]> {
 		const { id, name } = this
 		log.info('Getting Standings for League [%s :: %s]', id, name)
-		const options = { page: 1 }
 		const data: ILeagueStandingData[] = await NI.paginatedQuery(
 			`League Standings [${id} :: ${name}]`,
 			queries.leagueStandings,
 			{ id },
-			options,
+			{ page: null },
 			{},
 			2,
 		)

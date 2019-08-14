@@ -170,11 +170,10 @@ export class Event extends EventEmitter implements IEvent{
 	// aggregation
 	public async getStandingsRaw(): Promise<any[]> {
 		log.info('Getting Standings for Event [%s :: %s]', this.id, this.name)
-		const options = { page: null }
 		const data: IEventStandingData[] = await NI.paginatedQuery(
 			`Event Entrants [${this.id} :: ${this.name}]`,
 			queries.eventStandings,{id: this.id},
-			options,{},2
+			{ page: null },{},2
 		)
 		return _.flatten(data.map(d => d.event.standings.nodes))
 	}
