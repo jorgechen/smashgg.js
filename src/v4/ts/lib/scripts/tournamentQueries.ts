@@ -28,6 +28,7 @@ query Tournaments($page: Int, $perPage: Int, $sortBy: String, $filter: Tournamen
         id
         name
         slug
+        state
         startAt
         videogameId
         numEntrants

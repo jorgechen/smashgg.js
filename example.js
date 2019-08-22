@@ -9,22 +9,24 @@ const { Attendee, Event, League, Tournament, VideoGame } = smashgg
 
 ;(async () => {
 
-  const p1 = await Attendee.getRaw(1141106)
-  console.info(JSON.stringify(p1))
-  return process.exit()
+  // const p1 = await Attendee.getRaw(1141106)
+  // console.info(JSON.stringify(p1))
+  // return process.exit()
 
-  // const filter = {
-  //   past: true,
-  //   // isFeatured: true,
-  //   videogameIds: [3200],
-  // }
-  // const videogames = await VideoGame.getTournamentsRaw(filter)
-  // videogames.forEach(({ name, startAt, endAt }) => {
-  //   console.log(_.padStart(name, 70), new Date(startAt * 1000), new Date(endAt * 1000))
-  // })
-  // console.log(`${videogames.length} games found`)
-  // console.log(videogames[0])
-  // return true
+  const filter = {
+    past: true,
+    isFeatured: true,
+    videogameIds: [3200],
+  }
+  const tourneys = await VideoGame.getTournamentsRaw(filter)
+  console.log(tourneys[0].events)
+  return
+  tourneys.forEach(({ name, startAt, endAt }) => {
+    console.log(_.padStart(name, 70), new Date(startAt * 1000), new Date(endAt * 1000))
+  })
+  console.log(`${tourneys.length} games found`)
+  console.log(tourneys[0])
+  return process.exit()
 
   const leagueSlug = 'the-2019-mortal-kombat-pro-kompetition'
   const league = await League.get(leagueSlug)
@@ -85,5 +87,5 @@ const { Attendee, Event, League, Tournament, VideoGame } = smashgg
   //   newStandings.push(newStanding)
   //   newPlayers.push(newPlayer)
   // })
-  return true // exit async
+  return process.exit()
 })()
