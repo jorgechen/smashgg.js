@@ -8,5 +8,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var schema = __importStar(require("./schema"));
+exports.singlePlayer = "query SinglePlayerQuery($id: ID!){\n    player(id: $id){\n        " + schema.player + "\n    }\n}";
 exports.getAttendeePhases = "query AttendeePhasesQuery($id: ID!){\n    participant(id: $id){\n        entrants {\n            seeds {\n                id\n                phase {\n                    " + schema.phase + "\n                }\n            }\n        }\n    }\n}";
 exports.getAttendeePhaseGroups = "query AttendeePhaseGroupsQuery($id: ID!){\n    participant(id: $id){\n        entrants {\n            seeds {\n                id\n                phaseGroup {\n                    " + schema.phaseGroup + "\n                }\n            }\n        }\n    }\n}";

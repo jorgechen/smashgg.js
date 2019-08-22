@@ -1,5 +1,11 @@
 import * as schema from './schema'
 
+export const singlePlayer  = `query SinglePlayerQuery($id: ID!){
+    player(id: $id){
+        ${schema.player}
+    }
+}`
+
 export const getAttendeePhases = `query AttendeePhasesQuery($id: ID!){
     participant(id: $id){
         entrants {

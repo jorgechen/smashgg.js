@@ -20,6 +20,11 @@ import { Phase } from './Phase'
 import { PhaseGroup } from './PhaseGroup'
 
 export class Attendee implements IAttendee{
+	public static async getRaw(id: number): Promise<any> {
+		const data = await NI.query(queries.singlePlayer, { id })
+		return data.player
+	}
+
 	public static parse(data: IAttendeeData): IAttendee {
 		const eventIds = data.events.map(event => event.id)
 		

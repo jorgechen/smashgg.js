@@ -1,13 +1,18 @@
 const _ = require('lodash')
 const smashgg = require('./')
-smashgg.initialize('3454a7a2f7457a4565c6546775745e40')
 require('dotenv').config()
 require('colors')
+smashgg.initialize(process.env.SMASHGG_API_KEY)
 
 // smashgg.setLogLevel('queries')
-const { Event, League, Tournament, VideoGame } = smashgg
+const { Attendee, Event, League, Tournament, VideoGame } = smashgg
 
 ;(async () => {
+
+  const p1 = await Attendee.getRaw(1141106)
+  console.info(JSON.stringify(p1))
+  return process.exit()
+
   // const filter = {
   //   past: true,
   //   // isFeatured: true,

@@ -66,6 +66,19 @@ var Attendee = /** @class */ (function () {
         this.connectedAccounts = connectedAccounts;
         this.eventIds = eventIds;
     }
+    Attendee.getRaw = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, NetworkInterface_1.default.query(queries.singlePlayer, { id: id })];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, data.player];
+                }
+            });
+        });
+    };
     Attendee.parse = function (data) {
         var eventIds = data.events.map(function (event) { return event.id; });
         return new Attendee(data.id, data.gamerTag, data.prefix, data.createdAt, data.claimed, data.verified, data.playerId, data.phoneNumber, data.connectedAccounts, data.contactInfo, eventIds);
