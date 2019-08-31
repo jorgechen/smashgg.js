@@ -32,6 +32,7 @@ query Tournaments($page: Int, $perPage: Int, $sortBy: String, $filter: Tournamen
         startAt
         videogameId
         numEntrants
+        entrantSizeMax
       }
     }
   }
